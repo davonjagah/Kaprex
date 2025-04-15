@@ -9,8 +9,8 @@ Monorepo with three Next.js apps (`merchant`, `stake`, and `landing`) using the 
 ### Apps
 
 - **`merchant`** – Next.js App Router app for merchants
-- **`stake`** – Next.js App Router app for documentation
-- **`landing`** – Next.js App Router app for end users
+- **`stake`** – Next.js App Router app for stake feature
+- **`landing`** – Next.js App Router app for unsigned users
 
 ### Shared Packages
 
