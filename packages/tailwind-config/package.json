@@ -1,0 +1,14 @@
+{
+  "name": "@repo/tailwind-config",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "./style": "./base.css",
+    "./postcss-config": "./postcss.config.mjs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.4",
+    "tailwindcss": "^4.1.4"
+  }
+}

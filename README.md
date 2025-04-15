@@ -1,84 +1,200 @@
-# Turborepo starter
+# Kaprex Next.js + TypeScript Monorepo (App Router) For All FrontEnd Applications
 
-This Turborepo starter is maintained by the Turborepo core team.
+Monorepo with three Next.js apps (`merchant`, `docs`, and `web`) using the App Router, plus shared packages for UI, utilities, and config.
 
-## Using this example
+---
 
-Run the following command:
+## Apps and Packages
 
-```sh
-npx create-turbo@latest
+### Apps
+
+- **`merchant`** – Next.js App Router app for merchants
+- **`docs`** – Next.js App Router app for documentation
+- **`web`** – Next.js App Router app for end users
+
+### Shared Packages
+
+- `ui`: shared React component library using Tailwind CSS
+- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next`, `eslint-config-prettier`)
+- `tsconfig`: shared `tsconfig.json` setup
+- `tailwind-config`: shared Tailwind v4 configuration
+
+## Features/Utilities
+
+- TypeScript
+- Tailwind CSS v4 (centralized config with `@theme` support)
+- PostCSS with plugin sharing
+- ESlint, Prettier, Stylelint
+- Storybook
+- Turborepo for efficient dev workflows
+
+## Git Hooks and Commit Standards
+
+This repo enforces consistent commit messages and pre-commit checks using Husky and Commitlint.
+
+### Tools Used
+
+- `Husky` – Manages Git hooks
+
+- `Commitlint` – Ensures commit message format (e.g., Conventional Commits)
+
+- `lint-staged` – Runs linters only on staged files
+
+### Commit Format
+
+We follow Conventional Commits, such as:
+
+```makefile
+feat(ui): add new Button component
+fix(docs): correct broken link in README
+chore: update dependencies
 ```
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
+## Folder Structure
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+```bash
+.
+├── apps/
+│   ├── merchant/
+│   │   ├── app/              # App Router routes
+│   │   ├── public/
+│   │   └── src/
+│   │       ├── lib/         # Local utilities
+│   │       ├── styles/      # Local theme or overrides
+│   │       └── ui/          # Local components
+│
+│   ├── docs/
+│   │   ├── app/
+│   │   ├── public/
+│   │   └── src/
+│
+│   ├── web/
+│   │   ├── app/
+│   │   ├── public/
+│   │   └── src/
+│
+├── packages/
+│   ├── ui/            # Shared UI components
+│   ├── utils/                # Reusable functions/services
+│   ├── tailwind-config/               # Shared theme and tokens
+│   ├── eslint-config/
+│   └── tsconfig/             # Base tsconfig presets
+│
+├── scripts/                  # CLI tools (e.g. create-package)
+├── turbo.json
+├── package.json
+└── .eslintrc.js
 ```
 
-### Remote Caching
+### Tailwind Setup
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+Each app imports a tailwind-config/base.css that includes:
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+```css
+@import "tailwindcss";
+@import "tailwindcss/preflight";
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
+@theme {
+  colors {
+    primary: #ff5722;
+  }
+}
 ```
 
-## Useful Links
+To share config, apps reference Tailwind and PostCSS like this:
 
-Learn more about the power of Turborepo:
+`app/merchant/globals.css`
 
-- [Tasks](https://turbo.build/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/docs/reference/command-line-reference)
+```css
+@import "@repo/tailwind-config/style";
+```
+
+`app/merchant/postcss.config.mjs`
+
+```js
+import postCssConfig from "@repo/tailwind-config/postcss-config";
+
+export default postCssConfig;
+```
+
+## Create New UI Component
+
+```bash
+cd packages/ui
+yarn run create
+# Choose: ui
+# Name: header
+```
+
+Creates the new component in packages/ui.
+
+To add a shared utility refer here - [https://turbo.build/docs/crafting-your-repository/creating-an-internal-package]
+
+## Development
+
+```bash
+    yarn install
+    yarn dev
+```
+
+## Lint, Type Check
+
+```bash
+    yarn lint
+    yarn check-types
+```
+
+## Tailwind Theme Helpers
+
+Use theme extensions via `@theme()` in `.css` or Tailwind utility class compositions in `clsx` or `tailwind-variants`.
+
+You can define global theme tokens in `tailwind.config.css` using v4 syntax like:
+
+```css
+@theme {
+  colors {
+    primary: #1e40af;
+    secondary: #9333ea;
+  }
+
+  breakpoints {
+    sm: 640px;
+    md: 768px;
+    lg: 1024px;
+  }
+}
+```
+
+### Example Component
+
+```tsx
+export function Button({ children }: { children: React.ReactNode }) {
+  return (
+    <button className="bg-[theme(colors.primary)] text-white rounded px-4 py-2">
+      {children}
+    </button>
+  );
+}
+```
+
+Or using class composition tools:
+
+```tsx
+import { tv } from "tailwind-variants";
+
+const button = tv({
+  base: "text-white rounded px-4 py-2",
+  variants: {
+    intent: {
+      primary: "bg-[theme(colors.primary)]",
+      secondary: "bg-[theme(colors.secondary)]",
+    },
+  },
+});
+
+export const Button = ({ children, intent = "primary" }) => (
+  <button className={button({ intent })}>{children}</button>
+);
+```
