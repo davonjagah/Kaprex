@@ -1,6 +1,6 @@
 # Kaprex Next.js + TypeScript Monorepo (App Router) For All FrontEnd Applications
 
-Monorepo with three Next.js apps (`merchant`, `docs`, and `web`) using the App Router, plus shared packages for UI, utilities, and config.
+Monorepo with three Next.js apps (`merchant`, `stake`, and `landing`) using the App Router, plus shared packages for UI, utilities, and config.
 
 ---
 
@@ -9,8 +9,8 @@ Monorepo with three Next.js apps (`merchant`, `docs`, and `web`) using the App R
 ### Apps
 
 - **`merchant`** – Next.js App Router app for merchants
-- **`docs`** – Next.js App Router app for documentation
-- **`web`** – Next.js App Router app for end users
+- **`stake`** – Next.js App Router app for documentation
+- **`landing`** – Next.js App Router app for end users
 
 ### Shared Packages
 
@@ -46,7 +46,7 @@ We follow Conventional Commits, such as:
 
 ```makefile
 feat(ui): add new Button component
-fix(docs): correct broken link in README
+fix(stake): correct broken link in README
 chore: update dependencies
 ```
 
@@ -65,12 +65,12 @@ chore: update dependencies
 │   │       ├── styles/      # Local theme or overrides
 │   │       └── ui/          # Local components
 │
-│   ├── docs/
+│   ├── stake/
 │   │   ├── app/
 │   │   ├── public/
 │   │   └── src/
 │
-│   ├── web/
+│   ├── landing/
 │   │   ├── app/
 │   │   ├── public/
 │   │   └── src/
