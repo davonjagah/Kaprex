@@ -2,5 +2,12 @@
 @import "tailwindcss/preflight";
 
 @theme {
-  --color-brand: green;
+  --color-brand: "#FF5500";
+  --color-brand-medium: "#FF7733";
+  --color-brand-light: "#FF9966";
+  --color-skin: "#FFBB99";
+  --color-skin-light: "#FFDDCC";
+  --color-earth: "#662200";
+  --color-earth-medium: "#993300";
+  --color-earth-light: "#CC4400";
 }

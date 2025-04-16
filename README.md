@@ -77,6 +77,12 @@ chore: update dependencies
 │
 ├── packages/
 │   ├── ui/            # Shared UI components
+│   │   ├── src/
+│   │   │  ├── atoms/        # Small, reusable elements (e.g. Button, Input)
+│   │   │  ├── molecules/    # Composed atoms (e.g. FormGroup, Card)
+│   │   │  ├── widgets/    # Complex UI sections (e.g. Header, Footer)
+│   │   │  └── index.ts      # Exports components for tree-shaking
+│   │   ├── .storybook/
 │   ├── utils/                # Reusable functions/services
 │   ├── tailwind-config/               # Shared theme and tokens
 │   ├── eslint-config/
