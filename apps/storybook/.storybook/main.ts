@@ -22,22 +22,5 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ["../public"],
-  webpackFinal: async (config) => {
-    config.module?.rules?.push({
-      test: /\.css$/,
-      exclude: /node_modules/,
-      use: [
-        {
-          loader: "postcss-loader",
-          options: {
-            postcssOptions: {
-              plugins: ["@tailwindcss/postcss"],
-            },
-          },
-        },
-      ],
-    });
-    return config;
-  },
 };
 export default config;

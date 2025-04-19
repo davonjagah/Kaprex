@@ -3,7 +3,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { Typography } from "./typography";
 
 const meta: Meta<typeof Typography> = {
-  title: "Components/Typography",
+  title: "Atoms/Typography",
   component: Typography,
   tags: ["autodocs"],
   argTypes: {
@@ -40,7 +40,7 @@ type Story = StoryObj<typeof Typography>;
 
 export const Playground: Story = {
   args: {
-    variant: "body",
+    variant: "h1",
     children: "The quick brown fox jumps over the lazy dog.",
   },
 };
@@ -63,7 +63,8 @@ export const AllVariants: Story = {
         ] as const
       ).map((variant) => (
         <Typography key={variant} variant={variant}>
-          {variant.toUpperCase()} – The quick brown fox jumps over the lazy dog.
+          {variant.toUpperCase()} – Kaprex The quick brown fox jumps over the
+          lazy dog.
         </Typography>
       ))}
     </div>

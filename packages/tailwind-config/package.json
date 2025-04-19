@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "type": "module",
   "exports": {
-    "./style": "./base.css",
-    "./postcss-config": "./postcss.config.mjs"
+    "./style": "./tailwind.css",
+    "./postcss-config": "./postcss.config.mjs",
+    "./tailwind-config": "./tailwind.config.js"
   },
   "license": "MIT",
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.4",
+    "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.4"
+    "tailwindcss": "3"
   }
 }

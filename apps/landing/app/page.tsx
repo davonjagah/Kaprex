@@ -1,3 +1,4 @@
+import { Typography } from "@repo/ui/atoms";
 import Image, { type ImageProps } from "next/image";
 
 type Props = Omit<ImageProps, "src"> & {
@@ -28,7 +29,10 @@ export default function Home() {
           height={38}
           priority
         />
-        <ol className="bg-brand">
+        <Typography className="font-sans" variant="h1">
+          Checking
+        </Typography>
+        <ol className="bg-brand-light">
           <li className="text-3xl">
             Get started by editing <code>apps/web/app/page.tsx</code>
           </li>
