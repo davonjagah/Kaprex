@@ -1,6 +1,6 @@
 # Kaprex Next.js + TypeScript Monorepo (App Router) For All FrontEnd Applications
 
-Monorepo with three Next.js apps (`merchant`, `stake`, and `landing`) using the App Router, plus shared packages for UI, utilities, and config.
+Monorepo with three Next.js apps (`merchant`, `stake`, and `landing`) using the App Router, plus shared packages for UI, utilities, and config. The design system follows Atomic Design principles for scalable and maintainable UI development.
 
 ---
 
@@ -25,7 +25,7 @@ Monorepo with three Next.js apps (`merchant`, `stake`, and `landing`) using the 
 - Tailwind CSS v4 (centralized config with `@theme` support)
 - PostCSS with plugin sharing
 - ESlint, Prettier, Stylelint
-- Storybook
+- Storybook for UI preview
 - Turborepo for efficient dev workflows
 
 ## Git Hooks and Commit Standards
@@ -75,6 +75,9 @@ chore: update dependencies
 │   │   ├── public/
 │   │   └── src/
 │
+│   ├── storybook/
+│   │   ├── .storybook/
+│
 ├── packages/
 │   ├── ui/            # Shared UI components
 │   │   ├── src/
@@ -82,7 +85,6 @@ chore: update dependencies
 │   │   │  ├── molecules/    # Composed atoms (e.g. FormGroup, Card)
 │   │   │  ├── widgets/    # Complex UI sections (e.g. Header, Footer)
 │   │   │  └── index.ts      # Exports components for tree-shaking
-│   │   ├── .storybook/
 │   ├── utils/                # Reusable functions/services
 │   ├── tailwind-config/               # Shared theme and tokens
 │   ├── eslint-config/

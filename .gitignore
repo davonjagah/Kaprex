@@ -18,6 +18,9 @@ coverage
 # Turbo
 .turbo
 
+# Storybook
+storybook-static
+
 # Vercel
 .vercel
 
