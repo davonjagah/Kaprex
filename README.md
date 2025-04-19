@@ -101,14 +101,9 @@ chore: update dependencies
 Each app imports a tailwind-config/base.css that includes:
 
 ```css
-@import "tailwindcss";
-@import "tailwindcss/preflight";
-
-@theme {
-  colors {
-    primary: #ff5722;
-  }
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 ```
 
 To share config, apps reference Tailwind and PostCSS like this:
@@ -125,6 +120,22 @@ To share config, apps reference Tailwind and PostCSS like this:
 import postCssConfig from "@repo/tailwind-config/postcss-config";
 
 export default postCssConfig;
+```
+
+```js
+import postCssConfig from "@repo/tailwind-config/tailwind-config";
+
+import sharedConfig from "@repo/tailwind-config/tailwind-config";
+
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+  ...sharedConfig,
+  content: [
+    "../../packages/ui/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "../../packages/ui/src/**/*.stories.{js,ts,jsx,tsx}",
+  ],
+};
 ```
 
 ## Create New UI Component
