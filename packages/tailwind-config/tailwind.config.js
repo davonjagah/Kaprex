@@ -11,6 +11,7 @@ export default {
         },
         secondary: {
           DEFAULT: "#662200",
+          dark: "#0A0A0A",
           medium: "#993300",
           light: "#cc4400",
         },
@@ -22,6 +23,20 @@ export default {
       fontFamily: {
         sans: ['"DM Sans"', "sans-serif"],
         nohemi: ['"Nohemi"', "sans-serif"],
+      },
+      spacing: {
+        2.5: "0.625rem",
+      },
+      height: {
+        15: "3.75rem", // 60px
+        45: "2.813rem", // 45px
+      },
+      width: {
+        15: "3.75rem", // 60px
+        45: "2.813rem", // 45px
+      },
+      boxShadow: {
+        subtle: "0px 4px 13.5px rgba(0, 0, 0, 0.05)",
       },
     },
   },

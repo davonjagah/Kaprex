@@ -123,8 +123,6 @@ export default postCssConfig;
 ```
 
 ```js
-import postCssConfig from "@repo/tailwind-config/tailwind-config";
-
 import sharedConfig from "@repo/tailwind-config/tailwind-config";
 
 // eslint-disable-next-line import/no-anonymous-default-export
