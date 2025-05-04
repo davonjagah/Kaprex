@@ -68,7 +68,7 @@ const StakeForm = (props: StakeFormProps) => {
 
       {/* Receive Card */}
       <div className="bg-gray rounded-2xl shadow-sm px-5 py-22 mb-4">
-        <Typography variant="h6" className="mb-4 font-normal text-xs">
+        <Typography variant="h6" className="mb-4 font-normal text-sm">
           You will receive
         </Typography>
         <div className="flex items-center justify-between gap-2">
