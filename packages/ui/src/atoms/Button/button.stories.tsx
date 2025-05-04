@@ -8,7 +8,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: "radio",
-      options: ["primary", "secondary", "outline"],
+      options: ["primary", "secondary", "outline", "text"],
     },
     size: {
       control: "radio",
@@ -40,6 +40,14 @@ export const Outline: Story = {
   args: {
     children: "Outline",
     variant: "outline",
+    size: "md",
+  },
+};
+
+export const Text: Story = {
+  args: {
+    children: "Text",
+    variant: "text",
     size: "md",
   },
 };

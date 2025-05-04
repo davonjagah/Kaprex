@@ -1,16 +1,16 @@
-import StakeForm from "./components/StakeForm";
-import StatsCard from "./components/StatsCard";
+import StakeForm from "../components/StakeForm";
+import StatsCard from "../components/StatsCard";
 
-const Home = () => {
+const Unstake = () => {
   return (
     <>
       <main className=" min-h-[calc(100vh-80px)]">
         <div className="container mx-auto px-4 flex flex-col md:flex-row gap-8 justify-center py-12 md:py-21">
           <StakeForm
-            linkHref="/unstake"
-            linkText="Unstake SOL"
-            title="Stake"
-            token="sol"
+            linkHref="/"
+            linkText="Stake SOL"
+            title="Unstake"
+            token="ksol"
           />
           <StatsCard />
         </div>
@@ -19,4 +19,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Unstake;

@@ -19,13 +19,20 @@ export default {
           DEFAULT: "#ffbb99",
           light: "#ffddcc",
         },
+        gray: {
+          DEFAULT: "#fafbfc",
+          light: "#ABAABA",
+          medium: "#726D8C",
+        },
       },
       fontFamily: {
-        sans: ['"DM Sans"', "sans-serif"],
+        sans: ["var(--font-dm-sans)"],
         nohemi: ['"Nohemi"', "sans-serif"],
       },
       spacing: {
         2.5: "0.625rem",
+        21: "5.5rem", // 88.5px
+        22: "1.406rem", // 22.5px
       },
       height: {
         15: "3.75rem", // 60px

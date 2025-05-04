@@ -19,10 +19,10 @@ export const Header: React.FC<IHeaderProps> = ({
   const Wrapper = LinkComponent ?? React.Fragment;
 
   return (
-    <div className="flex items-center justify-between px-16 pt-8 pb-6 shadow-subtle">
+    <div className="flex items-center justify-between px-4 md:px-16 pt-8 pb-6 shadow-subtle">
       <div className="flex items-center space-x-14">
         <Wrapper>
-          <BrandIcon className="cursor-pointer" />
+          <BrandIcon className="cursor-pointer w-24 md:w-full" />
         </Wrapper>
 
         {title && (
@@ -33,7 +33,12 @@ export const Header: React.FC<IHeaderProps> = ({
       </div>
 
       <div className="flex items-center space-x-4">
-        <Button variant="primary" size="sm" onClick={onButtonClick}>
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={onButtonClick}
+          className="font-medium"
+        >
           Connect Wallet
         </Button>
 

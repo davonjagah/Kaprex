@@ -6,7 +6,8 @@
     ".": "./src/index.ts",
     "./atoms": "./src/atoms/index.ts",
     "./molecules": "./src/molecules/index.ts",
-    "./widgets": "./src/widgets/index.ts"
+    "./widgets": "./src/widgets/index.ts",
+    "./icons": "./src/icons/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

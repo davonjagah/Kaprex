@@ -3,7 +3,7 @@ import { cn } from "../../utils/cn";
 
 type ButtonProps = {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "outline";
+  variant?: "primary" | "secondary" | "outline" | "text";
   size?: "sm" | "md" | "lg";
   className?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
@@ -26,6 +26,8 @@ export const Button = ({
             variant === "secondary",
           "border border-primary text-primary focus:ring-primary hover:opacity-90":
             variant === "outline",
+          "bg-transparent text-primary hover:underline focus:ring-transparent p-0":
+            variant === "text",
         },
         {
           "h-10 text-base": size === "sm",

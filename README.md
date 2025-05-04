@@ -1,6 +1,6 @@
 # Kaprex Next.js + TypeScript Monorepo (App Router) For All FrontEnd Applications
 
-Monorepo with three Next.js apps (`merchant`, `stake`, and `landing`) using the App Router, plus shared packages for UI, utilities, and config. The design system follows Atomic Design principles for scalable and maintainable UI development.
+Monorepo with three Next.js apps (`merchants`, `stake`, and `landing`) using the App Router, plus shared packages for UI, utilities, and config. The design system follows Atomic Design principles for scalable and maintainable UI development.
 
 ---
 
@@ -8,13 +8,18 @@ Monorepo with three Next.js apps (`merchant`, `stake`, and `landing`) using the 
 
 ### Apps
 
-- **`merchant`** – Next.js App Router app for merchants
+- **`merchants`** – Next.js App Router app for merchants
 - **`stake`** – Next.js App Router app for stake feature
 - **`landing`** – Next.js App Router app for unsigned users
+- **`storybook`** – Component documentation and testing environment
 
 ### Shared Packages
 
 - `ui`: shared React component library using Tailwind CSS
+  - `atoms`: Basic building blocks (Button, Typography, IconButton)
+  - `molecules`: Composed components (Header)
+  - `widgets`: Complex UI sections
+  - `icons`: SVG icon components
 - `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next`, `eslint-config-prettier`)
 - `tsconfig`: shared `tsconfig.json` setup
 - `tailwind-config`: shared Tailwind v4 configuration
@@ -25,8 +30,9 @@ Monorepo with three Next.js apps (`merchant`, `stake`, and `landing`) using the 
 - Tailwind CSS v4 (centralized config with `@theme` support)
 - PostCSS with plugin sharing
 - ESlint, Prettier, Stylelint
-- Storybook for UI preview
+- Storybook for UI preview and documentation
 - Turborepo for efficient dev workflows
+- Component-driven development with Atomic Design principles
 
 ## Git Hooks and Commit Standards
 
@@ -35,9 +41,7 @@ This repo enforces consistent commit messages and pre-commit checks using Husky 
 ### Tools Used
 
 - `Husky` – Manages Git hooks
-
 - `Commitlint` – Ensures commit message format (e.g., Conventional Commits)
-
 - `lint-staged` – Runs linters only on staged files
 
 ### Commit Format
@@ -57,7 +61,7 @@ chore: update dependencies
 ```bash
 .
 ├── apps/
-│   ├── merchant/
+│   ├── merchants/
 │   │   ├── app/              # App Router routes
 │   │   ├── public/
 │   │   └── src/
@@ -81,12 +85,13 @@ chore: update dependencies
 ├── packages/
 │   ├── ui/            # Shared UI components
 │   │   ├── src/
-│   │   │  ├── atoms/        # Small, reusable elements (e.g. Button, Input)
-│   │   │  ├── molecules/    # Composed atoms (e.g. FormGroup, Card)
-│   │   │  ├── widgets/    # Complex UI sections (e.g. Header, Footer)
+│   │   │  ├── atoms/        # Basic components (Button, Typography, IconButton)
+│   │   │  ├── molecules/    # Composed components (Header)
+│   │   │  ├── widgets/      # Complex UI sections
+│   │   │  ├── icons/        # SVG icon components
 │   │   │  └── index.ts      # Exports components for tree-shaking
 │   ├── utils/                # Reusable functions/services
-│   ├── tailwind-config/               # Shared theme and tokens
+│   ├── tailwind-config/      # Shared theme and tokens
 │   ├── eslint-config/
 │   └── tsconfig/             # Base tsconfig presets
 │
@@ -96,71 +101,93 @@ chore: update dependencies
 └── .eslintrc.js
 ```
 
-### Tailwind Setup
+## Component Examples
 
-Each app imports a tailwind-config/base.css that includes:
+### Button Component
 
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+```tsx
+import { Button } from "@repo/ui/atoms";
+
+export function MyComponent() {
+  return (
+    <Button variant="primary" size="md">
+      Click me
+    </Button>
+  );
+}
 ```
 
-To share config, apps reference Tailwind and PostCSS like this:
+### Header Component
 
-`app/merchant/globals.css`
+```tsx
+import { Header } from "@repo/ui/molecules";
+import Link from "next/link";
 
-```css
-@import "@repo/tailwind-config/style";
+export function PageHeader() {
+  return (
+    <Header
+      title="Dashboard"
+      onButtonClick={() => console.log("Connect Wallet")}
+      profile={true}
+      LinkComponent={({ children }) => <Link href="/">{children}</Link>}
+    />
+  );
+}
 ```
 
-`app/merchant/postcss.config.mjs`
+### Typography Component
 
-```js
-import postCssConfig from "@repo/tailwind-config/postcss-config";
+```tsx
+import { Typography } from "@repo/ui/atoms";
 
-export default postCssConfig;
+export function TextExample() {
+  return (
+    <>
+      <Typography variant="h1">Heading 1</Typography>
+      <Typography variant="body">Regular text</Typography>
+      <Typography variant="muted">Muted text</Typography>
+    </>
+  );
+}
 ```
-
-```js
-import sharedConfig from "@repo/tailwind-config/tailwind-config";
-
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
-  ...sharedConfig,
-  content: [
-    "../../packages/ui/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "../../packages/ui/src/**/*.stories.{js,ts,jsx,tsx}",
-  ],
-};
-```
-
-## Create New UI Component
-
-```bash
-cd packages/ui
-yarn run create
-# Choose: ui
-# Name: header
-```
-
-Creates the new component in packages/ui.
-
-To add a shared utility refer here - [https://turbo.build/docs/crafting-your-repository/creating-an-internal-package]
 
 ## Development
 
 ```bash
-    yarn install
-    yarn dev
+# Install dependencies
+yarn install
+
+# Start all apps (if using Turborepo dev script)
+yarn dev
+
+# Start a single app (e.g., stake app only)
+yarn workspace stake dev
+# Or for merchants app
+yarn workspace merchants dev
+# Or for landing app
+yarn workspace landing dev
+
+# Start Storybook
+yarn storybook
+
+# Run tests
+yarn test
+
+# Build all apps and packages
+yarn build
 ```
 
-## Lint, Type Check
+## Lint and Type Check
 
 ```bash
-    yarn lint
-    yarn check-types
+# Run linters
+yarn lint
+
+# Type check
+yarn check-types
+
+# Format code
+yarn format
 ```
 
 ## Tailwind Theme Helpers
@@ -184,12 +211,14 @@ You can define global theme tokens in `tailwind.config.css` using v4 syntax like
 }
 ```
 
-### Example Component
+### Example Component with Theme
 
 ```tsx
-export function Button({ children }: { children: React.ReactNode }) {
+import { cn } from "@repo/ui/utils";
+
+export function ThemedButton({ children }: { children: React.ReactNode }) {
   return (
-    <button className="bg-[theme(colors.primary)] text-white rounded px-4 py-2">
+    <button className="bg-[theme(colors.primary)] text-white rounded-full px-6 py-2">
       {children}
     </button>
   );
@@ -202,7 +231,7 @@ Or using class composition tools:
 import { tv } from "tailwind-variants";
 
 const button = tv({
-  base: "text-white rounded px-4 py-2",
+  base: "text-white rounded-full px-6 py-2",
   variants: {
     intent: {
       primary: "bg-[theme(colors.primary)]",

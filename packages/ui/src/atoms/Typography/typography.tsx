@@ -8,7 +8,7 @@ const typography = cva("", {
       h1: "text-4xl font-nohemi font-bold tracking-tight",
       h2: "text-3xl font-nohemi font-medium tracking-tight",
       h3: "text-2xl font-nohemi font-medium tracking-tight",
-      h4: "text-xl font-nohemi font-semibold tracking-tight",
+      h4: "text-xl font-nohemi font-medium tracking-tight",
       h5: "text-lg font-nohemi font-semibold tracking-tight",
       h6: "text-base font-nohemi font-semibold tracking-tight",
       body: "font-sans text-base",
