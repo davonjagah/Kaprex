@@ -1,7 +1,7 @@
 "use client";
 
 import { Typography } from "@repo/ui/atoms";
-import { KsolIcon, SolanaIcon } from "@repo/ui/icons";
+import { KsolIcon, KsolSolIcon, SolanaIcon } from "@repo/ui/icons";
 import React from "react";
 
 const StatsCard = () => {
@@ -12,12 +12,7 @@ const StatsCard = () => {
         <div className="bg-white rounded-2xl p-5 border border-gray-300">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              {/* Replace with kSOL icon */}
-              <span className="bg-[#ecebfc] rounded-full p-2">
-                <svg width="32" height="32" fill="none">
-                  <circle cx="16" cy="16" r="16" fill="#34D399" />
-                </svg>
-              </span>
+              <KsolSolIcon />
               <div>
                 <Typography variant="h4">1 kSOL</Typography>
                 <Typography
