@@ -93,7 +93,7 @@ const StakeForm = (props: StakeFormProps) => {
       <Button
         variant="primary"
         size="sm"
-        className="font-medium"
+        className="font-medium w-full sm:w-auto mt-3"
         onClick={() => {}}
       >
         {props.title}
