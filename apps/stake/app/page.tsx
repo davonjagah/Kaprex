@@ -1,21 +1,17 @@
-import StakeForm from "./components/StakeForm";
-import StatsCard from "./components/StatsCard";
+import Stake from "./widget/stake";
+import { getStakePoolStats } from "./utils/stakePool";
 
-const Home = () => {
+const Home = async () => {
+  const stats = await getStakePoolStats();
+
   return (
-    <>
-      <main className=" min-h-[calc(100vh-80px)]">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row gap-8 justify-center py-12 md:py-21">
-          <StakeForm
-            linkHref="/unstake"
-            linkText="Unstake SOL"
-            title="Stake"
-            token="sol"
-          />
-          <StatsCard />
-        </div>
-      </main>
-    </>
+    <Stake
+      stats={stats}
+      linkHref="/unstake"
+      linkText="Unstake SOL"
+      title="Stake"
+      token="sol"
+    />
   );
 };
 

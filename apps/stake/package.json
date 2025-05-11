@@ -11,10 +11,19 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@reown/appkit": "^1.7.4",
+    "@reown/appkit-adapter-solana": "^1.7.4",
     "@repo/ui": "*",
+    "@solana/spl-stake-pool": "^1.1.8",
+    "@solana/spl-token": "^0.4.13",
+    "@solana/wallet-adapter-react": "^0.15.38",
+    "@solana/wallet-adapter-wallets": "^0.19.36",
+    "@solana/web3.js": "^1.98.2",
+    "@tanstack/react-query": "^5.75.7",
     "next": "^15.2.4",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "swr": "^2.3.3"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

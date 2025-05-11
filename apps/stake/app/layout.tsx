@@ -2,11 +2,36 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import HeaderWrapper from "./components/HeaderWrapper";
+import localFont from "next/font/local";
+import { AppKitProvider } from "./providers/AppkitProvider";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-dm-sans",
+});
+
+const nohemi = localFont({
+  src: [
+    {
+      path: "../public/fonts/Nohemi/Nohemi-Regular.ttf",
+      weight: "400",
+    },
+    {
+      path: "../public/fonts/Nohemi/Nohemi-Medium.ttf",
+      weight: "500",
+    },
+    {
+      path: "../public/fonts/Nohemi/Nohemi-Bold.ttf",
+      weight: "700",
+    },
+    {
+      path: "../public/fonts/Nohemi/Nohemi-SemiBold.ttf",
+      weight: "600",
+    },
+  ],
+  preload: true,
+  variable: "--font-nohemi",
 });
 
 export const metadata: Metadata = {
@@ -53,12 +78,6 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
     other: [{ rel: "manifest", url: "/site.webmanifest" }],
   },
-
-  // Theme color for mobile address bar
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
-  ],
 };
 
 export default function RootLayout({
@@ -67,12 +86,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable} antialiased`}>
+    <html
+      lang="en"
+      className={`${dmSans.variable} ${nohemi.variable} antialiased`}
+    >
       <body>
-        <header>
-          <HeaderWrapper />
-        </header>
-        {children}
+        <AppKitProvider>
+          <header>
+            <HeaderWrapper />
+          </header>
+          {children}
+        </AppKitProvider>
       </body>
     </html>
   );

@@ -5,7 +5,7 @@ import { KsolRoundIcon, SolanaIcon } from "@repo/ui/icons";
 import Link from "next/link";
 import React from "react";
 
-type StakeFormProps = {
+export type TStakeFormProps = {
   linkHref: string;
   linkText: string;
   title: string;
@@ -27,7 +27,7 @@ const tokenMap = {
   },
 };
 
-const StakeForm = (props: StakeFormProps) => {
+const StakeForm = (props: TStakeFormProps) => {
   const {
     label: tokenLabel,
     icon: TokenIcon,
