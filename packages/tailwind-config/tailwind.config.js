@@ -27,7 +27,7 @@ export default {
       },
       fontFamily: {
         sans: ["var(--font-dm-sans)"],
-        nohemi: ['"Nohemi"', "sans-serif"],
+        nohemi: ["var(--font-nohemi)"],
       },
       spacing: {
         2.5: "0.625rem",

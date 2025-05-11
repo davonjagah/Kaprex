@@ -36,5 +36,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@solana/wallet-adapter-react-ui": "^0.9.38"
+  }
 }
