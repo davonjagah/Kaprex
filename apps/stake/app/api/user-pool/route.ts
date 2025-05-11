@@ -39,7 +39,7 @@ async function getStakePoolDetails() {
   }
 }
 
-export async function getUserKSOLBalance(userWallet: PublicKey): Promise<{
+async function getUserKSOLBalance(userWallet: PublicKey): Promise<{
   userKSOLBalance: number;
   userSOLBalance: number;
   conversionRate: number;
