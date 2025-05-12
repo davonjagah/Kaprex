@@ -3,12 +3,14 @@
 import { Button, Typography } from "@repo/ui/atoms";
 import { KsolRoundIcon, SolanaIcon } from "@repo/ui/icons";
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import { useAppKitProvider } from "@reown/appkit/react";
 import { useAppKitConnection } from "@reown/appkit-adapter-solana/react";
 import type { Provider } from "@reown/appkit-adapter-solana/react";
 import { useStakeActions } from "../hooks/useStakeActions";
 import { useUserPool } from "../hooks/useUserPool";
+import { STAKE_CONSTANTS, ERROR_MESSAGES } from "../constants";
+import { notifyError } from "@repo/ui/toasts";
 
 export type TStakeFormProps = {
   linkHref: string;
@@ -45,35 +47,82 @@ const StakeForm = (props: TStakeFormProps) => {
   const { userPool } = useUserPool();
 
   const [inputValue, setInputValue] = useState("");
+  const [inputError, setInputError] = useState<string | null>(null);
 
   const { handleStakeSol, handleUnstake, isLoading } = useStakeActions({
     walletProvider,
     connection: connection!,
   });
 
-  const handleMaxClick = () => {
+  const validateInput = useCallback(
+    (value: string) => {
+      const parsed = parseFloat(value);
+      if (isNaN(parsed)) {
+        return ERROR_MESSAGES.INVALID_AMOUNT;
+      }
+      if (parsed < STAKE_CONSTANTS.MIN_STAKE_AMOUNT) {
+        return `Minimum amount is ${STAKE_CONSTANTS.MIN_STAKE_AMOUNT} ${tokenLabel}`;
+      }
+      if (tokenLabel === "SOL" && parsed > userPool?.nativeSOLBalance) {
+        return ERROR_MESSAGES.INSUFFICIENT_BALANCE;
+      }
+      if (tokenLabel === "kSOL" && parsed > userPool?.userKSOLBalance) {
+        return ERROR_MESSAGES.INSUFFICIENT_BALANCE;
+      }
+      return null;
+    },
+    [tokenLabel, userPool],
+  );
+
+  const handleMaxClick = useCallback(() => {
     const max =
       tokenLabel === "SOL"
-        ? Math.max(0, userPool.nativeSOLBalance - 0.01)
+        ? Math.max(
+            0,
+            userPool.nativeSOLBalance - STAKE_CONSTANTS.MIN_SOL_RESERVE,
+          )
         : userPool.userKSOLBalance;
 
-    setInputValue(max.toFixed(3));
-  };
+    setInputValue(max.toFixed(STAKE_CONSTANTS.DECIMAL_PLACES));
+    setInputError(null);
+  }, [tokenLabel, userPool]);
 
   const receiveAmount = useMemo(() => {
     const input = parseFloat(inputValue);
-    if (isNaN(input) || input <= 0.1) return "0";
+    if (isNaN(input) || input <= STAKE_CONSTANTS.MIN_STAKE_AMOUNT) return "0";
 
     return props.token === "sol"
-      ? (input / userPool?.conversionRate).toFixed(3)
-      : (input * userPool?.conversionRate).toFixed(3);
+      ? (input / userPool?.conversionRate).toFixed(
+          STAKE_CONSTANTS.DECIMAL_PLACES,
+        )
+      : (input * userPool?.conversionRate).toFixed(
+          STAKE_CONSTANTS.DECIMAL_PLACES,
+        );
   }, [inputValue, userPool?.conversionRate, props.token]);
 
-  const handleChange = (val: string) => {
-    const parsed = parseFloat(val);
-    if (parsed < 0) return;
-    setInputValue(val);
-  };
+  const handleChange = useCallback(
+    (val: string) => {
+      setInputValue(val);
+      const error = validateInput(val);
+      setInputError(error);
+    },
+    [validateInput],
+  );
+
+  const handleSubmit = useCallback(async () => {
+    const error = validateInput(inputValue);
+    if (error) {
+      notifyError(error);
+      return;
+    }
+
+    const amount = parseFloat(inputValue);
+    if (tokenLabel === "SOL") {
+      await handleStakeSol(amount);
+    } else {
+      await handleUnstake(amount);
+    }
+  }, [inputValue, tokenLabel, handleStakeSol, handleUnstake, validateInput]);
 
   return (
     <section className="flex-1 md:max-w-[28.313rem]">
@@ -94,20 +143,33 @@ const StakeForm = (props: TStakeFormProps) => {
             <Typography variant="body" className="text-gray-500">
               Bal:{" "}
               {tokenLabel === "kSOL"
-                ? userPool.userKSOLBalance.toFixed(3)
-                : userPool.nativeSOLBalance.toFixed(3)}{" "}
+                ? userPool.userKSOLBalance.toFixed(
+                    STAKE_CONSTANTS.DECIMAL_PLACES,
+                  )
+                : userPool.nativeSOLBalance.toFixed(
+                    STAKE_CONSTANTS.DECIMAL_PLACES,
+                  )}{" "}
               {tokenLabel}
             </Typography>
           )}
         </div>
         <div className="flex items-center justify-between text-xs text-gray-400 mt-4">
-          <input
-            type="number"
-            placeholder="min. 0.1"
-            value={inputValue}
-            onChange={(e) => handleChange(e.target.value)}
-            className="appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] w-full border-none focus:outline-none focus:ring-none text-base text-gray-700 bg-transparent placeholder-gray-medium font-sans"
-          />
+          <div className="w-full">
+            <input
+              type="number"
+              placeholder={`min. ${STAKE_CONSTANTS.MIN_STAKE_AMOUNT}`}
+              value={inputValue}
+              onChange={(e) => handleChange(e.target.value)}
+              className={`appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] w-full border-none focus:outline-none focus:ring-none text-base text-gray-700 bg-transparent placeholder-gray-medium font-sans ${
+                inputError ? "border-red-500" : ""
+              }`}
+            />
+            {inputError && (
+              <Typography variant="small" className="text-red-500 mt-1">
+                {inputError}
+              </Typography>
+            )}
+          </div>
           <Button
             variant="text"
             className="text-gray-500"
@@ -146,12 +208,8 @@ const StakeForm = (props: TStakeFormProps) => {
         variant="primary"
         size="sm"
         className="font-medium w-full sm:w-auto mt-3"
-        disabled={parseFloat(inputValue) < 0.1 || isNaN(parseFloat(inputValue))}
-        onClick={
-          tokenLabel === "SOL"
-            ? () => handleStakeSol(parseFloat(inputValue))
-            : () => handleUnstake(parseFloat(inputValue))
-        }
+        disabled={!!inputError || isLoading}
+        onClick={handleSubmit}
         isLoading={isLoading}
       >
         {props.title}

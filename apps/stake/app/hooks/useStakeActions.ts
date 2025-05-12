@@ -11,6 +11,7 @@ import type { Provider } from "@reown/appkit-adapter-solana/react";
 import { useState } from "react";
 import { useUserPool } from "./useUserPool";
 import { KAPREX_STAKED_POOL, updatePool } from "../utils/stakePool";
+import { ERROR_MESSAGES, STAKE_CONSTANTS } from "../constants";
 
 export const useStakeActions = ({
   walletProvider,
@@ -20,12 +21,11 @@ export const useStakeActions = ({
   connection: Connection;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-
   const { userPool, refetch } = useUserPool();
 
   const ensureWalletAndConnection = () => {
     if (!walletProvider?.publicKey || !connection || !userPool) {
-      notifyError("Wallet or connection not available.");
+      notifyError(ERROR_MESSAGES.WALLET_NOT_CONNECTED);
       return false;
     }
     return true;
@@ -35,15 +35,20 @@ export const useStakeActions = ({
     instructions: TransactionInstruction[],
     signers: Signer[],
   ) => {
-    const transaction = new Transaction().add(...instructions);
-    const { blockhash } = await connection!.getLatestBlockhash();
+    try {
+      const transaction = new Transaction().add(...instructions);
+      const { blockhash } = await connection!.getLatestBlockhash();
 
-    transaction.recentBlockhash = blockhash;
-    transaction.feePayer = walletProvider!.publicKey;
+      transaction.recentBlockhash = blockhash;
+      transaction.feePayer = walletProvider!.publicKey;
 
-    if (signers.length > 0) transaction.partialSign(...signers);
+      if (signers.length > 0) transaction.partialSign(...signers);
 
-    return transaction;
+      return transaction;
+    } catch (error) {
+      notifyError(ERROR_MESSAGES.NETWORK_ERROR);
+      throw error;
+    }
   };
 
   const handleStakeSol = async (amount: number) => {
@@ -53,12 +58,12 @@ export const useStakeActions = ({
     try {
       const solAmount = amount;
 
-      if (isNaN(solAmount) || solAmount < 0.1) {
-        throw new Error("Invalid stake amount.");
+      if (isNaN(solAmount) || solAmount < STAKE_CONSTANTS.MIN_STAKE_AMOUNT) {
+        throw new Error(ERROR_MESSAGES.INVALID_AMOUNT);
       }
 
       if (solAmount > userPool!.nativeSOLBalance) {
-        notifyError("Insufficient SOL balance.");
+        notifyError(ERROR_MESSAGES.INSUFFICIENT_BALANCE);
         return;
       }
 
@@ -79,7 +84,6 @@ export const useStakeActions = ({
         txData.signers,
       );
 
-      // Sign + send via walletProvider
       const txid = await walletProvider.sendTransaction(
         transaction,
         connection!,
@@ -89,9 +93,9 @@ export const useStakeActions = ({
       await refetch();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        notifyError(error.message || "An unknown error occurred.");
+        notifyError(error.message || ERROR_MESSAGES.TRANSACTION_FAILED);
       } else {
-        notifyError("An unknown error occurred.");
+        notifyError(ERROR_MESSAGES.TRANSACTION_FAILED);
       }
     } finally {
       setIsLoading(false);
@@ -103,13 +107,13 @@ export const useStakeActions = ({
 
     setIsLoading(true);
     try {
-      if (isNaN(amount) || amount < 0.1) {
-        notifyError("Invalid unstake amount.");
+      if (isNaN(amount) || amount < STAKE_CONSTANTS.MIN_STAKE_AMOUNT) {
+        notifyError(ERROR_MESSAGES.INVALID_AMOUNT);
         return;
       }
 
       if (amount > userPool!.userKSOLBalance) {
-        notifyError("Insufficient kSOL balance.");
+        notifyError(ERROR_MESSAGES.INSUFFICIENT_BALANCE);
         return;
       }
 
@@ -138,9 +142,9 @@ export const useStakeActions = ({
       await refetch();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        notifyError(error.message || "An unknown error occurred.");
+        notifyError(error.message || ERROR_MESSAGES.TRANSACTION_FAILED);
       } else {
-        notifyError("An unknown error occurred.");
+        notifyError(ERROR_MESSAGES.TRANSACTION_FAILED);
       }
     } finally {
       setIsLoading(false);
