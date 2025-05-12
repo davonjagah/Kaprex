@@ -1,8 +1,9 @@
 import { TOKEN_PROGRAM_ID, AccountLayout } from "@solana/spl-token";
 import { stakePoolInfo } from "@solana/spl-stake-pool";
 
-import { Connection, PublicKey } from "@solana/web3.js";
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { NextResponse } from "next/server";
+import { IUserPool } from "../types";
 
 const connection = new Connection("https://api.mainnet-beta.solana.com");
 
@@ -39,17 +40,14 @@ async function getStakePoolDetails() {
   }
 }
 
-async function getUserKSOLBalance(userWallet: PublicKey): Promise<{
-  userKSOLBalance: number;
-  userSOLBalance: number;
-  conversionRate: number;
-}> {
+async function getUserKSOLBalance(userWallet: PublicKey): Promise<IUserPool> {
   try {
-    const [poolDetails, tokenAccounts] = await Promise.all([
+    const [poolDetails, tokenAccounts, lamports] = await Promise.all([
       getStakePoolDetails(),
       connection.getTokenAccountsByOwner(userWallet, {
         programId: TOKEN_PROGRAM_ID,
       }),
+      connection.getBalance(userWallet),
     ]);
 
     if (!poolDetails) {
@@ -60,7 +58,7 @@ async function getUserKSOLBalance(userWallet: PublicKey): Promise<{
     for (const accountInfo of tokenAccounts.value) {
       const accountData = AccountLayout.decode(accountInfo.account.data);
       if (new PublicKey(accountData.mint).equals(KSOL_MINT_ADDRESS)) {
-        userKSOL = Number(accountData.amount) / 1e9;
+        userKSOL = Number(accountData.amount) / LAMPORTS_PER_SOL;
         break;
       }
     }
@@ -69,6 +67,7 @@ async function getUserKSOLBalance(userWallet: PublicKey): Promise<{
       userKSOLBalance: userKSOL,
       userSOLBalance: userKSOL * poolDetails.conversionRate,
       conversionRate: poolDetails.conversionRate,
+      nativeSOLBalance: lamports / LAMPORTS_PER_SOL,
     };
   } catch (error) {
     console.error("❌ Error fetching user's kSOL balance:", error);
@@ -76,6 +75,7 @@ async function getUserKSOLBalance(userWallet: PublicKey): Promise<{
       userKSOLBalance: 0,
       userSOLBalance: 0,
       conversionRate: 0,
+      nativeSOLBalance: 0,
     };
   }
 }

@@ -38,6 +38,7 @@
     "packages/*"
   ],
   "dependencies": {
-    "@solana/wallet-adapter-react-ui": "^0.9.38"
+    "@solana/wallet-adapter-react-ui": "^0.9.38",
+    "react-toastify": "^11.0.5"
   }
 }

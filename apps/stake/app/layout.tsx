@@ -4,7 +4,7 @@ import "./globals.css";
 import HeaderWrapper from "./components/HeaderWrapper";
 import localFont from "next/font/local";
 import { AppKitProvider } from "./providers/AppkitProvider";
-
+import { ToastProvider } from "@repo/ui/toasts";
 const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -96,6 +96,7 @@ export default function RootLayout({
             <HeaderWrapper />
           </header>
           {children}
+          <ToastProvider />
         </AppKitProvider>
       </body>
     </html>

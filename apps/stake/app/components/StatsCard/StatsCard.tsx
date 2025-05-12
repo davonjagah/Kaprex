@@ -2,24 +2,19 @@
 
 import React from "react";
 import { Typography } from "@repo/ui/atoms";
-import { IStakePoolStats, IUserPool } from "../../api/types";
+import { IStakePoolStats } from "../../api/types";
 import StatsCardSkeleton from "./StatsCardSkeleton";
 import PoolStatsCard from "./PoolStatsCard";
 import UserStakeCard from "./UserStakeCard";
+import { useUserPool } from "../../hooks/useUserPool";
 
 type TStatsCardProps = {
-  userPool: IUserPool;
-  userPoolLoading: boolean;
   stats: IStakePoolStats;
   statsLoading: boolean;
 };
 
-const StatsCard = ({
-  userPool,
-  userPoolLoading,
-  stats,
-  statsLoading,
-}: TStatsCardProps) => {
+const StatsCard = ({ stats, statsLoading }: TStatsCardProps) => {
+  const { userPool, isLoading } = useUserPool();
   return (
     <aside className="flex-1 md:max-w-[35.313rem]">
       <div className="bg-gray rounded-2xl shadow-sm p-2.5 md:p-6">
@@ -35,7 +30,7 @@ const StatsCard = ({
         >
           Your Stake:
         </Typography>
-        {userPoolLoading ? (
+        {isLoading || !userPool ? (
           <StatsCardSkeleton />
         ) : (
           <UserStakeCard userPool={userPool} solPrice={stats.solPrice} />

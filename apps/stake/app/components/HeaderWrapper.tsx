@@ -5,15 +5,13 @@ import {
   useAppKitAccount,
   useDisconnect,
 } from "@reown/appkit/react";
-// import { WalletButton } from "@repo/ui/atoms";
 import { Header } from "@repo/ui/molecules";
-// import { useWallet } from "@solana/wallet-adapter-react";
 import Link from "next/link";
 import React, { useMemo } from "react";
 
 const HeaderWrapper = () => {
   const { open } = useAppKit();
-  const { address, isConnected } = useAppKitAccount();
+  const { address, isConnected, status } = useAppKitAccount();
 
   const { disconnect } = useDisconnect();
 
@@ -23,11 +21,17 @@ const HeaderWrapper = () => {
     return `${str.slice(0, 4)}...${str.slice(-4)}`;
   }, [address]);
 
+  const buttonText = useMemo(() => {
+    if (status === "connecting" || !status) return "Connecting...";
+    if (isConnected) return `Disconnect ${shortAddress}`;
+    return "Connect Wallet";
+  }, [status, isConnected, shortAddress]);
+
   return (
     <Header
       LinkComponent={({ children }) => <Link href="/">{children}</Link>}
       onButtonClick={() => (isConnected ? disconnect() : open())}
-      buttonText={isConnected ? `Disconnect ${shortAddress}` : "Connect Wallet"}
+      buttonText={buttonText}
     />
   );
 };

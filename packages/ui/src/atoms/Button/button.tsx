@@ -6,6 +6,8 @@ type ButtonProps = {
   variant?: "primary" | "secondary" | "outline" | "text";
   size?: "sm" | "md" | "lg";
   className?: string;
+  isLoading?: boolean;
+  disabled?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({
@@ -13,6 +15,8 @@ export const Button = ({
   variant = "primary",
   size = "md",
   className,
+  isLoading,
+  disabled,
   ...props
 }: ButtonProps) => {
   return (
@@ -36,9 +40,14 @@ export const Button = ({
         },
         className,
       )}
+      disabled={disabled || isLoading}
       {...props}
     >
-      {children}
+      {isLoading ? (
+        <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+      ) : (
+        children
+      )}
     </button>
   );
 };
