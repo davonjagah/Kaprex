@@ -1,96 +1,344 @@
-import { Typography } from "@repo/ui/atoms";
-import Image, { type ImageProps } from "next/image";
+import { Button, Typography } from "@repo/ui/atoms";
+import {
+  DiscordIcon,
+  InstagramIcon,
+  KaprexWhiteIcon,
+  LinkedInIcon,
+  PeopleIcon,
+  SpeedIcon,
+  TiktokIcon,
+  TwitterIcon,
+  WalletIcon,
+} from "@repo/ui/icons";
+import Image from "next/image";
+import Link from "next/link";
+import BenefitBar from "./components/BenefitBar";
+import FeatureCard from "./components/FeatureCard";
+import HowItWorks from "./components/HowItWorks";
+import FAQ from "./components/FAQ";
+import StackingCards from "./components/StackingCards";
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
-
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
-
-  return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
+const benefits = [
+  "No financial constraints",
+  "Less paperwork",
+  "Faster settlement time",
+  "Effortless to use",
+  "Lower cost",
+  "No hidden fees",
+];
 
 export default function Home() {
   return (
-    <div>
-      <main>
-        <ThemeImage
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
+    <div className="min-h-screen">
+      <section className="container mx-auto px-4 pt-10">
+        <div className="w-80 h-14 rounded-full border-gray-secondary mx-auto items-center gap-4 justify-center mb-4 border overflow-hidden relative">
+          <div className="h-full animate-slide justify-center items-center">
+            <div className="h-14 flex items-center justify-center">
+              <Typography variant="body" className="font-nohemi">
+                Trusted by
+              </Typography>
+              <PeopleIcon className="ml-2" />
+            </div>
+            <div className="h-14 flex items-center justify-center gap-1">
+              <Typography variant="body" className="font-nohemi">
+                Processed over
+              </Typography>
+              <span className="text-[10.58px] flex flex-row justify-center items-center h-8 w-8 bg-primary text-white rounded-full text-base font-semibold font-nohemi">
+                1k+
+              </span>
+              <Typography variant="body" className="font-nohemi">
+                transactions
+              </Typography>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <Typography
+            variant="h1"
+            className="text-4xl lg:text-6xl font-normal mb-2"
+          >
+            Receive global payments <WalletIcon className="inline w-12 h-12" />
+          </Typography>
+          <Typography
+            variant="h1"
+            className="text-4xl lg:text-6xl font-normal mb-2"
+          >
+            Send faster, <SpeedIcon className="inline w-12 h-12" />
+          </Typography>
+          <Typography variant="h1" className="text-4xl lg:text-6xl font-normal">
+            Earn better with Kaprex
+          </Typography>
+        </div>
+
+        <Typography
+          variant="lead"
+          className="text-center mt-2 text-base md:text-[22px] text-[#5C5C5C] px-7"
+        >
+          Stablecoin rails for seamless payments, high yields & minimal fees
+        </Typography>
+
+        <div className="max-w-3xl mx-auto text-center mt-4">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button
+              variant="primary"
+              size="md"
+              className="w-full sm:w-auto font-semibold"
+            >
+              Get started now
+            </Button>
+            <Button
+              variant="outline"
+              size="md"
+              className="w-full sm:w-auto font-semibold border-[#0C0C0C] text-[#0C0C0C]"
+            >
+              See how we work
+            </Button>
+          </div>
+        </div>
+
+        <Image
+          src="/images/landingBg.svg"
+          width={1347}
+          height={773}
+          alt="landing image"
           priority
         />
-        <Typography className="font-sans" variant="h1">
-          Checking
-        </Typography>
-        <ol className="bg-brand-light">
-          <li className="text-3xl">
-            Get started by editing <code>apps/web/app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+      </section>
 
-        <div>
-          <a
-            href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+      <BenefitBar items={benefits} />
+
+      {/* Dark Section */}
+      <section className="bg-black text-white pt-7 md:pt-17">
+        <div className="mx-auto px-4">
+          <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-6 lg:px-56 mb-11">
+              <div>
+                <Typography
+                  variant="body"
+                  className="mb-4 text-primary font-nohemi"
+                >
+                  - About us
+                </Typography>
+                <Typography variant="h2" className="text-4xl font-normal mb-4">
+                  We&apos;re your partner <br /> in financial freedom.
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body" className="text-gray-300 mb-4">
+                  At Kaprex, we believe sending, saving, and managing money
+                  shouldn&apos;t be slow, expensive, or complicated—especially
+                  in Africa. That&apos;s why we created a smarter platform that
+                  gives you more control, better rates, and faster access to
+                  your money.
+                </Typography>
+                <Typography variant="body" className="text-gray-300">
+                  Whether you&apos;re converting crypto, sending funds across
+                  borders, or growing your savings, Kaprex helps you do it
+                  all—securely, affordably, and instantly.
+                </Typography>
+              </div>
+            </div>
             <Image
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src="/images/kaprex.svg"
+              width={1440}
+              height={207}
+              sizes="100vw"
+              alt="kaprex text image"
             />
-            Deploy now
-          </a>
-          <a
-            href="https://turbo.build/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
         </div>
-      </main>
-      <footer>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+      </section>
+
+      <StackingCards />
+
+      <section className="bg-black text-white py-20">
+        <div className="container mx-auto px-6">
+          <Typography
+            variant="body"
+            className="text-left md:text-center text-primary font-nohemi mb-2"
+          >
+            - Why Kaprex?
+          </Typography>
+          <Typography
+            variant="h2"
+            className="text-left md:text-center text-4xl font-normal mb-12"
+          >
+            Earn Better with Kaprex
+          </Typography>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <FeatureCard
+              title="Best rates for crypto conversions"
+              description=""
+              graphicSrc="/images/conversion.svg" // Placeholder graphic
+              graphicAlt="Crypto Conversion Graphic"
+            />
+            <FeatureCard
+              title="Lightning-fast global transfers"
+              description=""
+              graphicSrc="/images/fast.svg" // Placeholder graphic
+              graphicAlt="Global Transfers Graphic"
+            />
+            <FeatureCard
+              title="Boost your business profits"
+              description=""
+              graphicSrc="/images/boost.svg" // Placeholder graphic
+              graphicAlt="Business Profits Graphic"
+            />
+            <FeatureCard
+              title="Maximize your earnings"
+              description=""
+              graphicSrc="/images/earnings.svg" // Placeholder graphic
+              graphicAlt="Maximize Earnings Graphic"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <picture>
+          {/* mobile first */}
+          <source
+            srcSet="/images/people-mobile.svg"
+            media="(max-width: 767px)"
           />
-          Examp
-        </a>
-        <a
-          href="https://turbo.build?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+          {/* desktop fallback */}
           <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+            src="/images/people.svg"
+            width={1440}
+            height={816}
+            sizes="100vw"
+            alt="who is it for"
           />
-          Go to turbo.build →
-        </a>
+        </picture>
+      </section>
+
+      <HowItWorks />
+
+      <FAQ />
+
+      <section className="text-white p-6 md:p-16">
+        <div
+          style={{
+            backgroundImage: "url('/images/cta-bg.svg')",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+          className=" pt-6 px-7 lg:pl-16 lg:px-28 rounded-[30px] overflow-hidden container mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-12 lg:gap-44"
+        >
+          <div className="w-full md:w-[400px] h-60 flex items-center justify-center">
+            <Image
+              src="/images/wallet.svg"
+              alt="CTA Graphic"
+              width={100}
+              height={100}
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+              className="w-full h-full"
+            />
+          </div>
+          <div className="w-full md:w-1/2 text-center md:text-left">
+            <Typography variant="body" className=" text-sm lg:text-base mb-2">
+              Fast. Reliable. Non custodial
+            </Typography>
+            <Typography
+              variant="h1"
+              className="text-xl lg:text-4xl font-normal mb-4"
+            >
+              Ready to join the future of finance?
+            </Typography>
+            <Button
+              variant="primary"
+              size="lg"
+              className="bg-[#00AA47] w-full h-[40px] md:w-[79px] lg:h-[50px]"
+            >
+              Join
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black text-white py-12 px-6">
+        <div>
+          <div className="lg:px-28">
+            <div className="flex flex-col gap-8 items-start md:flex-row md:justify-between md:items-center  border-b border-gray-800 pb-8">
+              <div className="md:w-[450px]">
+                <div className="flex items-center gap-2 mb-4">
+                  <KaprexWhiteIcon />
+                </div>
+                <Typography
+                  variant="body"
+                  className="text-white text-xs font-light"
+                >
+                  Kaprex operates solely as a payment orchestration platform and
+                  is not licensed as a bank or a digital asset custodian. All
+                  regulated financial and custodial services are provided
+                  exclusively by our duly authorized and licensed partners.
+                </Typography>
+              </div>
+
+              <div>
+                <ul className="flex gap-4 flex-row md:justify-end">
+                  <li>
+                    <Link href="/">
+                      <TiktokIcon />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/">
+                      <LinkedInIcon />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/">
+                      <InstagramIcon />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/">
+                      <TwitterIcon />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/">
+                      <DiscordIcon />
+                    </Link>
+                  </li>
+                </ul>
+
+                <ul className="flex gap-6 flex-row mt-7 justify-end text-sm">
+                  <li>
+                    <Link href="/docs/Kaprex_T&C.pdf" target="_blank">
+                      Terms of Service
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/docs/Kaprex_privacy_policy.pdf"
+                      target="_blank"
+                    >
+                      Privacy policy
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div className=" text-center">
+            <Image
+              src="/images/kaprex.svg"
+              width={1440}
+              height={207}
+              sizes="100vw"
+              alt="kaprex text image"
+              className="pt-8"
+            />
+          </div>
+        </div>
       </footer>
     </div>
   );

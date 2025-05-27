@@ -1,0 +1,44 @@
+{
+  "faqs": [
+    {
+      "question": "How does Kaprex work?",
+      "answer": "Kaprex connects traditional currencies like Ghanaian Cedis (GHS), Nigerian Naira (NGN), and Kenyan Shillings (KES) with stablecoins. Users can exchange local currencies with trusted OTC (over-the-counter) traders, send or receive remittances, access yield products, and use virtual accounts and cards — all through one app."
+    },
+    {
+      "question": "What are stablecoins and how are they used on Kaprex?",
+      "answer": "Stablecoins are cryptocurrencies pegged to stable assets like the US Dollar (e.g., USDC). On Kaprex, you buy or sell stablecoins via trusted P2P OTC vendors. These stablecoins enable fast and affordable remittances, payments, and savings in a digital form."
+    },
+    {
+      "question": "Who provides the buy/sell liquidity on Kaprex?",
+      "answer": "Kaprex partners with vetted, trusted OTC (over-the-counter) traders who provide liquidity for stablecoin ↔ local currency transactions. You interact with these vendors directly within the app when buying or selling."
+    },
+    {
+      "question": "What currencies does Kaprex support?",
+      "answer": "Kaprex currently supports Ghanaian Cedis (GHS), Nigerian Naira (NGN), and Kenyan Shillings (KES) alongside USD-backed stablecoins like USDC."
+    },
+    {
+      "question": "What is a virtual account on Kaprex?",
+      "answer": "Virtual accounts on Kaprex are bank-like accounts denominated in USD, EUR, or GBP that you can use to receive international payments via SWIFT, SEPA, ACH, or wire. These accounts are tied to your Kaprex wallet, enabling seamless conversion to stablecoins or local currencies."
+    },
+    {
+      "question": "What payment methods can I use for cross-border transactions?",
+      "answer": "Kaprex supports international payment rails including SWIFT, SEPA, ACH, and wire transfers through virtual accounts. You can receive payments globally and access them in your local wallet as stablecoins or local currency."
+    },
+    {
+      "question": "How long do remittances take on Kaprex?",
+      "answer": "Once your funds are received in a virtual account or stablecoin wallet, delivery to the local recipient is typically completed in minutes. Kaprex leverages blockchain and fast settlement infrastructure to ensure near-instant local payouts, depending on compliance checks and liquidity availability."
+    },
+    {
+      "question": "How do I fund my wallet?",
+      "answer": "You can fund your Kaprex wallet by buying stablecoins from trusted OTC vendors using mobile money, bank transfers, or receiving crypto from another wallet. Cross-border users can also fund their wallet by receiving into their Kaprex virtual account."
+    },
+    {
+      "question": "Can I use Kaprex without verifying my identity?",
+      "answer": "Yes, you can use Kaprex wallets to send and receive crypto without completing KYC. However, to buy/sell crypto with OTC vendors, use remittance services, or access features like virtual cards and accounts, KYC verification is required."
+    },
+    {
+      "question": "Is Kaprex safe?",
+      "answer": "Yes. Kaprex uses secure authentication, non-custodial wallet options, and trusted infrastructure providers to protect your assets and identity. All vendors and partners, including our regulated payment partner, go through due diligence to ensure user safety."
+    }
+  ]
+}
