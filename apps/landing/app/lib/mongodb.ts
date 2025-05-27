@@ -1,15 +1,15 @@
 import { MongoClient } from "mongodb";
 
-export const dbName = process.env.NEXT_PUBLIC_MONGODB_NAME!;
+export const dbName = process.env.MONGODB_NAME!;
 
-const uri = process.env.NEXT_PUBLIC_MONGODB_URI!;
+const uri = process.env.MONGODB_URI!;
 const options = {};
 
 declare global {
   let _mongoClientPromise: Promise<MongoClient>;
 }
 
-if (!process.env.NEXT_PUBLIC_MONGODB_URI) {
+if (!process.env.MONGODB_URI) {
   throw new Error("Please add MONGODB_URI to .env");
 }
 
