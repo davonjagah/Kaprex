@@ -155,10 +155,10 @@ export function TextExample() {
 
 ```bash
 # Install dependencies
-yarn install
+    yarn install
 
 # Start all apps (if using Turborepo dev script)
-yarn dev
+    yarn dev
 
 # Start a single app (e.g., stake app only)
 yarn workspace stake dev
@@ -181,10 +181,10 @@ yarn build
 
 ```bash
 # Run linters
-yarn lint
+    yarn lint
 
 # Type check
-yarn check-types
+    yarn check-types
 
 # Format code
 yarn format

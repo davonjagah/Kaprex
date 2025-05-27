@@ -23,6 +23,7 @@ export default {
           DEFAULT: "#fafbfc",
           light: "#ABAABA",
           medium: "#726D8C",
+          secondary: "#F5F7FA",
         },
       },
       fontFamily: {
@@ -33,6 +34,7 @@ export default {
         2.5: "0.625rem",
         21: "5.5rem", // 88.5px
         22: "1.406rem", // 22.5px
+        17: "4.688rem", // 75px
       },
       height: {
         15: "3.75rem", // 60px
@@ -44,6 +46,21 @@ export default {
       },
       boxShadow: {
         subtle: "0px 4px 13.5px rgba(0, 0, 0, 0.05)",
+      },
+      animation: {
+        marquee: "marquee 20s linear infinite",
+        slide: "slide 5s ease-in-out infinite alternate",
+      },
+      keyframes: {
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-100%)" },
+        },
+        slide: {
+          "0%, 40%": { transform: "translateY(0)" },
+          /* 60%–100%: hold the second line */
+          "60%,100%": { transform: "translateY(-100%)" },
+        },
       },
     },
   },

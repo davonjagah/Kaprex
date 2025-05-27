@@ -6,7 +6,6 @@ import {
   useDisconnect,
 } from "@reown/appkit/react";
 import { Header } from "@repo/ui/molecules";
-import Link from "next/link";
 import React, { useMemo } from "react";
 
 const HeaderWrapper = () => {
@@ -29,7 +28,6 @@ const HeaderWrapper = () => {
 
   return (
     <Header
-      LinkComponent={({ children }) => <Link href="/">{children}</Link>}
       onButtonClick={() => (isConnected ? disconnect() : open())}
       buttonText={buttonText}
     />
