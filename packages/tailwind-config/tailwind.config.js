@@ -48,7 +48,7 @@ export default {
         subtle: "0px 4px 13.5px rgba(0, 0, 0, 0.05)",
       },
       animation: {
-        marquee: "marquee 20s linear infinite",
+        marquee: "marquee 14s linear infinite",
         slide: "slide 5s ease-in-out infinite alternate",
       },
       keyframes: {

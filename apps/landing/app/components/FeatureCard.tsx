@@ -41,6 +41,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
             height={150}
             layout="responsive"
             objectFit="contain"
+            style={{
+              width: "200px",
+              height: "150px",
+            }}
           />
         </div>
       )}

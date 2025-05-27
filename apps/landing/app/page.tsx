@@ -43,7 +43,7 @@ export default function Home() {
               <Typography variant="body" className="font-nohemi">
                 Processed over
               </Typography>
-              <span className="text-[10.58px] flex flex-row justify-center items-center h-8 w-8 bg-primary text-white rounded-full text-base font-semibold font-nohemi">
+              <span className="text-[10.58px] flex flex-row justify-center items-center h-8 w-8 bg-primary text-white rounded-full font-semibold font-nohemi">
                 1k+
               </span>
               <Typography variant="body" className="font-nohemi">
@@ -103,6 +103,7 @@ export default function Home() {
           height={773}
           alt="landing image"
           priority
+          quality={80}
         />
       </section>
 

@@ -3,20 +3,38 @@ import FeatureCard from "./FeatureCard";
 import Image from "next/image";
 
 export default function StackingCards() {
-  const cards = ["Card 1", "Card 2", "Card 3", "Card 4"];
+  const cards = [
+    {
+      title: "Send and receive money globally via stablecoin rails",
+      src: "/images/receive.svg",
+    },
+    {
+      title:
+        "Grow your funds with seamless access to stablecoin yield and staking rewards.",
+      src: "/images/grow-funds.svg",
+    },
+    {
+      title: "Receive global payments for your business",
+      src: "/images/receive-payment.svg",
+    },
+    {
+      title: "Pay with stablecoins using our card",
+      src: "/images/cards.svg",
+    },
+  ];
 
   return (
     <section className="min-h-screen bg-black pl-8 pt-8 pr-8 md:pr-0">
       <div className="flex flex-col md:flex-row justify-between md:gap-20 lg:pl-24">
         <div className="space-y-6 relative">
-          {cards.map((text, index) => (
+          {cards.map((item, index) => (
             <FeatureCard
               key={index}
-              title="Best rates for crypto conversions"
+              title={item.title}
               description=""
-              graphicSrc="/images/conversion.svg"
-              graphicAlt="Crypto Conversion Graphic"
-              className={`sticky z-[${10 + index}] text-white`}
+              graphicSrc={item.src}
+              graphicAlt={item.title}
+              className={`sticky z-[${10 + index}] text-white max-w-[594px] px-5 md:px-14 `}
               style={{ top: `${index * 64}px` }}
             />
           ))}
