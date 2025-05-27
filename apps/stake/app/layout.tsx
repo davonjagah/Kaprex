@@ -55,7 +55,7 @@ export const metadata: Metadata = {
 
   // Canonical URL
   alternates: {
-    canonical: "https://kaprex-stake.vercel.app",
+    canonical: "https://stake.kaprex.io/",
   },
 
   // Robots / Crawling

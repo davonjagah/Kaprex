@@ -1,1 +1,6 @@
 @import "@repo/tailwind-config/style";
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}

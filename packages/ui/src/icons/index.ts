@@ -1,3 +1,4 @@
+export { MinusIcon } from "./minusIcon";
 export { LinkedInIcon } from "./linkedinIcon";
 export { TiktokIcon } from "./tiktokIcon";
 export { InstagramIcon } from "./instagramIcon";

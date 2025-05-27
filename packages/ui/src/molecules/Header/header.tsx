@@ -10,6 +10,7 @@ export interface IHeaderProps {
   profile?: boolean;
   buttonText?: string;
   button?: React.ReactNode;
+  className?: string;
 }
 
 export const Header: React.FC<IHeaderProps> = ({
@@ -18,9 +19,12 @@ export const Header: React.FC<IHeaderProps> = ({
   profile = false,
   buttonText = "Connect Wallet",
   button,
+  className,
 }) => {
   return (
-    <nav className="flex items-center justify-between px-4 md:px-16 pt-8 pb-6 shadow-subtle">
+    <nav
+      className={`flex items-center justify-between px-4 md:px-16 pt-8 pb-6 shadow-subtle ${className}`}
+    >
       <div className="flex items-center space-x-14">
         <Link href="/">
           <BrandIcon className="cursor-pointer w-24 md:w-full" />

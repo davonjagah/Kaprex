@@ -2,7 +2,10 @@ import React from "react";
 
 type PlusIconProps = React.SVGProps<SVGSVGElement>;
 
-export const PlusIcon = (props: PlusIconProps) => (
+export const PlusIcon = ({
+  isOpen,
+  ...props
+}: PlusIconProps & { isOpen?: boolean }) => (
   <svg
     width="16"
     height="17"
@@ -11,8 +14,26 @@ export const PlusIcon = (props: PlusIconProps) => (
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <rect x="7.59473" y="0.123535" width="1" height="7.18907" fill="#7C7B80" />
-    <rect x="7.59473" y="8.93457" width="1" height="7.18907" fill="#7C7B80" />
+    <rect
+      x="7.59473"
+      y="0.123535"
+      width="1"
+      height="7.18907"
+      fill="#7C7B80"
+      className={` transition-all duration-700 ease-in-out ${
+        isOpen ? " opacity-0" : "opacity-100"
+      }`}
+    />
+    <rect
+      x="7.59473"
+      y="8.93457"
+      width="1"
+      height="7.18907"
+      fill="#7C7B80"
+      className={` transition-all duration-700 ease-in-out  ${
+        isOpen ? " opacity-0" : "opacity-100"
+      }`}
+    />
     <rect
       y="8.52881"
       width="1"

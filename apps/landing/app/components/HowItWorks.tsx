@@ -11,7 +11,10 @@ const HowItWorks: React.FC = () => {
   ];
 
   return (
-    <section className="bg-black text-white text-center px-6 py-14 md:py-24 md:pb-48">
+    <section
+      className="bg-black text-white text-center px-6 py-14 md:py-24 md:pb-48"
+      id="how-it-works"
+    >
       <Typography variant="body" className="text-primary mb-4 font-nohemi">
         — How it works
       </Typography>

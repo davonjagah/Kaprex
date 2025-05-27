@@ -48,13 +48,19 @@ const FAQ: React.FC = () => {
                 >
                   {/* question header */}
                   <div
-                    className="flex justify-between items-center cursor-pointer"
+                    className="flex justify-between items-center cursor-pointer gap-2"
                     onClick={() => toggle(globalIndex)}
                   >
-                    <Typography variant="h4" className="text-lg font-medium">
+                    <Typography
+                      variant="h4"
+                      className="text-lg font-medium w-[90%]"
+                    >
                       {item.question}
                     </Typography>
-                    <PlusIcon className="w-5 h-5 text-gray-400" />
+                    <PlusIcon
+                      isOpen={isOpen}
+                      className={`w-5 h-5 text-gray-400`}
+                    />
                   </div>
 
                   {/* animated answer */}

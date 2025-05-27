@@ -17,6 +17,7 @@ import FeatureCard from "./components/FeatureCard";
 import HowItWorks from "./components/HowItWorks";
 import FAQ from "./components/FAQ";
 import StackingCards from "./components/StackingCards";
+import Join from "./components/Join";
 
 const benefits = [
   "No financial constraints",
@@ -80,20 +81,24 @@ export default function Home() {
 
         <div className="max-w-3xl mx-auto text-center mt-4">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              variant="primary"
-              size="md"
-              className="w-full sm:w-auto font-semibold"
-            >
-              Get started now
-            </Button>
-            <Button
-              variant="outline"
-              size="md"
-              className="w-full sm:w-auto font-semibold border-[#0C0C0C] text-[#0C0C0C]"
-            >
-              See how we work
-            </Button>
+            <Link href="#join">
+              <Button
+                variant="primary"
+                size="md"
+                className="w-full sm:w-auto font-semibold"
+              >
+                Get started now
+              </Button>
+            </Link>
+            <Link href="#how-it-works">
+              <Button
+                variant="outline"
+                size="md"
+                className="w-full sm:w-auto font-semibold border-[#0C0C0C] text-[#0C0C0C]"
+              >
+                See how we work
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -218,48 +223,7 @@ export default function Home() {
 
       <FAQ />
 
-      <section className="text-white p-6 md:p-16">
-        <div
-          style={{
-            backgroundImage: "url('/images/cta-bg.svg')",
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-          }}
-          className=" pt-6 px-7 lg:pl-16 lg:px-28 rounded-[30px] overflow-hidden container mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-12 lg:gap-44"
-        >
-          <div className="w-full md:w-[400px] h-60 flex items-center justify-center">
-            <Image
-              src="/images/wallet.svg"
-              alt="CTA Graphic"
-              width={100}
-              height={100}
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-              className="w-full h-full"
-            />
-          </div>
-          <div className="w-full md:w-1/2 text-center md:text-left">
-            <Typography variant="body" className=" text-sm lg:text-base mb-2">
-              Fast. Reliable. Non custodial
-            </Typography>
-            <Typography
-              variant="h1"
-              className="text-xl lg:text-4xl font-normal mb-4"
-            >
-              Ready to join the future of finance?
-            </Typography>
-            <Button
-              variant="primary"
-              size="lg"
-              className="bg-[#00AA47] w-full h-[40px] md:w-[79px] lg:h-[50px]"
-            >
-              Join
-            </Button>
-          </div>
-        </div>
-      </section>
+      <Join />
 
       {/* Footer */}
       <footer className="bg-black text-white py-12 px-6">

@@ -52,11 +52,13 @@ export const metadata: Metadata = {
     "decentralized finance",
     "DeFi",
     "Kaprex Stake",
+    "Receive global payments",
+    "global payments",
   ],
 
   // Canonical URL
   alternates: {
-    canonical: "https://kaprex-home.vercel.app",
+    canonical: "https://kaprex.io/",
   },
 
   // Robots / Crawling
@@ -91,11 +93,12 @@ export default function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${nohemi.variable} antialiased`}
     >
-      <body>
-        <header>
+      <body className="relative">
+        <header className="sticky top-0 z-10">
           <Header
+            className="bg-white"
             button={
-              <Link href="/about">
+              <Link href="#join">
                 <Button variant="primary" size="sm" className="font-medium">
                   Join Kaprex
                 </Button>
