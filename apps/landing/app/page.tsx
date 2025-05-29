@@ -59,13 +59,15 @@ export default function Home() {
             variant="h1"
             className="text-4xl lg:text-6xl font-normal mb-2"
           >
-            Receive global payments <WalletIcon className="inline w-12 h-12" />
+            Receive global payments{" "}
+            <WalletIcon className="inline h-9 w-9 md:w-12 md:h-12" />
           </Typography>
           <Typography
             variant="h1"
             className="text-4xl lg:text-6xl font-normal mb-2"
           >
-            Send faster, <SpeedIcon className="inline w-12 h-12" />
+            Send faster,{" "}
+            <SpeedIcon className="inline h-9 w-9  md:w-12 md:h-12" />
           </Typography>
           <Typography variant="h1" className="text-4xl lg:text-6xl font-normal">
             Earn better with Kaprex
