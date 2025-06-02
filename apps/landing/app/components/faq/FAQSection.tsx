@@ -4,7 +4,7 @@ import { Typography } from "@repo/ui/atoms";
 import { FAQColumn } from "@repo/ui/molecules";
 import { useFAQ } from "./useFAQ";
 
-export function FAQSection() {
+export const FAQSection = () => {
   const { leftItems, rightItems, expandedIndex, handleToggle } = useFAQ();
 
   return (
@@ -37,4 +37,4 @@ export function FAQSection() {
       </div>
     </section>
   );
-}
+};

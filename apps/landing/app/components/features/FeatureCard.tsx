@@ -39,17 +39,15 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
             alt={graphicAlt}
             width={200}
             height={150}
-            layout="responsive"
-            objectFit="contain"
             style={{
-              width: "200px",
-              height: "150px",
+              width: "100%",
+              height: "100%",
             }}
           />
         </div>
       )}
       <div
-        className="absolute w-[102%] bottom-0 h-full left-[-1%] rounded-xl"
+        className="absolute w-[100.5%] bottom-0 h-full left-[-0.25%] rounded-xl"
         style={{
           background:
             "linear-gradient(176deg, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0.9) 100%)",

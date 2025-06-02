@@ -11,7 +11,7 @@ const benefits = [
   "No hidden fees",
 ];
 
-const BenefitBar = () => {
+export const BenefitBar = () => {
   const marqueeItems = [...benefits, ...benefits];
 
   return (
@@ -47,5 +47,3 @@ const BenefitBar = () => {
     </div>
   );
 };
-
-export default BenefitBar;

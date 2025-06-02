@@ -1,34 +1,63 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import clientPromise, { dbName } from "../../lib/mongodb";
 
-export const POST = async (req: Request) => {
-  try {
-    const body = await req.json();
-    const { email } = body;
+// Input validation schema
+const waitlistSchema = z.object({
+  email: z.string().email("Invalid email address"),
+});
 
-    if (!email || !email.includes("@")) {
-      return NextResponse.json({ message: "Invalid email" }, { status: 400 });
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+
+    // Validate input
+    const result = waitlistSchema.safeParse(body);
+    if (!result.success) {
+      return NextResponse.json(
+        { message: "Invalid email address" },
+        { status: 400 },
+      );
     }
 
+    const { email } = result.data;
+
+    // Connect to MongoDB
     const client = await clientPromise;
     const db = client.db(dbName);
+    const collection = db.collection("waitlist");
 
-    const existing = await db.collection("waitlist").findOne({ email });
+    // Check if email already exists
+    const existing = await collection.findOne({ email });
     if (existing) {
       return NextResponse.json(
-        { message: "Email already in waitlist" },
+        { message: "You're already on the waitlist!" },
         { status: 409 },
       );
     }
 
-    await db.collection("waitlist").insertOne({
+    // Add to waitlist
+    await collection.insertOne({
       email,
-      createdAt: new Date(),
+      joinedAt: new Date(),
     });
 
-    return NextResponse.json({ message: "You're on the waitlist!" });
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Successfully joined the waitlist!",
+      },
+      { status: 201 },
+    );
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    console.error("Waitlist error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to join waitlist. Please try again.",
+      },
+      { status: 500 },
+    );
   }
-};
+}

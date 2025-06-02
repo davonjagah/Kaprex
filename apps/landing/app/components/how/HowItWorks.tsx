@@ -3,13 +3,13 @@ import { Typography } from "@repo/ui/atoms";
 import { LineIcon, LineIconVertical } from "@repo/ui/icons";
 import React from "react";
 
-export const HowItWorks: React.FC = () => {
-  const steps = [
-    "Create a free account",
-    "Complete your KYC",
-    "Enjoy Kaprex to it's fullest",
-  ];
+const steps = [
+  "Create a free account",
+  "Complete your KYC",
+  "Enjoy Kaprex to it's fullest",
+];
 
+export const HowItWorks: React.FC = () => {
   return (
     <section
       className="bg-black text-white text-center px-6 py-14 md:py-24 md:pb-48"

@@ -1,9 +1,6 @@
-interface WaitlistResponse {
-  success: boolean;
-  message: string;
-}
+import { notifyError, notifySuccess } from "@repo/ui/toasts";
 
-export async function joinWaitlist(email: string): Promise<WaitlistResponse> {
+export async function joinWaitlist(email: string) {
   const response = await fetch("/api/waitlist", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -13,8 +10,9 @@ export async function joinWaitlist(email: string): Promise<WaitlistResponse> {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Failed to join waitlist");
+    notifyError(data.message);
+    return;
   }
 
-  return data;
+  notifySuccess(data.message);
 }

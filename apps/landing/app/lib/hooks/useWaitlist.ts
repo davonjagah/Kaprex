@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { joinWaitlist } from "../api/waitlist";
+import { notifyError } from "@repo/ui/toasts";
 
 interface UseWaitlistResult {
   email: string;
@@ -19,13 +20,8 @@ export function useWaitlist(): UseWaitlistResult {
   const isValidEmail = emailRegex.test(email);
 
   const handleSubmit = async () => {
-    if (!email.trim()) {
-      setError("Email is required");
-      return;
-    }
-
     if (!isValidEmail) {
-      setError("Enter a valid email");
+      notifyError("Enter a valid email");
       return;
     }
 
@@ -33,7 +29,6 @@ export function useWaitlist(): UseWaitlistResult {
       setIsLoading(true);
       setError(null);
       await joinWaitlist(email);
-      setEmail("");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {

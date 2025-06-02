@@ -13,7 +13,7 @@ export const ToastProvider = (props: Partial<ToastContainerProps>) => {
       draggable
       pauseOnHover
       theme="light"
-      className="font-dm-sans text-sm"
+      className="font-sans text-sm"
       {...props}
     />
   );

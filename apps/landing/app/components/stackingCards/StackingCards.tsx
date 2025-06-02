@@ -1,7 +1,7 @@
 import { Button, Typography } from "@repo/ui/atoms";
 import Image from "next/image";
 import Link from "next/link";
-import { FeatureCard } from "./features/FeatureCard";
+import { FeatureCard } from "../features/FeatureCard";
 
 const cards = [
   {

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { type FAQ } from "../../lib/types";
 import { faqs } from "./data";
+import { FAQ } from "@repo/ui/molecules";
 
 export function useFAQ() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
