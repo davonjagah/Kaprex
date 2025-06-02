@@ -1,14 +1,18 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Typography } from "@repo/ui/atoms";
 import { KaprexIcon } from "@repo/ui/icons";
 
-interface BenefitBarProps {
-  items: string[];
-}
+const benefits = [
+  "No financial constraints",
+  "Less paperwork",
+  "Faster settlement time",
+  "Effortless to use",
+  "Lower cost",
+  "No hidden fees",
+];
 
-const BenefitBar = ({ items }: BenefitBarProps) => {
-  // duplicate array once
-  const marqueeItems = useMemo(() => [...items, ...items], [items]);
+const BenefitBar = () => {
+  const marqueeItems = [...benefits, ...benefits];
 
   return (
     <div

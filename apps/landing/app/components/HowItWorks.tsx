@@ -3,7 +3,7 @@ import { Typography } from "@repo/ui/atoms";
 import { LineIcon, LineIconVertical } from "@repo/ui/icons";
 import React from "react";
 
-const HowItWorks: React.FC = () => {
+export const HowItWorks: React.FC = () => {
   const steps = [
     "Create a free account",
     "Complete your KYC",
@@ -87,5 +87,3 @@ const HowItWorks: React.FC = () => {
     </section>
   );
 };
-
-export default HowItWorks;

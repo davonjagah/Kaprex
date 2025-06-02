@@ -1,29 +1,29 @@
 import { Button, Typography } from "@repo/ui/atoms";
-import FeatureCard from "./FeatureCard";
 import Image from "next/image";
 import Link from "next/link";
+import { FeatureCard } from "./features/FeatureCard";
 
-export default function StackingCards() {
-  const cards = [
-    {
-      title: "Send and receive money globally via stablecoin rails",
-      src: "/images/receive.svg",
-    },
-    {
-      title:
-        "Grow your funds with seamless access to stablecoin yield and staking rewards.",
-      src: "/images/grow-funds.svg",
-    },
-    {
-      title: "Receive global payments for your business",
-      src: "/images/receive-payment.svg",
-    },
-    {
-      title: "Pay with stablecoins using our card",
-      src: "/images/cards.svg",
-    },
-  ];
+const cards = [
+  {
+    title: "Send and receive money globally via stablecoin rails",
+    src: "/images/receive.svg",
+  },
+  {
+    title:
+      "Grow your funds with seamless access to stablecoin yield and staking rewards.",
+    src: "/images/grow-funds.svg",
+  },
+  {
+    title: "Receive global payments for your business",
+    src: "/images/receive-payment.svg",
+  },
+  {
+    title: "Pay with stablecoins using our card",
+    src: "/images/cards.svg",
+  },
+];
 
+export const StackingCards = () => {
   return (
     <section className="min-h-screen bg-black pl-8 pt-8 pr-8 md:pr-0">
       <div className="flex flex-col md:flex-row justify-between md:gap-20 lg:pl-24">
@@ -89,4 +89,4 @@ export default function StackingCards() {
       </div>
     </section>
   );
-}
+};

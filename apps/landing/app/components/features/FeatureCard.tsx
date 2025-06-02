@@ -11,7 +11,7 @@ interface FeatureCardProps {
   style?: CSSProperties | undefined;
 }
 
-const FeatureCard: React.FC<FeatureCardProps> = ({
+export const FeatureCard: React.FC<FeatureCardProps> = ({
   title,
   description,
   graphicSrc,
@@ -58,5 +58,3 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
     </div>
   );
 };
-
-export default FeatureCard;
