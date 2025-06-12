@@ -35,6 +35,7 @@ export default {
         21: "5.5rem", // 88.5px
         22: "1.406rem", // 22.5px
         17: "4.688rem", // 75px
+        8.5: "2.188rem", // 35px
       },
       height: {
         15: "3.75rem", // 60px

@@ -1,107 +1,139 @@
-import { Typography } from "@repo/ui/atoms";
-import Image from "next/image";
+import { Button, Typography } from "@repo/ui/atoms";
+import AccountsCard from "./components/AccountsCard/AccountsCard";
+import BalanceCard from "./components/BalanceCard/BalanceCard";
+import React from "react";
+import { WarningIcon } from "@repo/ui/icons";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <Typography className="font-sans" variant="h1">
-          Checking
-        </Typography>
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)] bg-brand-light">
-          <li className="mb-2 tracking-[-.01em] bg-brand">
-            Get by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="flex-1 overflow-y-auto p-5 md:p-8 space-y-6">
+      {/* KYC Banner */}
+      <div className="flex items-center bg-primary rounded-full px-4 py-3 mb-4 w-full max-w-full shadow flex-row gap-3 sm:px-6 sm:py-3">
+        <WarningIcon className="text-white flex-shrink-0 h-6 w-6" />
+        <div className="flex flex-col md:flex-row md:gap-1 flex-1 min-w-0">
+          <Typography
+            variant="body"
+            className="text-white font-semibold truncate text-xs md:text-sm font-nohemi"
+          >
+            Ready to explore Kaprex?
+          </Typography>
+          <Typography
+            variant="body"
+            className="text-orange-100 truncate text-xs md:text-sm font-nohemi"
+          >
+            Please finalize your KYC process to enjoy secure and compliant
+            access to all our features.
+          </Typography>
+        </div>
+        <Button
+          variant="text"
+          className="text-white text-xs md:text-sm"
+          size="sm"
+        >
+          Verify <span className="hidden md:inline">&nbsp;Identity &gt;</span>
+        </Button>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+      {/* Main Balance and Accounts */}
+      <div className="flex flex-col md:flex-row gap-3.5">
+        <BalanceCard />
+        <AccountsCard />
+      </div>
+
+      {/* Virtual Accounts Section */}
+      <div className="bg-white rounded-xl shadow-sm p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <Typography variant="h5" className="mb-1">
+            Virtual Accounts
+          </Typography>
+          <Typography variant="body" className="text-gray-500 mb-2">
+            Receive global payments in fiat and crypto, seamlessly settled in
+            Ghanaian Cedis across multiple platforms with Kaprex
+          </Typography>
+          <a href="#" className="text-orange-500 font-semibold text-sm">
+            Go to Virtual accounts &gt;
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="flex flex-col gap-2 text-right">
+          <span className="text-xs text-gray-400">ACH</span>
+          <span className="text-xs text-gray-400">Wire</span>
+          <span className="text-xs text-gray-400">SEPA</span>
+          <span className="text-xs text-gray-400">SWIFT</span>
+          <span className="inline-block w-32 h-20 bg-orange-100 rounded-full mt-2" />
+        </div>
+      </div>
+
+      {/* Cards, Earn, Merchant */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Virtual Cards */}
+        <div className="bg-white rounded-xl shadow-sm p-6 flex flex-col justify-between min-h-[180px] relative overflow-hidden">
+          <span className="absolute top-4 left-4 bg-orange-500 text-white text-xs px-2 py-1 rounded">
+            COMING SOON
+          </span>
+          <Typography variant="h5" className="mb-1">
+            Virtual Cards
+          </Typography>
+          <Typography variant="body" className="text-gray-500 mb-2">
+            Spend worldwide with Kaprex virtual cards at globally accepted
+            vendors.
+          </Typography>
+          <a href="#" className="text-orange-500 font-semibold text-sm">
+            Go to cards &gt;
+          </a>
+          <div className="absolute bottom-4 right-4 flex gap-2">
+            <span className="inline-block w-12 h-8 bg-green-200 rounded-lg" />
+            <span className="inline-block w-12 h-8 bg-orange-200 rounded-lg" />
+          </div>
+        </div>
+        {/* Earn Passive Income */}
+        <div className="bg-white rounded-xl shadow-sm p-6 flex flex-col justify-between min-h-[180px] relative overflow-hidden">
+          <Typography variant="h5" className="mb-1">
+            Earn Passive income
+          </Typography>
+          <Typography variant="body" className="text-gray-500 mb-2">
+            Earn Passive Income with Kaprex through DeFi—secure, stable, and
+            always in your control.
+          </Typography>
+          <a href="#" className="text-orange-500 font-semibold text-sm">
+            Go to Earn &gt;
+          </a>
+          <div className="absolute bottom-4 right-4 w-16 h-12 bg-orange-100 rounded-t-lg" />
+        </div>
+        {/* Merchant */}
+        <div className="bg-white rounded-xl shadow-sm p-6 flex flex-col justify-between min-h-[180px] relative overflow-hidden">
+          <Typography variant="h5" className="mb-1">
+            Merchant
+          </Typography>
+          <Typography variant="body" className="text-gray-500 mb-2">
+            Receive global payments in fiat and crypto, seamlessly settled in
+            Ghanaian Cedis across multiple platforms with Kaprex
+          </Typography>
+          <a href="#" className="text-orange-500 font-semibold text-sm">
+            Go to Merchant &gt;
+          </a>
+          <div className="absolute bottom-4 right-4 flex flex-col gap-2 items-end">
+            <span className="inline-block w-8 h-8 bg-gray-200 rounded-full" />
+            <span className="inline-block w-20 h-4 bg-orange-200 rounded-lg" />
+          </div>
+        </div>
+      </div>
+
+      {/* QR/Pay Section */}
+      <div className="bg-white rounded-xl shadow-sm p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col gap-2">
+          <span className="text-xs text-gray-400 flex items-center gap-2">
+            <span className="inline-block w-4 h-4 bg-orange-200 rounded-full" />{" "}
+            Scan QR code
+          </span>
+          <span className="text-xs text-gray-400">kaprex.io/200USDE...</span>
+          <button className="bg-orange-500 text-white rounded-full px-4 py-2 font-semibold text-sm w-fit mt-2">
+            Pay
+          </button>
+        </div>
+        <div className="flex-1 flex justify-end">
+          <span className="inline-block w-32 h-32 bg-gray-200 rounded-lg" />
+        </div>
+      </div>
     </div>
   );
 }
