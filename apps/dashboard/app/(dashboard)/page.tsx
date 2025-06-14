@@ -1,8 +1,8 @@
 import { Button, Typography } from "@repo/ui/atoms";
-import AccountsCard from "./components/AccountsCard/AccountsCard";
-import BalanceCard from "./components/BalanceCard/BalanceCard";
 import React from "react";
 import { WarningIcon } from "@repo/ui/icons";
+import AccountsCard from "../components/AccountsCard/AccountsCard";
+import BalanceCard from "../components/BalanceCard/BalanceCard";
 
 export default function Home() {
   return (

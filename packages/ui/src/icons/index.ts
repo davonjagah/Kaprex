@@ -25,3 +25,5 @@ export { DashboardWalletIcon } from "./dashboardWalletIcon";
 export { WagesIcon } from "./wagesIcon";
 export { CreditCardIcon } from "./creditCardIcon";
 export { BriefcaseIcon } from "./briefcaseIcon";
+export { GoogleIcon } from "./googleIcon";
+export { BusinessIcon } from "./businessIcon";

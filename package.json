@@ -39,6 +39,7 @@
   ],
   "dependencies": {
     "@solana/wallet-adapter-react-ui": "^0.9.38",
+    "react-hook-form": "^7.57.0",
     "react-toastify": "^11.0.5"
   }
 }

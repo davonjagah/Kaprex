@@ -65,7 +65,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               className="cursor-pointer"
               onClick={() => setIsOpen(true)}
             />
-            <ProfileIcon className="cursor-pointer" />
+            <ProfileIcon className="cursor-pointer text-primary" />
           </div>
         }
       />

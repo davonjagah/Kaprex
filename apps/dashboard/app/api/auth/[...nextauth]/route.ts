@@ -16,28 +16,40 @@ export const authOptions: NextAuthOptions = {
         name: { label: "Name", type: "text" },
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        customerType: { label: "Customer Type", type: "text" },
       },
       async authorize(credentials) {
-        const { name, email, password } = credentials as {
+        const { name, email, password, customerType } = credentials as {
           name: string;
           email: string;
           password: string;
+          customerType: string;
         };
 
-        const res = await fetch(`${process.env.BACKEND_AUTH_URL}/register`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password }),
-        });
-        if (!res.ok) return null;
+        const res = await fetch(
+          `${process.env.BACKEND_AUTH_URL}/users/register`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password, customerType }),
+          },
+        );
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || "Signup failed");
+        }
+        console.log(res, "res");
         const userData = await res.json();
 
-        if (userData?.user && userData?.token) {
+        console.log(userData, "userData");
+
+        if (userData?.user && userData?.tokens) {
           return {
             id: userData.user.id,
             email: userData.user.email,
             name: userData.user.name,
-            accessToken: userData.token,
+            accessToken: userData.tokens.access_token,
+            refreshToken: userData.tokens.refresh_token,
           };
         }
         return null;
@@ -61,14 +73,18 @@ export const authOptions: NextAuthOptions = {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
-        if (!res.ok) return null;
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || "Login failed");
+        }
         const userData = await res.json();
-        if (userData?.user && userData?.token) {
+        if (userData?.user && userData?.tokens) {
           return {
             id: userData.user.id,
             email: userData.user.email,
             name: userData.user.name,
-            accessToken: userData.token,
+            accessToken: userData.tokens.access_token,
+            refreshToken: userData.tokens.refresh_token,
           };
         }
         return null;

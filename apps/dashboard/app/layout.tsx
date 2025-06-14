@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import localFont from "next/font/local";
-import DashboardLayout from "./components/DashboardLayout/DashboardLayout";
-// import { SessionProvider } from "next-auth/react";
+import RootProviders from "./providers/RootProviders/RootProviders";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -91,9 +90,7 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} ${nohemi.variable} antialiased bg-[#F5F7FA]`}
       >
-        {/* <SessionProvider> */}
-        <DashboardLayout>{children}</DashboardLayout>
-        {/* </SessionProvider> */}
+        <RootProviders>{children}</RootProviders>
       </body>
     </html>
   );
