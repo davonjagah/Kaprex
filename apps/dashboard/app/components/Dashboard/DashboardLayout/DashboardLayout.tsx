@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import {
   Sidebar,
@@ -78,7 +79,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <Sidebar links={NAV_LINKS} />
           </div>
         </div>
-        <div className="flex-1 flex flex-col min-h-0 md:ml-60 pt-[96px]">
+        <div className="flex-1 flex flex-col min-h-0 md:ml-60 pt-24 pb-10">
           {children}
         </div>
       </div>

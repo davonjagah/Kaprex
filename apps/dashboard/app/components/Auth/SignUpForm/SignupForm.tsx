@@ -7,11 +7,11 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useForm, Controller } from "react-hook-form";
 import { FormField } from "@repo/ui/molecules";
-import { signupSchema, SignupFormValues } from "./validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { notifyError } from "@repo/ui/toasts";
-import VerifyEmail from "../../components/VerifyEmail/VerifyEmail";
-import { FormHeader } from "../../components/FormHeader/FormHeader";
+import FormCard from "../FormCard/FormCard";
+import VerifyEmail from "../VerifyEmail/VerifyEmail";
+import { SignupFormValues, signupSchema } from "./validation";
 
 interface SignupFormProps {
   accountType: string;
@@ -77,14 +77,13 @@ const SignupForm = ({ accountType }: SignupFormProps) => {
   }
 
   return (
-    <>
-      <FormHeader
-        title="Create your Kaprex account"
-        subtitle="Let us get to know you!"
-      />
+    <FormCard
+      title="Create your Kaprex account"
+      subtitle="Let us get to know you!"
+    >
       <form
+        className="flex flex-col gap-4"
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white rounded-2xl shadow p-6 flex flex-col gap-4 w-full max-w-[600px] mt-7"
         noValidate
       >
         <FormField
@@ -170,7 +169,7 @@ const SignupForm = ({ accountType }: SignupFormProps) => {
           </Link>
         </Typography>
       </form>
-    </>
+    </FormCard>
   );
 };
 

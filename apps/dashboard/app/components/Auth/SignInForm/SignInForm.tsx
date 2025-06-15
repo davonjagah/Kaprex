@@ -6,12 +6,12 @@ import { GoogleIcon } from "@repo/ui/icons";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { notifyError } from "@repo/ui/toasts";
-import VerifyEmail from "../../components/VerifyEmail/VerifyEmail";
 import { useForm } from "react-hook-form";
 import { FormField } from "@repo/ui/molecules";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signinSchema, SignInFormValues } from "./validation";
-import { FormHeader } from "../../components/FormHeader/FormHeader";
+import FormCard from "../FormCard/FormCard";
+import VerifyEmail from "../VerifyEmail/VerifyEmail";
 
 const SignInForm: React.FC = () => {
   const [step, setStep] = useState<"signin" | "verify">("signin");
@@ -57,11 +57,9 @@ const SignInForm: React.FC = () => {
   }
 
   return (
-    <>
-      <FormHeader title="Welcome Back!" />
-
+    <FormCard title="Welcome Back!">
       <form
-        className="bg-white rounded-2xl shadow p-6 flex flex-col gap-4 w-full max-w-[600px] mt-7"
+        className="flex flex-col gap-4"
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
@@ -109,7 +107,6 @@ const SignInForm: React.FC = () => {
           className="flex items-center justify-center gap-6 border-2 border-[#383838] text-[#1F1F1F] text-base font-semibold w-full"
           disabled={isSubmitting}
           onClick={handleGoogleSignIn}
-          isLoading={isSubmitting}
         >
           <GoogleIcon />
           Continue with Google
@@ -127,7 +124,7 @@ const SignInForm: React.FC = () => {
           </Link>
         </Typography>
       </form>
-    </>
+    </FormCard>
   );
 };
 

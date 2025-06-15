@@ -5,8 +5,8 @@ import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
 import { OtpInput } from "@repo/ui/molecules";
 import { FormHeader } from "../FormHeader/FormHeader";
+import { postJSON } from "../../../lib/api";
 import { AccountReadyModal } from "../AccountReadyModal/AccountReadyModal";
-import { postJSON } from "../../lib/api";
 
 const VerifyEmail = ({ email }: { email: string }) => {
   const [otp, setOtp] = React.useState(["", "", "", "", "", ""]);

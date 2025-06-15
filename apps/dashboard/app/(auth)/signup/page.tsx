@@ -1,12 +1,12 @@
 import { redirect } from "next/navigation";
-import SignupForm from "./SignupForm";
+import SignupForm from "../../components/Auth/SignUpForm/SignupForm";
 
 interface SignupPageProps {
   searchParams: { accountType?: string };
 }
 
-const SignupPage = ({ searchParams }: SignupPageProps) => {
-  const accountType = searchParams.accountType;
+const SignupPage = async ({ searchParams }: SignupPageProps) => {
+  const accountType = (await searchParams).accountType;
 
   if (!accountType || !["individual", "business"].includes(accountType)) {
     redirect("/account-type");

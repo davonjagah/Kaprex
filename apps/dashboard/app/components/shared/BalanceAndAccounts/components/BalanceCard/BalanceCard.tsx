@@ -51,7 +51,7 @@ export default function BalanceCard() {
         {isBalanceVisible ? "+27,972.00 (2.14%)" : "****"}
       </Typography>
 
-      <div className="flex justify-between md:justify-start gap-10 mt-2">
+      <div className="flex justify-center md:justify-start gap-10 mt-2">
         <IconButton variant="primary" label="Fund" size="lg">
           <Plus className="w-4 md:w-7 h-4 md:h-7" />
         </IconButton>

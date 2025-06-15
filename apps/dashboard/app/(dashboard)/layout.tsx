@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import DashboardLayout from "../components/DashboardLayout/DashboardLayout";
+import DashboardLayout from "../components/Dashboard/DashboardLayout/DashboardLayout";
 
 export default async function ProtectedLayout({
   children,

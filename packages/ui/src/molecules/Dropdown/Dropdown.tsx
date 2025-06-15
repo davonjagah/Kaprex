@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 
 export interface DropdownOption {
@@ -14,6 +15,7 @@ interface DropdownProps {
   placeholder?: string;
   className?: string;
   renderOption?: (option: DropdownOption, selected: boolean) => React.ReactNode;
+  labelClassName?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -23,6 +25,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   placeholder = "Select...",
   className = "",
   renderOption,
+  labelClassName = "",
 }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -48,14 +51,16 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div className={`relative ${className}`} ref={ref}>
       <button
-        className="text-xs text-gray-400 flex items-center gap-1 select-none px-2 py-1 rounded hover:bg-gray-50"
+        className={`text-gray-400 flex items-center gap-1 select-none px-2 py-1 rounded hover:bg-gray-50 ${labelClassName}`}
         onClick={() => setOpen((o) => !o)}
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
       >
         {selected ? selected.label : placeholder}
-        <span className="ml-1">▼</span>
+        <span className="ml-1">
+          <ChevronDown />
+        </span>
       </button>
       {open && (
         <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow z-10">
