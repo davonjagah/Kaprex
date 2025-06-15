@@ -8,7 +8,7 @@ export default function BalanceCard() {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
 
   return (
-    <div className="flex-1 bg-white rounded-xl shadow-sm py-6 px-4 md:py-8.5 md:px-8 flex flex-col justify-between w-full md:w-[59.41%]">
+    <div className="flex-1 bg-white rounded-xl shadow-sm py-6 px-4 lg:py-8.5 lg:px-8 flex flex-col justify-between w-full lg:w-[59.41%]">
       <div className="flex items-center justify-between mb-2">
         <Typography
           variant="body"
@@ -32,13 +32,13 @@ export default function BalanceCard() {
       <div className="flex gap-2 items-center">
         <Typography
           variant="h2"
-          className="font-normal tracking-tight font-nohemi text-[36px] md:text-[64px]"
+          className="font-normal tracking-tight font-nohemi text-[36px] lg:text-[64px]"
         >
           {isBalanceVisible ? "1,000,234.56" : "****"}
         </Typography>
         <Typography
           variant="body"
-          className="text-gray-400 font-nohemi text-base md:text-[32px]"
+          className="text-gray-400 font-nohemi text-base lg:text-[32px]"
         >
           USD
         </Typography>
@@ -46,12 +46,12 @@ export default function BalanceCard() {
 
       <Typography
         variant="body"
-        className="text-green-500 font-sans text-xs md:text-base mb-8"
+        className="text-green-500 font-sans text-xs lg:text-base mb-8"
       >
         {isBalanceVisible ? "+27,972.00 (2.14%)" : "****"}
       </Typography>
 
-      <div className="flex justify-center md:justify-start gap-10 mt-2">
+      <div className="flex justify-center lg:justify-start gap-10 mt-2">
         <IconButton variant="primary" label="Fund" size="lg">
           <Plus className="w-4 md:w-7 h-4 md:h-7" />
         </IconButton>

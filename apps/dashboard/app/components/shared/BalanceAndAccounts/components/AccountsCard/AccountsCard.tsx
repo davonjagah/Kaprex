@@ -18,7 +18,7 @@ const STABLE_ACCOUNTS = [
   {
     flag: (
       <UsdIcon
-        className="h-10 w-10 md:h-[60px] md:w-[60px]"
+        className="h-10 w-10 lg:h-[60px] lg:w-[60px]"
         aria-hidden="true"
       />
     ),
@@ -28,7 +28,7 @@ const STABLE_ACCOUNTS = [
   {
     flag: (
       <EurIcon
-        className="h-10 w-10 md:h-[60px] md:w-[60px]"
+        className="h-10 w-10 lg:h-[60px] lg:w-[60px]"
         aria-hidden="true"
       />
     ),
@@ -53,7 +53,7 @@ const AccountRow: FC<{ account: AccountItem }> = ({ account }) => (
     href={`/accounts/${account.currency}`}
     key={account.currency + account.amount}
   >
-    <div className="flex items-center bg-white border border-[#DDDCE4] justify-between rounded-full h-[60px] md:h-[89px] p-2.5 md:px-5 md:py-[3.5] hover:bg-gray-50 transition cursor-pointer">
+    <div className="flex items-center bg-white border border-[#DDDCE4] justify-between rounded-full h-[60px] lg:h-[89px] p-2.5 lg:px-5 lg:py-[3.5] hover:bg-gray-50 transition cursor-pointer">
       <span className="text-2xl mr-4">{account.flag}</span>
       <div className="flex-1 text-gray-700 font-medium">
         <Typography
@@ -80,7 +80,7 @@ const AccountsCard = () => {
   );
 
   return (
-    <div className="w-full md:w-[40.59%] flex flex-col gap-4">
+    <div className="w-full lg:w-[40.59%] flex flex-col gap-4">
       <div className="flex items-center justify-between mb-2 relative">
         <Typography variant="body" className="text-gray-500 font-nohemi">
           Accounts
@@ -93,7 +93,7 @@ const AccountsCard = () => {
         />
       </div>
 
-      <div className="flex flex-col gap-2 h-32 md:h-72 overflow-y-auto">
+      <div className="flex flex-col gap-2 h-32 lg:h-72 overflow-y-auto">
         {accounts.map((account) => (
           <AccountRow
             key={account.currency + account.amount}

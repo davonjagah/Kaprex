@@ -71,10 +71,10 @@ export const IconButton = ({
             labelClassName,
           )}
         >
-          <span className={cn("md:hidden", labelMobileClassName)}>
+          <span className={cn("lg:hidden", labelMobileClassName)}>
             {labelMobile || label}
           </span>
-          <span className={cn("hidden md:inline", labelDesktopClassName)}>
+          <span className={cn("hidden lg:inline", labelDesktopClassName)}>
             {label}
           </span>
         </span>

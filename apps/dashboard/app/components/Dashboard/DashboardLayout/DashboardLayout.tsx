@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Sidebar,
   SidebarOverlay,
@@ -19,16 +19,33 @@ import {
 import { Header } from "@repo/ui/molecules";
 import Link from "next/link";
 import { Button } from "@repo/ui/atoms";
+import { usePathname } from "next/navigation";
+import KYCBanner from "../../shared/KYCBanner/KYCBanner";
 
 const NAV_LINKS = [
-  { label: "Home", icon: <HouseIcon />, href: "#", active: true },
-  { label: "Portfolio", icon: <DashboardWalletIcon />, href: "#" },
-  { label: "Earn", icon: <WagesIcon />, href: "#" },
-  { label: "Cards", icon: <CreditCardIcon />, href: "#" },
-  { label: "Merchant", icon: <BriefcaseIcon />, href: "#" },
+  { label: "Home", icon: <HouseIcon />, href: "/" },
+  { label: "Portfolio", icon: <DashboardWalletIcon />, href: "/portfolio" },
+  { label: "Earn", icon: <WagesIcon />, href: "/earn" },
+  { label: "Cards", icon: <CreditCardIcon />, href: "/cards" },
+  { label: "Merchant", icon: <BriefcaseIcon />, href: "/merchant" },
 ];
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname();
+
+  const sidebarLinks = useMemo(() => {
+    const computeActive = (href: string) =>
+      href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+    return NAV_LINKS.map((link) => ({
+      ...link,
+      active: computeActive(link.href),
+    }));
+  }, [pathname]);
+
+  const activeLink = sidebarLinks.find((link) => link.active);
+  const headerTitle = activeLink ? activeLink.label : "Dashboard";
+
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([
     {
@@ -47,14 +64,14 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="min-h-screen flex flex-col relative pb-16">
       <Header
-        title="Dashboard"
+        title={headerTitle}
         profile={true}
         className="bg-white fixed top-0 z-10 w-full"
         button={
           <Button
             variant="primary"
             size="sm"
-            className="hidden md:inline-flex font-medium"
+            className="hidden lg:inline-flex font-medium"
             onClick={() => setIsOpen(true)}
           >
             Buy Crypto
@@ -71,16 +88,19 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         }
       />
 
-      <div className={`block md:flex flex-1 min-h-0 relative`}>
-        <div className="hidden md:block">
+      <div className={`block lg:flex flex-1 min-h-0 relative`}>
+        <div className="hidden lg:block">
           <div
             className={`fixed top-0 left-0 h-full z-5 w-60 pt-[102px] bg-white`}
           >
-            <Sidebar links={NAV_LINKS} />
+            <Sidebar links={sidebarLinks} />
           </div>
         </div>
-        <div className="flex-1 flex flex-col min-h-0 md:ml-60 pt-24 pb-10">
-          {children}
+        <div className="flex-1 flex flex-col min-h-0 lg:ml-60 pt-24 pb-10 ">
+          <div className="flex-1 overflow-y-auto p-5 md:p-8 space-y-6">
+            <KYCBanner />
+            {children}
+          </div>
         </div>
       </div>
 
@@ -100,9 +120,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         />
       </SidebarOverlay>
 
-      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white shadow-subtle md:hidden">
-        <ul className="flex  gap-5 justify-between items-center h-24 px-5 pb-8 pt-4">
-          {NAV_LINKS.map((link) => (
+      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white shadow-subtle lg:hidden">
+        <ul className="flex gap-5 justify-between md:justify-around items-center h-24 px-5 pb-8 pt-4">
+          {sidebarLinks.map((link) => (
             <li key={link.label}>
               <Link
                 href={link.href}
