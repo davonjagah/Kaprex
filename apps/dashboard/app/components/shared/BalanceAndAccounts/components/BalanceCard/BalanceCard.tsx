@@ -3,6 +3,7 @@
 import { Button, IconButton, Typography } from "@repo/ui/atoms";
 import { Eye, EyeOff, Minus, Plus, ShoppingCart, Tag } from "lucide-react";
 import React, { useState } from "react";
+import Link from "next/link";
 
 export default function BalanceCard() {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
@@ -52,12 +53,16 @@ export default function BalanceCard() {
       </Typography>
 
       <div className="flex justify-center lg:justify-start gap-10 mt-2">
-        <IconButton variant="primary" label="Fund" size="lg">
-          <Plus className="w-4 md:w-7 h-4 md:h-7" />
-        </IconButton>
-        <IconButton variant="primary" label="Pay" size="lg">
-          <Minus className="w-4 md:w-7 h-4 md:h-7" />
-        </IconButton>
+        <Link href="/fund?tab=fund">
+          <IconButton variant="primary" label="Fund" size="lg">
+            <Plus className="w-4 md:w-7 h-4 md:h-7" />
+          </IconButton>
+        </Link>
+        <Link href="/fund?tab=pay">
+          <IconButton variant="primary" label="Pay" size="lg">
+            <Minus className="w-4 md:w-7 h-4 md:h-7" />
+          </IconButton>
+        </Link>
         <IconButton
           variant="secondary"
           label="Buy Crypto"

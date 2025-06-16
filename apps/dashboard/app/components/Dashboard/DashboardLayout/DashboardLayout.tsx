@@ -30,12 +30,16 @@ const NAV_LINKS = [
   { label: "Merchant", icon: <BriefcaseIcon />, href: "/merchant" },
 ];
 
+const HOME_TAB_PATHS = ["/", "/fund", "/pay", "/buy-crypto", "/sell-crypto"];
+
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   const sidebarLinks = useMemo(() => {
     const computeActive = (href: string) =>
-      href === "/" ? pathname === "/" : pathname.startsWith(href);
+      href === "/"
+        ? HOME_TAB_PATHS.includes(pathname)
+        : pathname.startsWith(href);
 
     return NAV_LINKS.map((link) => ({
       ...link,

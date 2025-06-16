@@ -2,9 +2,10 @@
 
 import React, { useState, useMemo, FC } from "react";
 import Link from "next/link";
-import { Dropdown, Typography } from "@repo/ui/atoms";
+import { Typography } from "@repo/ui/atoms";
 import { EurIcon, UsdIcon } from "@repo/ui/icons";
 import { ChevronRight } from "lucide-react";
+import { Dropdown } from "@repo/ui/molecules";
 
 interface AccountItem {
   flag: React.ReactNode;

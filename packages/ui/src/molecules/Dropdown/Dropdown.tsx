@@ -2,6 +2,7 @@
 
 import { ChevronDown } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
+import { cn } from "../../utils/cn";
 
 export interface DropdownOption {
   label: string;
@@ -16,6 +17,8 @@ interface DropdownProps {
   className?: string;
   renderOption?: (option: DropdownOption, selected: boolean) => React.ReactNode;
   labelClassName?: string;
+  dropdownClassName?: string;
+  optionsClassName?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -26,6 +29,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   className = "",
   renderOption,
   labelClassName = "",
+  dropdownClassName = "",
+  optionsClassName = "",
 }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -49,9 +54,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   const selected = options.find((o) => o.value === value);
 
   return (
-    <div className={`relative ${className}`} ref={ref}>
+    <div className={cn("relative", className)} ref={ref}>
       <button
-        className={`text-gray-400 flex items-center gap-1 select-none px-2 py-1 rounded hover:bg-gray-50 ${labelClassName}`}
+        className={cn(
+          "text-gray-400 flex items-center gap-1 select-none px-2 py-1 rounded hover:bg-gray-50",
+          labelClassName,
+        )}
         onClick={() => setOpen((o) => !o)}
         type="button"
         aria-haspopup="listbox"
@@ -63,13 +71,20 @@ const Dropdown: React.FC<DropdownProps> = ({
         </span>
       </button>
       {open && (
-        <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow z-10">
+        <div
+          className={cn(
+            "absolute right-0 mt-2 w-32 bg-white border rounded shadow z-10",
+            dropdownClassName,
+          )}
+        >
           {options.map((option) => (
             <button
               key={option.value}
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
-                value === option.value ? "font-semibold text-orange-500" : ""
-              }`}
+              className={cn(
+                "block w-full text-left px-4 py-2 text-sm hover:bg-gray-100",
+                value === option.value ? "font-semibold text-primary" : "",
+                optionsClassName,
+              )}
               onClick={() => {
                 onChange(option.value);
                 setOpen(false);

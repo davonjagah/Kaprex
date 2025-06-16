@@ -6,6 +6,8 @@ export function FAQColumn({
   startIndex,
   expandedIndex,
   onToggle,
+  labelClassName,
+  contentClassName,
 }: FAQColumnProps) {
   return (
     <div className="space-y-4">
@@ -18,6 +20,8 @@ export function FAQColumn({
             isOpen={expandedIndex === globalIndex}
             onToggle={() => onToggle(globalIndex)}
             index={globalIndex}
+            labelClassName={labelClassName}
+            contentClassName={contentClassName}
           />
         );
       })}

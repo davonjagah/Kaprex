@@ -1,17 +1,28 @@
 import { PlusIcon } from "../../icons";
 import { Typography } from "../../atoms";
 import { type FAQItemProps } from "./index";
+import { cn } from "../../utils/cn";
 
-export function FAQItem({ item, isOpen, onToggle, index }: FAQItemProps) {
+export function FAQItem({
+  item,
+  isOpen,
+  onToggle,
+  index,
+  labelClassName,
+  contentClassName,
+}: FAQItemProps) {
   return (
-    <div className="border-b border-gray-200 py-4">
+    <div className={cn("border-b border-gray-200 py-4 last:border-b-0")}>
       <button
         className="flex w-full justify-between items-center cursor-pointer gap-2 text-left"
         onClick={onToggle}
         aria-expanded={isOpen}
         aria-controls={`faq-answer-${index}`}
       >
-        <Typography variant="h4" className="text-lg font-medium w-[90%]">
+        <Typography
+          variant="h4"
+          className={cn("text-lg font-medium w-[90%]", labelClassName)}
+        >
           {item.question}
         </Typography>
         <PlusIcon
@@ -33,7 +44,7 @@ export function FAQItem({ item, isOpen, onToggle, index }: FAQItemProps) {
       >
         <Typography
           variant="body"
-          className="text-gray-500 mt-2 leading-relaxed"
+          className={cn("text-gray-500 mt-2 leading-relaxed", contentClassName)}
         >
           {item.answer}
         </Typography>
