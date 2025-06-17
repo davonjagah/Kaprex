@@ -33,3 +33,5 @@ export { VirtualAccountsIcon } from "./virtualAccountsIcon";
 export { VirtualCardsIcon } from "./virtualCardsIcon";
 export { MerchantIcon } from "./merchantIcon";
 export { PassiveIncomeIcon } from "./passiveIncomeIcon";
+export { BankIcon } from "./bankIcon";
+export { CryptoIcon } from "./cryptoIcon";

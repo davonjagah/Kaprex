@@ -1,19 +1,19 @@
 "use client";
 
-import { Banknote, Coins } from "lucide-react";
 import { Typography } from "@repo/ui/atoms";
+import { BankIcon, CryptoIcon } from "@repo/ui/icons";
 
 const accountOptions = [
   {
     label: "Virtual Account",
     value: "virtual",
-    icon: <Banknote className="w-8 h-8 text-primary drop-shadow-md mx-auto" />,
+    icon: <BankIcon />,
     description: "Send from your Kaprex USD or Euro balance",
   },
   {
     label: "Crypto",
     value: "crypto",
-    icon: <Coins className="w-8 h-8 text-primary drop-shadow-md mx-auto" />,
+    icon: <CryptoIcon />,
     description: "Send from your crypto wallet balance",
   },
 ];
@@ -39,27 +39,26 @@ export default function AccountTypeStep({
             <button
               key={opt.value}
               onClick={() => onAccountTypeChange(opt.value)}
-              className={`flex-1 rounded-2xl border-2 p-6 flex flex-col items-center transition-all max-w-[204px] h-[153px] ${
+              className={`flex-1 rounded-2xl border-2 p-4 md:p-6 flex flex-row md:flex-col gap-3 md:gap-0 items-center transition-all md:max-w-[204px] h-[153px] ${
                 selected
                   ? "border-primary bg-[#FFF7F3]"
                   : "border-gray-200 bg-white"
               }`}
             >
               <div className="mb-2">{opt.icon}</div>
-              <Typography
-                variant="body"
-                className={`font-nohemi mb-1 ${
-                  selected ? "text-primary font-medium " : "text-black"
-                }`}
-              >
-                {opt.label}
-              </Typography>
-              <Typography
-                variant="body"
-                className="text-gray-400 text-sm text-center"
-              >
-                {opt.description}
-              </Typography>
+              <div className="text-left md:text-center">
+                <Typography
+                  variant="body"
+                  className={`font-nohemi mb-1 ${
+                    selected ? "text-primary font-medium " : "text-black"
+                  }`}
+                >
+                  {opt.label}
+                </Typography>
+                <Typography variant="body" className="text-[#7C7B80] text-sm">
+                  {opt.description}
+                </Typography>
+              </div>
             </button>
           );
         })}

@@ -70,7 +70,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <Header
         title={headerTitle}
         profile={true}
-        className="bg-white fixed top-0 z-10 w-full"
+        className="bg-white fixed top-0 z-50 w-full"
         button={
           <Button
             variant="primary"
@@ -95,7 +95,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <div className={`block lg:flex flex-1 min-h-0 relative`}>
         <div className="hidden lg:block">
           <div
-            className={`fixed top-0 left-0 h-full z-5 w-60 pt-[102px] bg-white`}
+            className={`fixed top-0 left-0 h-full z-10 w-60 pt-[102px] bg-white`}
           >
             <Sidebar links={sidebarLinks} />
           </div>

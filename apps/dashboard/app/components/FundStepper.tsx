@@ -19,7 +19,7 @@ export default function FundStepper() {
   ];
 
   return (
-    <div className="bg-white rounded-2xl shadow py-6 px-10">
+    <div className="bg-white rounded-2xl shadow py-6 px-4 md:px-10">
       <Typography
         variant="h1"
         className="font-nohemi text-4xl mb-6 font-normal"

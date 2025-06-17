@@ -35,7 +35,7 @@ const VerticalStepper: React.FC<VerticalStepperProps> = ({
     <div className={`flex items-stretch ${className}`}>
       {/* Stepper column */}
       <div
-        className="relative flex flex-col items-center mr-8 h-full"
+        className="relative flex flex-col items-center mr-3 md:mr-8 h-full"
         style={{ minWidth: 40 }}
       >
         <div
