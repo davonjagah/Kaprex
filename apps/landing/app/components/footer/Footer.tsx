@@ -13,22 +13,22 @@ import Image from "next/image";
 const socialLinks = [
   {
     name: "TikTok",
-    href: "https://tiktok.com/@kaprex",
+    href: "https://www.tiktok.com/@kaprexhq",
     icon: TiktokIcon,
   },
   {
     name: "LinkedIn",
-    href: "https://linkedin.com/company/kaprex",
+    href: "https://www.linkedin.com/company/kaprexhq/",
     icon: LinkedInIcon,
   },
   {
     name: "Instagram",
-    href: "https://instagram.com/kaprex",
+    href: "https://www.instagram.com/kaprexhq",
     icon: InstagramIcon,
   },
   {
     name: "Twitter",
-    href: "https://twitter.com/kaprex",
+    href: "https://x.com/kaprexhq",
     icon: TwitterIcon,
   },
   {
