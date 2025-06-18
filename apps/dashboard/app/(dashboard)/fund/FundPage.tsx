@@ -1,12 +1,14 @@
 "use client";
-import React, { useState } from "react";
-import { Typography } from "@repo/ui/atoms";
-import VerticalStepper from "./VerticalStepper";
-import AccountTypeStep from "./fund/AccountTypeStep";
-import FundingMethodStep from "./fund/FundingMethodStep";
-import CurrencyStep from "./fund/CurrencyStep";
 
-export default function FundStepper() {
+import React, { useState } from "react";
+import AccountTypeStep from "../../components/shared/AccountTypeStep/AccountTypeStep";
+import CurrencyStep from "../../components/fund/CurrencyStep";
+import FundingMethodStep from "../../components/fund/FundingMethodStep";
+import TransactionLayout from "../../components/shared/TransactionLayout/TransactionLayout";
+import TransactionStepper from "../../components/shared/TransactionStepper/TransactionStepper";
+import { FUND_ACCOUNT_OPTIONS } from "../../components/shared/AccountTypeStep/constants";
+
+const FundPage = () => {
   const [accountType, setAccountType] = useState("virtual");
   const [fundMethod, setFundMethod] = useState("bank");
   const [currency, setCurrency] = useState("usd");
@@ -19,14 +21,8 @@ export default function FundStepper() {
   ];
 
   return (
-    <div className="bg-white rounded-2xl shadow py-6 px-10">
-      <Typography
-        variant="h1"
-        className="font-nohemi text-4xl mb-6 font-normal"
-      >
-        Fund
-      </Typography>
-      <VerticalStepper steps={steps} activeStep={activeStep}>
+    <TransactionLayout title="Fund">
+      <TransactionStepper steps={steps} initialStep={activeStep}>
         <div>
           <AccountTypeStep
             selectedAccountType={accountType}
@@ -34,6 +30,8 @@ export default function FundStepper() {
               setAccountType(type);
               setActiveStep(1);
             }}
+            options={FUND_ACCOUNT_OPTIONS}
+            title="What account do you want to fund?"
           />
         </div>
         <div>
@@ -51,7 +49,9 @@ export default function FundStepper() {
             onCurrencyChange={setCurrency}
           />
         </div>
-      </VerticalStepper>
-    </div>
+      </TransactionStepper>
+    </TransactionLayout>
   );
-}
+};
+
+export default FundPage;

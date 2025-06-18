@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { cn } from "../../../../packages/ui/src/utils/cn";
 
 export interface Step {
   label: string;
@@ -29,13 +30,14 @@ const VerticalStepper: React.FC<VerticalStepperProps> = ({
     setHeights(newHeights);
   }, [children]);
 
-  console.log(heights);
-
   return (
     <div className={`flex items-stretch ${className}`}>
       {/* Stepper column */}
       <div
-        className="relative flex flex-col items-center mr-3 md:mr-8 h-full"
+        className={cn(
+          "relative flex flex-col items-center mr-3 md:mr-8 h-full transition-opacity duration-300",
+          heights.length > 0 ? "opacity-100" : "opacity-0",
+        )}
         style={{ minWidth: 40 }}
       >
         <div
@@ -55,6 +57,7 @@ const VerticalStepper: React.FC<VerticalStepperProps> = ({
             />
             {idx < steps.length - 1 && (
               <div
+                className="transition-all duration-300 ease-in-out"
                 style={{ height: heights[idx] ?? 100 }} // fallback if not yet measured
               />
             )}

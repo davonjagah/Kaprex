@@ -1,22 +1,9 @@
-import FAQCard from "../../components/FAQCard";
-import PromoCard from "../../components/PromoCard";
-import TransactionTabSwitcher from "../../components/shared/TransactionTabSwitcher/TransactionTabSwitcher";
+import TransactionLayout from "../../components/shared/TransactionLayout/TransactionLayout";
 
 export default function BuyCryptoTabPage() {
   return (
-    <>
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className="flex-1">
-          <TransactionTabSwitcher />
-          <div className="bg-white rounded-2xl shadow p-8">
-            Buy Crypto screen coming soon…
-          </div>
-        </div>
-        <div className="flex flex-col gap-6 w-full lg:max-w-xs">
-          <FAQCard />
-          <PromoCard />
-        </div>
-      </div>
-    </>
+    <TransactionLayout title="Buy Crypto">
+      <div className="text-gray-400">Buy Crypto screen coming soon…</div>
+    </TransactionLayout>
   );
 }
