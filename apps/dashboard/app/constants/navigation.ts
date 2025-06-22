@@ -15,7 +15,7 @@ export interface NavLink {
 }
 
 export const NAV_LINKS: NavLink[] = [
-  { label: "Home", icon: HouseIcon, href: "/" },
+  { label: "Dashboard", icon: HouseIcon, href: "/" },
   { label: "Portfolio", icon: DashboardWalletIcon, href: "/portfolio" },
   { label: "Earn", icon: WagesIcon, href: "/earn" },
   { label: "Cards", icon: CreditCardIcon, href: "/cards" },

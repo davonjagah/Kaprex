@@ -1,3 +1,4 @@
+import { signOut } from "next-auth/react";
 import { useState, useCallback } from "react";
 export type ProfileOption = "profile" | "switch-account" | "logout";
 
@@ -8,7 +9,7 @@ export function useProfileMenu() {
     setSelected(value);
     switch (value) {
       case "logout":
-        console.log("Log out clicked");
+        signOut();
         break;
       case "profile":
         console.log("My Profile clicked");

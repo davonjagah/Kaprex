@@ -53,12 +53,12 @@ export default function BalanceCard() {
       </Typography>
 
       <div className="flex justify-center lg:justify-start gap-10 mt-2">
-        <Link href="/fund?tab=fund">
+        <Link href="/fund">
           <IconButton variant="primary" label="Fund" size="lg">
             <Plus className="w-4 md:w-7 h-4 md:h-7" />
           </IconButton>
         </Link>
-        <Link href="/fund?tab=pay">
+        <Link href="/pay">
           <IconButton variant="primary" label="Pay" size="lg">
             <Minus className="w-4 md:w-7 h-4 md:h-7" />
           </IconButton>
