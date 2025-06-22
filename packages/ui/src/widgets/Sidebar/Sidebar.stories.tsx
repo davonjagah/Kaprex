@@ -19,11 +19,11 @@ export default meta;
 type Story = StoryObj<typeof Sidebar>;
 
 const links: SidebarLink[] = [
-  { label: "Home", icon: <Home size={20} />, href: "#", active: true },
-  { label: "Portfolio", icon: <Briefcase size={20} />, href: "#" },
-  { label: "Earn", icon: <BarChart size={20} />, href: "#" },
-  { label: "Cards", icon: <CreditCard size={20} />, href: "#" },
-  { label: "Merchant", icon: <Store size={20} />, href: "#" },
+  { label: "Home", icon: Home, href: "#", active: true },
+  { label: "Portfolio", icon: Briefcase, href: "#" },
+  { label: "Earn", icon: BarChart, href: "#" },
+  { label: "Cards", icon: CreditCard, href: "#" },
+  { label: "Merchant", icon: Store, href: "#" },
 ];
 
 export const Basic: Story = {

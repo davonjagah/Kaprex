@@ -19,6 +19,8 @@ interface DropdownProps {
   labelClassName?: string;
   dropdownClassName?: string;
   optionsClassName?: string;
+  trigger?: React.ReactNode;
+  showChevron?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -31,6 +33,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   labelClassName = "",
   dropdownClassName = "",
   optionsClassName = "",
+  trigger,
+  showChevron = true,
 }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -65,10 +69,12 @@ const Dropdown: React.FC<DropdownProps> = ({
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        {selected ? selected.label : placeholder}
-        <span className="ml-1">
-          <ChevronDown />
-        </span>
+        {trigger || (selected ? selected.label : placeholder)}
+        {showChevron && (
+          <span className="ml-1">
+            <ChevronDown />
+          </span>
+        )}
       </button>
       {open && (
         <div

@@ -36,3 +36,4 @@ export { PassiveIncomeIcon } from "./passiveIncomeIcon";
 export { BankIcon } from "./bankIcon";
 export { CryptoIcon } from "./cryptoIcon";
 export { LostIcon } from "./lostIcon";
+export { ChevronDownIcon } from "./chevronDownIcon";

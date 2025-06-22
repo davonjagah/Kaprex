@@ -12,7 +12,8 @@
     "**/*.tsx",
     "next-env.d.ts",
     "next.config.js",
-    ".next/types/**/*.ts"
-, "middleware.tss"  ],
+    ".next/types/**/*.ts",
+    "middleware.tss"
+  ],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { cn } from "../../../../packages/ui/src/utils/cn";
+import { cn } from "@repo/ui/utils";
 
 export interface Step {
   label: string;

@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Button, Typography } from "@repo/ui/atoms";
-import { GoogleIcon } from "@repo/ui/icons";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { notifyError } from "@repo/ui/toasts";
@@ -48,10 +47,6 @@ const SignInForm: React.FC = () => {
     }
   };
 
-  const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/dashboard" });
-  };
-
   if (step === "verify") {
     return <VerifyEmail email={email} />;
   }
@@ -95,21 +90,6 @@ const SignInForm: React.FC = () => {
           disabled={isSubmitting}
         >
           Login
-        </Button>
-        <div className="flex items-center gap-9 my-3.5">
-          <div className="flex-1 h-px bg-[#E6E8EC]" />
-          <span className="text-base font-sans">or</span>
-          <div className="flex-1 h-px bg-[#E6E8EC]" />
-        </div>
-        <Button
-          type="button"
-          variant="outline"
-          className="flex items-center justify-center gap-6 border-2 border-[#383838] text-[#1F1F1F] text-base font-semibold w-full"
-          disabled={isSubmitting}
-          onClick={handleGoogleSignIn}
-        >
-          <GoogleIcon />
-          Continue with Google
         </Button>
         <Typography
           variant="body"

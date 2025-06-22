@@ -1,9 +1,9 @@
 import Link from "next/link";
-import React from "react";
+import React, { ComponentType, SVGProps } from "react";
 
 export interface SidebarLink {
   label: string;
-  icon: React.ReactNode;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
   href: string;
   active?: boolean;
 }
@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ links, footer, className = "" }) => {
             }`}
             aria-current={item.active ? "page" : undefined}
           >
-            {item.icon}
+            <item.icon />
             <span>{item.label}</span>
           </Link>
         ))}
