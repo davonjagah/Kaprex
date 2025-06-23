@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { Typography } from "@repo/ui/atoms";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -10,8 +10,17 @@ import { Tab } from "../../../types/common";
 export default function TabSwitcher({ tabs }: { tabs: Tab[] }) {
   const router = useRouter();
   const pathname = usePathname();
-  const activeTab =
-    tabs.find((tab) => pathname.startsWith(tab.href)) || tabs[0];
+
+  const activeTab = useMemo(() => {
+    const exact = tabs.find((tab) => tab.href === pathname);
+    if (exact) return exact;
+
+    const byLength = [...tabs].sort((a, b) => b.href.length - a.href.length);
+    const prefixed = byLength.find((tab) => pathname.startsWith(tab.href));
+    if (prefixed) return prefixed;
+
+    return tabs[0];
+  }, [pathname, tabs]);
 
   return (
     <>

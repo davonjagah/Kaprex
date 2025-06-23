@@ -1,14 +1,29 @@
 "use client";
 
 import React from "react";
-import TransactionTabSwitcher from "../TransactionTabSwitcher/TransactionTabSwitcher";
-import FAQCard from "../../FAQCard";
-import PromoCard from "../../PromoCard";
+import FAQCard from "../../components/FAQCard";
+import PromoCard from "../../components/PromoCard";
+import TabSwitcher from "../../components/shared/TabSwitcher/TabSwitcher";
 
 interface TransactionLayoutProps {
   children: React.ReactNode;
   title: string;
 }
+
+const TABS = [
+  { label: "Fund", value: "fund", href: "/transactions/fund" },
+  { label: "Pay", value: "pay", href: "/transactions/pay" },
+  {
+    label: "Buy Crypto",
+    value: "buy-crypto",
+    href: "/transactions/buy-crypto",
+  },
+  {
+    label: "Sell Crypto",
+    value: "sell-crypto",
+    href: "/transactions/sell-crypto",
+  },
+];
 
 export default function TransactionLayout({
   children,
@@ -17,7 +32,7 @@ export default function TransactionLayout({
   return (
     <div className="flex flex-col lg:flex-row gap-3">
       <div className="flex-1 lg:max-w-2/3">
-        <TransactionTabSwitcher />
+        <TabSwitcher tabs={TABS} />
         <div className="bg-white rounded-2xl shadow py-6 px-4 md:px-10">
           <h1 className="font-nohemi text-4xl mb-6 font-normal">{title}</h1>
           {children}

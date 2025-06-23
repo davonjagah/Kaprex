@@ -1,4 +1,4 @@
-import TransactionLayout from "../../components/shared/TransactionLayout/TransactionLayout";
+import TransactionLayout from "../../../layouts/Transactions";
 
 export default function BuyCryptoTabPage() {
   return (
