@@ -24,8 +24,8 @@ export const NAV_LINKS: NavLink[] = [
 
 export const HOME_TAB_PATHS = [
   "/",
-  "/fund",
-  "/pay",
-  "/buy-crypto",
-  "/sell-crypto",
+  "/transactions/fund",
+  "/transactions/pay",
+  "/transactions/buy-crypto",
+  "/transactions/sell-crypto",
 ];
