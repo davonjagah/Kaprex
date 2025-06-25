@@ -2,7 +2,7 @@ import { Typography } from "@repo/ui/atoms";
 
 interface SectionProps {
   title: string;
-  spanCols?: number;
+  spanCols?: string;
   children: React.ReactNode;
 }
 
@@ -12,8 +12,8 @@ export const Section: React.FC<SectionProps> = ({
   children,
 }) => (
   <div
-    className={`bg-white rounded-2xl shadow-sm p-6${
-      spanCols ? ` lg:col-span-${spanCols}` : ""
+    className={`bg-white rounded-2xl shadow-sm p-6 ${
+      spanCols ? `lg:col-span-${spanCols}` : ""
     }`}
   >
     <Typography

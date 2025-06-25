@@ -33,7 +33,7 @@ export default function TabSwitcher({ tabs }: { tabs: Tab[] }) {
               key={tab.value}
               href={tab.href}
               className={`pr-9 transition-all ${
-                isActive ? "text-black font-bold" : "text-gray-400"
+                isActive ? "text-black" : "text-gray-400"
               }`}
             >
               <Typography

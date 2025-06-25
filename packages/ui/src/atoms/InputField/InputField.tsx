@@ -2,6 +2,7 @@
 
 import { useState, InputHTMLAttributes } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { cn } from "../../utils/cn";
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -28,7 +29,10 @@ export const InputField = ({
     <div className="w-full">
       <label
         htmlFor={id || name}
-        className={`block text-base font-medium font-nohemi text-[#303344] mb-2 ${labelClassName}`}
+        className={cn(
+          "block text-base font-medium font-nohemi text-[#303344] mb-2",
+          labelClassName,
+        )}
       >
         {label}
       </label>
@@ -38,7 +42,10 @@ export const InputField = ({
           name={name}
           type={inputType}
           placeholder={placeholder}
-          className={`w-full rounded-full border-2 border-transparent focus:border-[#9EB1C7] bg-[#F4F7FB] px-6 py-3  font-nohemi text-base placeholder-[#A0A3BD] focus:outline-none focus:ring-0 ${className}`}
+          className={cn(
+            "w-full rounded-full border-2 border-transparent focus:border-[#9EB1C7] bg-[#F4F7FB] px-6 py-3 font-nohemi text-base placeholder-[#A0A3BD] focus:outline-none focus:ring-0",
+            className,
+          )}
           {...props}
         />
         {isPassword && (
