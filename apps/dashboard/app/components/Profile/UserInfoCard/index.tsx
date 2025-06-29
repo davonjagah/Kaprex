@@ -1,17 +1,17 @@
 import { Typography } from "@repo/ui/atoms";
 import { ProfileIcon } from "@repo/ui/icons";
-import { VerifiedBadge } from "../VerifiedBadge";
+import { VerificationBadge } from "../VerificationBadge";
 
 export interface UserInfoCardProps {
   name: string;
   accountType: string;
-  verified?: boolean;
+  verificationStatus: "verified" | "Not verified" | "Under Verification";
 }
 
 export const UserInfoCard: React.FC<UserInfoCardProps> = ({
   name,
   accountType,
-  verified = false,
+  verificationStatus,
 }) => (
   <div className="bg-white rounded-2xl shadow-sm py-5 px-8 flex items-center space-x-6">
     <ProfileIcon className="w-24 h-24 text-primary" />
@@ -25,7 +25,10 @@ export const UserInfoCard: React.FC<UserInfoCardProps> = ({
       >
         {name}
       </Typography>
-      {verified && <VerifiedBadge />}
+      <VerificationBadge
+        verificationStatus={verificationStatus}
+        showVerifyButton={true}
+      />
     </div>
   </div>
 );

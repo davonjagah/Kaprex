@@ -9,7 +9,7 @@ export interface InfoRowProps {
 }
 
 export const InfoRow: React.FC<InfoRowProps> = ({ label, value, action }) => (
-  <div className="flex justify-between items-center">
+  <div className="flex justify-between items-start">
     <Typography variant="body" className="text-gray-500 font-nohemi text-xs">
       {label}
     </Typography>

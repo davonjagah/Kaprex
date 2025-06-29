@@ -8,20 +8,23 @@ export function useProfileMenu() {
   const [selected, setSelected] = useState<ProfileOption | "">("");
   const router = useRouter();
 
-  const onChange = useCallback((value: ProfileOption) => {
-    setSelected(value);
-    switch (value) {
-      case "logout":
-        signOut();
-        break;
-      case "profile":
-        router.push("/profile");
-        break;
-      case "switch-account":
-        console.log("Switch account clicked");
-        break;
-    }
-  }, []);
+  const onChange = useCallback(
+    (value: ProfileOption) => {
+      setSelected(value);
+      switch (value) {
+        case "logout":
+          signOut();
+          break;
+        case "profile":
+          router.push("/profile");
+          break;
+        case "switch-account":
+          console.log("Switch account clicked");
+          break;
+      }
+    },
+    [router],
+  );
 
   return { selected, onChange };
 }
