@@ -38,10 +38,7 @@ export const authOptions: NextAuthOptions = {
           const errorData = await res.json();
           throw new Error(errorData.message || "Signup failed");
         }
-        console.log(res, "res");
         const userData = await res.json();
-
-        console.log(userData, "userData");
 
         if (userData?.user && userData?.tokens) {
           return {
@@ -62,35 +59,57 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        loginOTP: { label: "Login OTP", type: "text" },
       },
       async authorize(credentials) {
-        const { email, password } = credentials as {
+        const { email, password, loginOTP } = credentials as {
           email: string;
           password: string;
+          loginOTP?: string;
         };
-        const res = await fetch(`${process.env.BACKEND_AUTH_URL}/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        });
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.message || "Login failed");
+
+        try {
+          const res = await fetch(
+            `${process.env.BACKEND_AUTH_URL}/auth/login`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: loginOTP
+                ? JSON.stringify({ email, password, loginOTP })
+                : JSON.stringify({ email, password }),
+            },
+          );
+
+          const data = await res.json();
+
+          if (res.ok && !data.tokens) {
+            throw new Error("OTP_REQUIRED");
+          }
+
+          if (!res.ok) {
+            throw new Error(data.message || "Login failed");
+          }
+
+          if (data && data?.tokens) {
+            return {
+              ...data,
+              accessToken: data.tokens.access_token,
+              refreshToken: data.tokens.refresh_token,
+            };
+          }
+
+          return null;
+        } catch (err) {
+          throw new Error(err instanceof Error ? err.message : "Login failed");
         }
-        const userData = await res.json();
-        if (userData?.user && userData?.tokens) {
-          return {
-            id: userData.user.id,
-            email: userData.user.email,
-            name: userData.user.name,
-            accessToken: userData.tokens.access_token,
-            refreshToken: userData.tokens.refresh_token,
-          };
-        }
-        return null;
       },
     }),
   ],
+
+  pages: {
+    signIn: "/signin",
+    signOut: "/signin",
+  },
 
   session: { strategy: "jwt" },
 

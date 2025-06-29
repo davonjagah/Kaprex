@@ -1,17 +1,30 @@
+"use client";
+
 import { Button } from "@repo/ui/atoms";
 import { notifyError, notifySuccess } from "@repo/ui/toasts";
 import React from "react";
 import useSWRMutation from "swr/mutation";
-import { useRouter } from "next/navigation";
 import { OtpInput } from "@repo/ui/molecules";
 import { FormHeader } from "../FormHeader/FormHeader";
 import { postJSON } from "../../../lib/api";
 import { AccountReadyModal } from "../AccountReadyModal/AccountReadyModal";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-const VerifyEmail = ({ email }: { email: string }) => {
+const VerifyEmail = ({
+  email,
+  type,
+  password,
+}: {
+  email: string;
+  type: "login" | "signup";
+  password?: string;
+}) => {
   const [otp, setOtp] = React.useState(["", "", "", "", "", ""]);
   const [showAccountReady, setShowAccountReady] = React.useState(false);
+  const [isLoggingIn, setIsLoggingIn] = React.useState(false);
   const router = useRouter();
+
   const { trigger, isMutating } = useSWRMutation<
     { message: string },
     Error,
@@ -32,6 +45,15 @@ const VerifyEmail = ({ email }: { email: string }) => {
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
+
+    // If all fields are filled and not already verifying, auto-verify
+    if (
+      newOtp.every((digit) => digit.length === 1) &&
+      !isVerifying &&
+      !isLoggingIn
+    ) {
+      handleVerify(newOtp);
+    }
   };
 
   const handleResendCode = async () => {
@@ -44,26 +66,37 @@ const VerifyEmail = ({ email }: { email: string }) => {
       );
     }
   };
-
-  const handleVerify = async () => {
-    const otpString = otp.join("");
+  const handleVerify = async (otpArray?: string[]) => {
+    const otpString = (otpArray ?? otp).join("");
+    setIsLoggingIn(true);
+    console.log(type, password, "type, password");
     try {
-      const data = await verifyTrigger({ email, otp: otpString });
-      notifySuccess(
-        (data as unknown as { message: string })?.message ||
-          "Code verified successfully",
-      );
-      setShowAccountReady(true);
-    } catch (error) {
-      notifyError(
-        error instanceof Error ? error.message : "Verify code failed",
-      );
-    }
-  };
+      const response =
+        type === "login" && password
+          ? await signIn("login", {
+              email,
+              password,
+              loginOTP: otpString,
+              redirect: false,
+            })
+          : await verifyTrigger({ email, otp: otpString });
 
-  const handleProceed = () => {
-    setShowAccountReady(false);
-    router.push("/dashboard");
+      const { message = "Code verified successfully" } = response as {
+        message?: string;
+      };
+
+      notifySuccess(message);
+      if (type === "signup") {
+        setShowAccountReady(true);
+      } else {
+        router.push("/");
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Verify code failed";
+      notifyError(msg);
+    } finally {
+      setIsLoggingIn(false);
+    }
   };
 
   return (
@@ -94,15 +127,15 @@ const VerifyEmail = ({ email }: { email: string }) => {
           <Button
             variant="primary"
             className="font-semibold w-full"
-            onClick={handleVerify}
-            isLoading={isVerifying}
-            disabled={isVerifying}
+            onClick={() => handleVerify()}
+            isLoading={isVerifying || isLoggingIn}
+            disabled={isVerifying || isLoggingIn}
           >
             Verify
           </Button>
         </div>
       </div>
-      <AccountReadyModal open={showAccountReady} onProceed={handleProceed} />
+      {type === "signup" && <AccountReadyModal open={showAccountReady} />}
     </div>
   );
 };

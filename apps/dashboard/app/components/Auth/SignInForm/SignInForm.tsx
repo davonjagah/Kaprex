@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Button, Typography } from "@repo/ui/atoms";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
@@ -14,7 +14,10 @@ import VerifyEmail from "../VerifyEmail/VerifyEmail";
 
 const SignInForm: React.FC = () => {
   const [step, setStep] = useState<"signin" | "verify">("signin");
-  const [email, setEmail] = useState("");
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
 
   const {
     control,
@@ -22,33 +25,42 @@ const SignInForm: React.FC = () => {
     formState: { isSubmitting },
   } = useForm<Omit<SignInFormValues, "remember">>({
     resolver: zodResolver(signinSchema.omit({ remember: true })),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: { email: "", password: "" },
     mode: "onChange",
   });
 
-  const onSubmit = async (data: Omit<SignInFormValues, "remember">) => {
-    try {
-      const result = await signIn("login", {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      });
-      if (result?.error) {
-        notifyError(result.error);
-      } else {
-        setEmail(data.email);
+  const onSubmit = useCallback(
+    async ({ email, password }: Omit<SignInFormValues, "remember">) => {
+      try {
+        const result = await signIn("login", {
+          email,
+          password,
+          redirect: false,
+        });
+        const error = result?.error;
+        // If there's a non-OTP error, show it
+        if (error && error !== "OTP_REQUIRED") {
+          notifyError(error);
+          return;
+        }
+        // Otherwise, proceed to OTP step
+        setCredentials({ email, password });
         setStep("verify");
+      } catch (err: unknown) {
+        notifyError(err instanceof Error ? err.message : "Sign in failed");
       }
-    } catch (error) {
-      notifyError(error instanceof Error ? error.message : "Sign in failed");
-    }
-  };
+    },
+    [],
+  );
 
   if (step === "verify") {
-    return <VerifyEmail email={email} />;
+    return (
+      <VerifyEmail
+        type="login"
+        email={credentials.email}
+        password={credentials.password}
+      />
+    );
   }
 
   return (
@@ -84,8 +96,8 @@ const SignInForm: React.FC = () => {
         </div>
         <Button
           type="submit"
-          className="font-semibold mt-4 w-full"
           variant="primary"
+          className="font-semibold mt-4 w-full"
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >

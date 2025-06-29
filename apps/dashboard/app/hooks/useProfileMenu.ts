@@ -13,7 +13,7 @@ export function useProfileMenu() {
       setSelected(value);
       switch (value) {
         case "logout":
-          signOut();
+          signOut({ callbackUrl: "/signin" });
           break;
         case "profile":
           router.push("/profile");

@@ -68,7 +68,7 @@ const SignupForm = ({ accountType }: SignupFormProps) => {
   };
 
   if (step === "verify") {
-    return <VerifyEmail email={email} />;
+    return <VerifyEmail type="signup" email={email} />;
   }
 
   return (
