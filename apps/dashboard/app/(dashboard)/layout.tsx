@@ -1,10 +1,15 @@
 import { ReactNode } from "react";
-import DashboardLayout from "../layouts/Dashboard";
+import RootProviders from "../../providers/RootProviders/RootProviders";
+import DashboardLayout from "../../layouts/Dashboard";
 
 export default async function ProtectedLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  return <DashboardLayout>{children}</DashboardLayout>;
+  return (
+    <RootProviders>
+      <DashboardLayout>{children}</DashboardLayout>
+    </RootProviders>
+  );
 }

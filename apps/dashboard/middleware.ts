@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
 
 // Public auth pages
 const AUTH_PATHS = ["/signin", "/signup", "/account-type"];
@@ -9,7 +8,7 @@ const AUTH_PATHS = ["/signin", "/signup", "/account-type"];
 const DASHBOARD_PATHS = ["/", "/portfolio", "/profile", "/transactions"];
 
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req });
+  const token = req.cookies.get("access")?.value;
   const { pathname } = req.nextUrl;
 
   // Normalize path: strip trailing slash and lowercase
@@ -22,14 +21,6 @@ export async function middleware(req: NextRequest) {
   const isDashboardPage = DASHBOARD_PATHS.some(
     (path) => cleanPath === path || cleanPath.startsWith(path + "/"),
   );
-
-  console.log({
-    cleanPath,
-    tokenExists: !!token,
-    isAuthPage,
-    isDashboardPage,
-    token,
-  });
 
   // ✅ If authenticated user tries to access an auth page, redirect to dashboard
   if (token && isAuthPage) {

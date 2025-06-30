@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
-import "./globals.css";
 import localFont from "next/font/local";
-import RootProviders from "./providers/RootProviders/RootProviders";
+import { ToastProvider } from "@repo/ui/toasts";
+import "../styles/globals.css";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -90,7 +90,8 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} ${nohemi.variable} antialiased bg-[#F5F7FA]`}
       >
-        <RootProviders>{children}</RootProviders>
+        {children}
+        <ToastProvider />
       </body>
     </html>
   );

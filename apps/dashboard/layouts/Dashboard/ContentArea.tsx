@@ -1,4 +1,4 @@
-import KYCBanner from "../../../components/shared/KYCBanner/KYCBanner";
+import KYCBanner from "../../components/shared/KYCBanner/KYCBanner";
 
 export const ContentArea: React.FC<{ children: React.ReactNode }> = ({
   children,

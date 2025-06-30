@@ -2,14 +2,18 @@
 
 import { Button, Typography } from "@repo/ui/atoms";
 import { useState } from "react";
-import { ConfirmModal } from "../../../components/Profile/Modals/ConfirmModal";
+import { ConfirmModal } from "../../../../components/Profile/Modals/ConfirmModal";
 import {
   FormModal,
   FormState,
-} from "../../../components/Profile/Modals/FormModal";
-import { PayoutCard } from "../../../components/Profile/PayoutCard";
-import { usePayoutMethods } from "../../../hooks/usePayoutMethods";
-import { MobileMoney, BankTransfer, PayoutMethod } from "../../../types/common";
+} from "../../../../components/Profile/Modals/FormModal";
+import { PayoutCard } from "../../../../components/Profile/PayoutCard";
+import { usePayoutMethods } from "../../../../hooks/usePayoutMethods";
+import {
+  MobileMoney,
+  BankTransfer,
+  PayoutMethod,
+} from "../../../../types/common";
 import { notifyError } from "@repo/ui/toasts";
 
 export const modeOptions = [

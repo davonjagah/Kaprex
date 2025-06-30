@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import AccountTypeStep from "../../../components/shared/AccountTypeStep/AccountTypeStep";
-import CurrencyStep from "../../../components/fund/CurrencyStep";
-import FundingMethodStep from "../../../components/fund/FundingMethodStep";
-import TransactionStepper from "../../../components/shared/TransactionStepper/TransactionStepper";
-import { FUND_ACCOUNT_OPTIONS } from "../../../components/shared/AccountTypeStep/constants";
-import TransactionLayout from "../../../layouts/Transactions";
+import AccountTypeStep from "../../../../components/shared/AccountTypeStep/AccountTypeStep";
+import CurrencyStep from "../../../../components/fund/CurrencyStep";
+import FundingMethodStep from "../../../../components/fund/FundingMethodStep";
+import TransactionStepper from "../../../../components/shared/TransactionStepper/TransactionStepper";
+import { FUND_ACCOUNT_OPTIONS } from "../../../../components/shared/AccountTypeStep/constants";
+import TransactionLayout from "../../../../layouts/Transactions";
 
 const FundPage = () => {
   const [accountType, setAccountType] = useState("virtual");

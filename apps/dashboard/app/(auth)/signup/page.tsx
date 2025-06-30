@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import SignupForm from "../../components/Auth/SignUpForm/SignupForm";
+import SignupForm from "../../../components/Auth/SignUpForm/SignupForm";
 
 interface SignupPageProps {
   searchParams: { accountType?: string };

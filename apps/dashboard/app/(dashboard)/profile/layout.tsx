@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import TabSwitcher from "../../components/shared/TabSwitcher/TabSwitcher";
+import TabSwitcher from "../../../components/shared/TabSwitcher/TabSwitcher";
 
 const TABS = [
   { label: "Identification", value: "identification", href: "/profile" },

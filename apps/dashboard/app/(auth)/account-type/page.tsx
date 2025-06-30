@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@repo/ui/atoms";
 import { BusinessIcon, ProfileIcon } from "@repo/ui/icons";
 import Link from "next/link";
-import FormCard from "../../components/Auth/FormCard/FormCard";
+import FormCard from "../../../components/Auth/FormCard/FormCard";
 
 const OPTIONS = [
   {

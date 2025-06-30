@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import BalanceAndAccounts from "../components/shared/BalanceAndAccounts";
-import Features from "../components/Dashboard/Features/Features";
+import Features from "../../components/Dashboard/Features/Features";
+import BalanceAndAccounts from "../../components/shared/BalanceAndAccounts";
 
 export default function Home() {
   return (

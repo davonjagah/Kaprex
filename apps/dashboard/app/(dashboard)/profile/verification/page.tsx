@@ -2,9 +2,9 @@
 
 import React, { useMemo } from "react";
 import { Typography, Button } from "@repo/ui/atoms";
-import VerificationLevel from "../../../components/Profile/VerificationLevel";
-import { Section } from "../../../components/Profile/Section";
-import { EditorSection } from "../../../components/Profile/Editor";
+import VerificationLevel from "../../../../components/Profile/VerificationLevel";
+import { Section } from "../../../../components/Profile/Section";
+import { EditorSection } from "../../../../components/Profile/Editor";
 
 const TASKS = [
   {

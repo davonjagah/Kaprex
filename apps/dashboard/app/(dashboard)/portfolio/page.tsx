@@ -1,6 +1,6 @@
 import React from "react";
-import TransactionsCard from "../../components/shared/TransactionsCard/TransactionsCard";
-import BalanceAndAccounts from "../../components/shared/BalanceAndAccounts";
+import BalanceAndAccounts from "../../../components/shared/BalanceAndAccounts";
+import TransactionsCard from "../../../components/shared/TransactionsCard/TransactionsCard";
 
 export default function Portfolio() {
   return (
