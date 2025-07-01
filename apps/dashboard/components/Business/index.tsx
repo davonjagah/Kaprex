@@ -1,0 +1,294 @@
+"use client";
+
+import React, { useState } from "react";
+import { Typography, Button } from "@repo/ui/atoms";
+import { Modal } from "@repo/ui/molecules";
+import { useForm, Controller } from "react-hook-form";
+import { FormField } from "@repo/ui/molecules";
+import { KaprexIcon } from "../../../../packages/ui/src/icons/kaprexIcon";
+import Link from "next/link";
+
+interface VirtualAccount {
+  name: string;
+  balance: number;
+  weight: number;
+  currency?: "USD" | "EUR";
+  wallet?: "kaprex" | "metamask";
+}
+
+const initialAccounts: VirtualAccount[] = [
+  // Uncomment to test with data
+  { name: "Operations", balance: 8000, weight: 80 },
+  { name: "Payroll", balance: 1200, weight: 12 },
+  { name: "Prime OTC Main", balance: 800, weight: 8 },
+];
+
+const BusinessDashboard: React.FC = () => {
+  const [accounts, setAccounts] = useState<VirtualAccount[]>(initialAccounts);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
+
+  const { control, handleSubmit, reset } = useForm<{
+    name: string;
+    currency: "USD" | "EUR";
+    wallet: "kaprex" | "metamask";
+  }>({
+    defaultValues: { name: "", currency: "USD", wallet: "kaprex" },
+  });
+
+  const onSubmit = (data: {
+    name: string;
+    currency: "USD" | "EUR";
+    wallet: "kaprex" | "metamask";
+  }) => {
+    setAccounts((prev) => [
+      ...prev,
+      {
+        name: data.name,
+        balance: 0,
+        weight: 0,
+        currency: data.currency,
+        wallet: data.wallet,
+      },
+    ]);
+    setModalOpen(false);
+    reset();
+  };
+
+  const openModal = () => {
+    setModalOpen(true);
+    reset();
+  };
+
+  return (
+    <div className="w-full max-w-5xl mt-10">
+      {/* Summary Card */}
+      <div className="bg-white rounded-2xl shadow-sm px-8 py-7 flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-8">
+        <div className="flex flex-col md:flex-row md:gap-16 gap-4">
+          <div>
+            <Typography
+              variant="body"
+              className="text-gray-500 font-nohemi mb-1"
+            >
+              Total Accounts
+            </Typography>
+            <Typography
+              variant="h2"
+              className="font-nohemi text-[40px] md:text-[48px]"
+            >
+              {accounts.length}
+            </Typography>
+          </div>
+          <div>
+            <Typography
+              variant="body"
+              className="text-gray-500 font-nohemi mb-1"
+            >
+              Total Balance
+            </Typography>
+            <Typography
+              variant="h2"
+              className="font-nohemi text-[40px] md:text-[48px]"
+            >
+              $
+              {totalBalance.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Typography>
+          </div>
+        </div>
+      </div>
+
+      {/* Virtual Accounts Table */}
+      <div className="bg-white rounded-2xl shadow-sm px-8 py-7">
+        <div className="flex items-center justify-between mb-6">
+          <Typography variant="body" className="text-gray-500 font-nohemi">
+            Virtual Accounts
+          </Typography>
+          {accounts.length > 0 && (
+            <Button
+              variant="text"
+              className="text-primary font-nohemi"
+              onClick={openModal}
+            >
+              Add Account +
+            </Button>
+          )}
+        </div>
+        <div>
+          {accounts.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16">
+              <div className="mb-4">
+                <svg width="48" height="48" fill="none" viewBox="0 0 48 48">
+                  <rect width="48" height="48" rx="24" fill="#F3F4F6" />
+                  <path
+                    d="M24 16v16M16 24h16"
+                    stroke="#D1D5DB"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+              <Typography variant="h4" className="font-nohemi mb-2">
+                Nothing here!
+              </Typography>
+              <Typography
+                variant="body"
+                className="text-gray-500 mb-6 text-center"
+              >
+                To create a link, please add a business first!
+              </Typography>
+              <Button variant="primary" size="lg" onClick={openModal}>
+                Create account
+              </Button>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-left">
+                <thead>
+                  <tr className="text-gray-400 font-nohemi text-base border-b">
+                    <th className="py-2 px-2 font-normal">Name</th>
+                    <th className="py-2 px-2 font-normal">Balance</th>
+                    <th className="py-2 px-2 font-normal">Weight</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {accounts.map((acc, idx) => (
+                    <tr
+                      key={acc.name + idx}
+                      className="border-b last:border-0 hover:bg-gray-50 cursor-pointer"
+                    >
+                      <td className="py-3 px-2 font-nohemi text-primary">
+                        <Link href={`/accounts/${acc.name}`}>{acc.name}</Link>
+                      </td>
+                      <td className="py-3 px-2 font-nohemi">
+                        $
+                        {acc.balance.toLocaleString(undefined, {
+                          minimumFractionDigits: 0,
+                        })}
+                      </td>
+                      <td className="py-3 px-2 font-nohemi">{acc.weight}%</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Modal for New Virtual Account */}
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="p-8 pt-10 w-full max-w-lg"
+        >
+          <Typography variant="h2" className="font-nohemi text-2xl mb-8">
+            New Virtual Account
+          </Typography>
+          <div className="mb-6">
+            <FormField
+              name="name"
+              control={control}
+              label="Account Name"
+              placeholder="Account Name"
+              required
+              className="rounded-full bg-[#F3F4F6] px-6 py-4 text-lg font-nohemi border-none w-full"
+              labelClassName="font-nohemi text-lg mb-2"
+            />
+          </div>
+          <div className="mb-6">
+            <Typography variant="body" className="font-nohemi mb-2">
+              Currency
+            </Typography>
+            <div className="flex gap-4">
+              <Controller
+                name="currency"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <button
+                      type="button"
+                      className={`flex-1 rounded-full px-0 py-3 text-lg font-nohemi border-2 ${field.value === "USD" ? "border-[#FF5A1F] text-[#FF5A1F] bg-white" : "border-transparent text-gray-400 bg-[#F3F4F6]"}`}
+                      onClick={() => field.onChange("USD")}
+                    >
+                      USD
+                    </button>
+                    <button
+                      type="button"
+                      className={`flex-1 rounded-full px-0 py-3 text-lg font-nohemi border-2 ${field.value === "EUR" ? "border-[#FF5A1F] text-[#FF5A1F] bg-white" : "border-transparent text-gray-400 bg-[#F3F4F6]"}`}
+                      onClick={() => field.onChange("EUR")}
+                    >
+                      EUR
+                    </button>
+                  </>
+                )}
+              />
+            </div>
+          </div>
+          <div className="mb-6">
+            <Typography variant="body" className="font-nohemi mb-1">
+              Destination Wallet
+            </Typography>
+            <Typography variant="body" className="text-gray-500 mb-3 text-sm">
+              By default, Kaprex creates a wallet for you to receive your funds.
+              You can also choose to use an external MetaMask wallet instead.
+            </Typography>
+            <Controller
+              name="wallet"
+              control={control}
+              render={({ field }) => (
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    className={`flex-1 flex items-center justify-center gap-2 rounded-full border-2 px-0 py-3 text-lg font-nohemi ${field.value === "kaprex" ? "border-[#FF5A1F] text-[#FF5A1F] bg-white" : "border-gray-300 text-gray-400 bg-white"}`}
+                    onClick={() => field.onChange("kaprex")}
+                  >
+                    <KaprexIcon width={28} height={20} /> Kaprex Wallet
+                  </button>
+                  <button
+                    type="button"
+                    className={`flex-1 flex items-center justify-center gap-2 rounded-full border-2 px-0 py-3 text-lg font-nohemi ${field.value === "metamask" ? "border-[#FF5A1F] text-[#FF5A1F] bg-white" : "border-gray-300 text-gray-400 bg-white"}`}
+                    onClick={() => field.onChange("metamask")}
+                  >
+                    {/* <span className="inline-block align-middle">
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg"
+                        alt="MetaMask"
+                        width={28}
+                        height={28}
+                      />
+                    </span> */}
+                    Connect Metamask
+                  </button>
+                </div>
+              )}
+            />
+          </div>
+          <div className="flex flex-col md:flex-row md:items-center gap-4 mt-8">
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="bg-[#FF5A1F] hover:bg-[#e04e1a] text-white font-nohemi text-lg px-8 py-3 rounded-full flex-1"
+            >
+              Create Account
+            </Button>
+            <Typography
+              variant="body"
+              className="text-gray-400 text-xs md:text-sm mt-2 md:mt-0 md:ml-4"
+            >
+              Disclaimer: Kaprex is not a remittance service; it facilitates
+              crypto transactions through on-ramp and off-ramp solutions,
+              enabling users to buy and sell digital assets seamlessly.
+            </Typography>
+          </div>
+        </form>
+      </Modal>
+    </div>
+  );
+};
+
+export default BusinessDashboard;

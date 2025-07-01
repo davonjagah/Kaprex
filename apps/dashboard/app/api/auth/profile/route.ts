@@ -9,7 +9,10 @@ export async function GET(req: NextRequest) {
   const refreshToken = cookies.get("refresh")?.value;
 
   const unauthorized = () => {
-    const res = NextResponse.redirect(new URL("/signin", req.url));
+    const res = NextResponse.json(
+      { error: "Not authenticated" },
+      { status: 401 },
+    );
     res.cookies.delete({ name: "access", path: "/" });
     res.cookies.delete({ name: "refresh", path: "/api/auth" });
     res.cookies.delete({ name: "accountType", path: "/" });

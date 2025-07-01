@@ -1,46 +1,23 @@
 import React from "react";
 import { Button, Typography } from "@repo/ui/atoms";
-import { UsdIcon, WalletIcon } from "@repo/ui/icons";
 
-const transactions = [
-  {
-    type: "sell",
-    icon: <UsdIcon className="w-8 h-8" />,
-    title: "Sold 0.01 BTC",
-    subtitle: "Sold 0.04 BTC for GHC 24,000",
-    date: "12th March, 2025 | 3:45pm",
-    status: "Completed",
-  },
-  {
-    type: "buy",
-    icon: <UsdIcon className="w-8 h-8" />,
-    title: "Bought 0.01 BTC",
-    subtitle: "Bought 0.04 BTC for GHC 24,000",
-    date: "12th March, 2025 | 3:45pm",
-    status: "In Progress",
-  },
-  {
-    type: "send",
-    icon: <WalletIcon className="w-8 h-8" />,
-    title: "Sent 0.01 BTC",
-    subtitle: "Sent Bitcoin to 38ZctGJ...QFTEBm",
-    date: "12th March, 2025 | 3:45pm",
-    status: "In Progress",
-  },
-  {
-    type: "receive",
-    icon: <WalletIcon className="w-8 h-8" />,
-    title: "Received 10.01 USDT",
-    subtitle: "Received Bitcoin from 38ZctGJ...QFTEBm",
-    date: "12th March, 2025 | 3:45pm",
-    status: "In Progress",
-  },
-];
+interface Transaction {
+  type: string;
+  icon: React.ReactNode;
+  title: string;
+  subtitle: string;
+  date: string;
+  status: string;
+}
 
 const statusColor = (status: string) =>
   status === "Completed" ? "text-green-500" : "text-gray-400";
 
-const TransactionsCard = () => (
+const TransactionsCard = ({
+  transactions,
+}: {
+  transactions: Transaction[];
+}) => (
   <div className="mt-8">
     <div className="flex items-center justify-between mb-4">
       <Typography
