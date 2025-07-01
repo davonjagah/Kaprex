@@ -38,7 +38,7 @@ export function AuthProvider({
   initialSwitchedAccountType = "individual",
 }: AuthProviderProps) {
   const { data: profile, error } = useSWR<UserProfileResponse>(
-    "/api/auth/profile",
+    "/auth/profile",
     swrFetcher,
     { fallbackData: initialProfile },
   );

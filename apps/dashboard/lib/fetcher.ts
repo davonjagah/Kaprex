@@ -1,5 +1,7 @@
 import api from "./api";
 
+export const backendUrl = process.env.NEXT_PUBLIC_BACKEND_AUTH_URL;
+
 export const backendFetcher = async <T>(
   endpoint: string,
   token?: string,
@@ -14,7 +16,7 @@ export const backendFetcher = async <T>(
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, {
+  const res = await fetch(`${backendUrl}${endpoint}`, {
     headers,
     ...init,
   });

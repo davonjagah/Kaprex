@@ -3,14 +3,18 @@ import type { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { name, email, password, customerType } = await req.json();
-  const res = await fetch(`${process.env.BACKEND_AUTH_URL}/users/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, password, customerType }),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_AUTH_URL}/users/register`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password, customerType }),
+    },
+  );
+
   if (!res.ok) {
     const err = await res.json().catch(() => ({ message: res.statusText }));
-    return NextResponse.json({ error: err.message }, { status: res.status });
+    return NextResponse.json({ message: err.message });
   }
   const data = await res.json();
 

@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signinSchema, SignInFormValues } from "./validation";
 import FormCard from "../FormCard/FormCard";
 import VerifyEmail from "../VerifyEmail/VerifyEmail";
+import api from "../../../lib/api";
 
 const SignInForm: React.FC = () => {
   const [step, setStep] = useState<"signin" | "verify">("signin");
@@ -31,21 +32,17 @@ const SignInForm: React.FC = () => {
   const onSubmit = useCallback(
     async ({ email, password }: Omit<SignInFormValues, "remember">) => {
       try {
-        const result = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,
-          {
-            method: "POST",
-            body: JSON.stringify({ email, password }),
-          },
-        );
-        const data = await result.json();
-        const error = data?.error;
-        // If there's a non-OTP error, show it
+        const { data } = await api.post(`/auth/login`, {
+          email,
+          password,
+        });
+        const error = data?.message;
+
         if (error && error !== "OTP_REQUIRED") {
           notifyError(error);
           return;
         }
-        // Otherwise, proceed to OTP step
+
         setCredentials({ email, password });
         setStep("verify");
       } catch (err: unknown) {

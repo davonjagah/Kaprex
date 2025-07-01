@@ -1,4 +1,3 @@
-// app/api/auth/login/route.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { UserProfile } from "../../../../types/api/user";
@@ -11,13 +10,16 @@ export async function POST(req: NextRequest) {
   };
 
   // 1. Proxy to backend
-  const res = await fetch(`${process.env.BACKEND_AUTH_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(
-      loginOTP ? { email, password, loginOTP } : { email, password },
-    ),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_AUTH_URL}/auth/login`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(
+        loginOTP ? { email, password, loginOTP } : { email, password },
+      ),
+    },
+  );
 
   const data = await res.json().catch(() => ({}));
 
@@ -31,7 +33,7 @@ export async function POST(req: NextRequest) {
 
   if (!res.ok) {
     return NextResponse.json(
-      { error: data.message || res.statusText },
+      { message: data.message || res.statusText },
       { status: res.status },
     );
   }
@@ -42,10 +44,11 @@ export async function POST(req: NextRequest) {
   };
 
   const response = NextResponse.json({ user });
+
   response.cookies.set("access", tokens.access_token, {
     httpOnly: true,
     path: "/",
-    maxAge: 7 * 24 * 3600,
+    maxAge: 15 * 60,
     sameSite: "lax",
   });
   response.cookies.set("refresh", tokens.refresh_token, {

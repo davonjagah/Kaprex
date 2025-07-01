@@ -8,7 +8,8 @@ import { OtpInput } from "@repo/ui/molecules";
 import { FormHeader } from "../FormHeader/FormHeader";
 import { AccountReadyModal } from "../AccountReadyModal/AccountReadyModal";
 import { useRouter } from "next/navigation";
-import { postJSON } from "../../../lib/fetcher";
+import { AxiosError } from "axios";
+import api from "../../../lib/api";
 
 const VerifyEmail = ({
   email,
@@ -28,14 +29,14 @@ const VerifyEmail = ({
     { message: string },
     Error,
     string
-  >("/auth/resend-verification", (url) => postJSON(url, { email }), {
+  >("/auth/resend-verification", (url) => api.post(url, { email }), {
     revalidate: false,
   });
 
   const { trigger: verifyTrigger, isMutating: isVerifying } = useSWRMutation(
     "/auth/verify-email",
     (url, { arg }: { arg: { email: string; otp: string } }) =>
-      postJSON(url, arg),
+      api.post(url, arg),
     { revalidate: false },
   );
 
@@ -71,13 +72,11 @@ const VerifyEmail = ({
     try {
       const response =
         type === "login" && password
-          ? await fetch(
-              `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,
-              {
-                method: "POST",
-                body: JSON.stringify({ email, password, loginOTP: otpString }),
-              },
-            )
+          ? await api.post(`/auth/login`, {
+              email,
+              password,
+              loginOTP: otpString,
+            })
           : await verifyTrigger({ email, otp: otpString });
 
       const { message = "Code verified successfully" } = response as {
@@ -92,7 +91,10 @@ const VerifyEmail = ({
         router.replace("/");
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Verify code failed";
+      const msg =
+        err instanceof AxiosError
+          ? err.response?.data.message
+          : "Verify code failed";
       notifyError(msg);
     } finally {
       setIsLoggingIn(false);

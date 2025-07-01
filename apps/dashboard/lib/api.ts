@@ -1,11 +1,13 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 
+const backendUrl = process.env.NEXT_PUBLIC_NEXT_API;
+
 interface RetryableRequestConfig extends AxiosRequestConfig {
   _retry?: boolean;
 }
 
 const api: AxiosInstance = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}`,
+  baseURL: `${backendUrl}/api`,
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
@@ -17,9 +19,7 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalReq._retry) {
       originalReq._retry = true;
-      const refreshRes = await axios.post<void>("/", null, {
-        withCredentials: true,
-      });
+      const refreshRes = await axios.post<void>(`/api/auth/refresh`, null);
       if (refreshRes.status >= 200 && refreshRes.status < 300) {
         return api(originalReq);
       }

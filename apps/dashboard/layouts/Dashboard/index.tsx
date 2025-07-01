@@ -42,9 +42,9 @@ const DashboardLayout: React.FC<{
   }, [setIsSidebarOpen]);
 
   const headerDropdownOptions = useMemo(() => {
-    // if (user?.customerType !== "individual") {
-    //   return PROFILE_OPTIONS.filter((opt) => opt.value !== "switch-account");
-    // }
+    if (user?.customerType === "individual") {
+      return PROFILE_OPTIONS.filter((opt) => opt.value !== "switch-account");
+    }
     return PROFILE_OPTIONS;
   }, [user?.customerType]);
 

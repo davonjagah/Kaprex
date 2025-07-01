@@ -13,7 +13,7 @@ export function useProfileMenu() {
   const router = useRouter();
 
   const logout = useCallback(async (): Promise<void> => {
-    await api.post("/api/auth/logout");
+    await api.post("/auth/logout");
     router.replace("/signin");
   }, [router]);
 

@@ -5,10 +5,7 @@
     "MONGODB_URI",
     "MONGODB_NAME",
     "BACKEND_AUTH_URL",
-    "NEXTAUTH_SECRET",
-    "GOOGLE_CLIENT_ID",
-    "GOOGLE_CLIENT_SECRET",
-    "NEXTAUTH_URL"
+    "BACKEND_URL"
   ],
   "tasks": {
     "build": {

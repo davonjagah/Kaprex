@@ -10,6 +10,7 @@ import { notifyError } from "@repo/ui/toasts";
 import FormCard from "../FormCard/FormCard";
 import VerifyEmail from "../VerifyEmail/VerifyEmail";
 import { SignupFormValues, signupSchema } from "./validation";
+import api from "../../../lib/api";
 
 interface SignupFormProps {
   accountType: string;
@@ -44,26 +45,22 @@ const SignupForm = ({ accountType }: SignupFormProps) => {
 
   const onSubmit = async (data: SignupFormValues) => {
     try {
-      const result = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/signup`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            name: data.name,
-            email: data.email,
-            password: data.password,
-            customerType: accountType,
-          }),
-        },
-      );
-      const resData = await result.json();
-      const error = resData?.error;
+      const { data: result } = await api.post(`/auth/signup`, {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        customerType: accountType,
+      });
+
+      console.log(result, "result!!!");
+
+      const error = result?.message;
 
       if (error) {
         notifyError(error);
         return;
       }
-      onSignUpSuccess(data.email);
+      onSignUpSuccess(result?.email);
     } catch (error) {
       notifyError(
         error instanceof Error

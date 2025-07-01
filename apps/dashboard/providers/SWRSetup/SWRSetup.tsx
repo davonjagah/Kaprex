@@ -18,7 +18,7 @@ const SWRSetup = ({
     <SWRConfig
       value={{
         fetcher: swrFetcher,
-        fallback: { "/api/auth/profile": initialUser },
+        fallback: { "/auth/profile": initialUser },
       }}
     >
       <AuthProvider
