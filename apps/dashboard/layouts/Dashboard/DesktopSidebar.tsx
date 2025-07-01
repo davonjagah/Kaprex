@@ -1,9 +1,15 @@
 import { Sidebar } from "@repo/ui/widgets";
-import { NAV_LINKS } from "../../constants/navigation";
+import {
+  INDIVIDUAL_NAV_LINKS,
+  BUSINESS_NAV_LINKS,
+} from "../../constants/navigation";
 import { SIDEBAR_WIDTH_CLASS } from "../../constants/layout";
 
 export const DesktopSidebar: React.FC<{
-  links: typeof NAV_LINKS & { active: boolean }[];
+  links: (typeof INDIVIDUAL_NAV_LINKS | typeof BUSINESS_NAV_LINKS) &
+    {
+      active: boolean;
+    }[];
 }> = ({ links }) => (
   <aside className="hidden lg:block">
     <div

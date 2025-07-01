@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   response.cookies.set("access", tokens.access_token, {
     httpOnly: true,
     path: "/",
-    maxAge: 15 * 60,
+    maxAge: 7 * 24 * 3600,
     sameSite: "lax",
   });
   response.cookies.set("refresh", tokens.refresh_token, {

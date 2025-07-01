@@ -1,4 +1,4 @@
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import SWRSetup from "../SWRSetup/SWRSetup";
 import { UserProfileResponse } from "../../types/api/user";
 
@@ -12,7 +12,19 @@ const RootProviders = async ({ children }: { children: React.ReactNode }) => {
 
   const initialUser: UserProfileResponse = res.ok ? await res.json() : null;
 
-  return <SWRSetup initialUser={initialUser}>{children}</SWRSetup>;
+  const switchedAccountType = (await cookies()).get("accountType")?.value as
+    | "individual"
+    | "business"
+    | undefined;
+
+  return (
+    <SWRSetup
+      initialUser={initialUser}
+      switchedAccountType={switchedAccountType}
+    >
+      {children}
+    </SWRSetup>
+  );
 };
 
 export default RootProviders;

@@ -3,16 +3,18 @@
 import { useRouter } from "next/navigation";
 import { useState, useCallback } from "react";
 import api from "../lib/api";
+import { useAccountSwitcher } from "./useAccountSwitcher";
 
 export type ProfileOption = "profile" | "switch-account" | "logout";
 
 export function useProfileMenu() {
   const [selected, setSelected] = useState<ProfileOption | "">("");
+  const { switchAccount } = useAccountSwitcher();
   const router = useRouter();
 
   const logout = useCallback(async (): Promise<void> => {
     await api.post("/api/auth/logout");
-    router.push("/signin");
+    router.replace("/signin");
   }, [router]);
 
   const onChange = useCallback(
@@ -26,11 +28,11 @@ export function useProfileMenu() {
           router.push("/profile");
           break;
         case "switch-account":
-          console.log("Switch account clicked");
+          switchAccount();
           break;
       }
     },
-    [logout, router],
+    [logout, router, switchAccount],
   );
 
   return { selected, onChange };

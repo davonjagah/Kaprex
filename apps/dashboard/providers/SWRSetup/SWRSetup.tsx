@@ -8,19 +8,25 @@ import { UserProfileResponse } from "../../types/api/user";
 const SWRSetup = ({
   children,
   initialUser,
+  switchedAccountType,
 }: {
   children: React.ReactNode;
   initialUser: UserProfileResponse;
+  switchedAccountType: "individual" | "business" | undefined;
 }) => {
   return (
     <SWRConfig
       value={{
         fetcher: swrFetcher,
         fallback: { "/api/auth/profile": initialUser },
-        dedupingInterval: 60 * 1000,
       }}
     >
-      <AuthProvider initialUser={initialUser}>{children}</AuthProvider>
+      <AuthProvider
+        initialProfile={initialUser}
+        initialSwitchedAccountType={switchedAccountType || "individual"}
+      >
+        {children}
+      </AuthProvider>
     </SWRConfig>
   );
 };

@@ -88,7 +88,8 @@ const VerifyEmail = ({
       if (type === "signup") {
         setShowAccountReady(true);
       } else {
-        router.push("/");
+        router.refresh();
+        router.replace("/");
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Verify code failed";

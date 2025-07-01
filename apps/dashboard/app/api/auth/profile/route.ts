@@ -9,12 +9,10 @@ export async function GET(req: NextRequest) {
   const refreshToken = cookies.get("refresh")?.value;
 
   const unauthorized = () => {
-    const res = NextResponse.json(
-      { error: "Not authenticated" },
-      { status: 401 },
-    );
+    const res = NextResponse.redirect(new URL("/signin", req.url));
     res.cookies.delete({ name: "access", path: "/" });
     res.cookies.delete({ name: "refresh", path: "/api/auth" });
+    res.cookies.delete({ name: "accountType", path: "/" });
     return res;
   };
 
@@ -43,9 +41,9 @@ export async function GET(req: NextRequest) {
         body: JSON.stringify({ refresh_token: refreshToken }),
       },
     );
-    // if (!refreshRes.ok) {
-    //   return unauthorized();
-    // }
+    if (!refreshRes.ok) {
+      return unauthorized();
+    }
 
     const tokens = await refreshRes.json();
     console.log(refreshToken, "refreshRes", tokens);
@@ -78,7 +76,7 @@ export async function GET(req: NextRequest) {
       value: tokens.access_token,
       httpOnly: true,
       path: "/",
-      maxAge: 15 * 60,
+      maxAge: 7 * 24 * 3600,
       sameSite: "lax",
     });
     response.cookies.set({

@@ -5,6 +5,7 @@ import { Typography, Button } from "@repo/ui/atoms";
 import VerificationLevel from "../../../../components/Profile/VerificationLevel";
 import { Section } from "../../../../components/Profile/Section";
 import { EditorSection } from "../../../../components/Profile/Editor";
+import { useAuth } from "../../../../contexts/AuthContext";
 
 const TASKS = [
   {
@@ -68,6 +69,7 @@ const TaskRow: React.FC<{ task: Task }> = ({ task }) => {
 
 const VerificationPage: React.FC = () => {
   const tasks = useMemo(() => TASKS, []);
+  const { user, switchedAccountType } = useAuth();
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-3.5 items-start">
@@ -86,8 +88,8 @@ const VerificationPage: React.FC = () => {
       </div>
 
       <VerificationLevel
-        accountType="individual"
-        isBusinessSwitched={false}
+        accountType={user?.customerType || "individual"}
+        isBusinessSwitched={switchedAccountType === "business"}
         individualVerificationStatus="verified"
         businessVerificationStatus="Not verified"
       />

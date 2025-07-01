@@ -8,13 +8,13 @@ import { UserInfoCard } from "../../../components/Profile/UserInfoCard";
 import VerificationLevel from "../../../components/Profile/VerificationLevel";
 
 const IdentificationTab: React.FC = () => {
-  const {
-    user: { user },
-  } = useAuth();
-  console.log(user, "userProfile");
+  const { user } = useAuth();
+  const { switchedAccountType } = useAuth();
+
+  const isBusinessSwitched = switchedAccountType === "business";
 
   const personalRows: InfoRowProps[] = [
-    { label: "Full Name", value: user.name || "" },
+    { label: "Full Name", value: user?.name || "" },
     { label: "Date of Birth", value: user?.dateOfBirth || "Not Verified" },
     {
       label: "Address",
@@ -31,7 +31,8 @@ const IdentificationTab: React.FC = () => {
     <div className="space-y-2.5">
       <UserInfoCard
         name={user?.name || ""}
-        accountType={user?.customerType || ""}
+        accountType={user?.customerType || "individual"}
+        isBusinessSwitched={isBusinessSwitched}
         verificationStatus="verified"
       />
 
@@ -45,8 +46,8 @@ const IdentificationTab: React.FC = () => {
         </Section>
 
         <VerificationLevel
-          accountType={user?.customerType || ""}
-          isBusinessSwitched={true}
+          accountType={user?.customerType || "individual"}
+          isBusinessSwitched={isBusinessSwitched}
           onSwitchToBusiness={() => console.log("switch to business")}
           individualVerificationStatus="verified"
           businessVerificationStatus="Not verified"

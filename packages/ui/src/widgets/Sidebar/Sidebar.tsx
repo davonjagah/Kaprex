@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ links, footer, className = "" }) => {
             }`}
             aria-current={item.active ? "page" : undefined}
           >
-            <item.icon />
+            <item.icon strokeWidth={1} />
             <span>{item.label}</span>
           </Link>
         ))}

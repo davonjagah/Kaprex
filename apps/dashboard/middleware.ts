@@ -4,38 +4,55 @@ import type { NextRequest } from "next/server";
 // Public auth pages
 const AUTH_PATHS = ["/signin", "/signup", "/account-type"];
 
-// Protected dashboard pages
-const DASHBOARD_PATHS = ["/", "/portfolio", "/profile", "/transactions"];
+// Individual‐only pages
+const INDIVIDUAL_ONLY = ["/portfolio", "/earn", "/cards", "/merchant"];
 
-export async function middleware(req: NextRequest) {
+// Pages you protect for authenticated users (both contexts)
+const PROTECTED = ["/", "/portfolio", "/profile", "/transactions"];
+
+export function middleware(req: NextRequest) {
   const token = req.cookies.get("access")?.value;
+  const accountType = req.cookies.get("accountType")?.value || "individual";
   const { pathname } = req.nextUrl;
 
-  // Normalize path: strip trailing slash and lowercase
+  // normalize (strip trailing slash, lowercase)
   const cleanPath = pathname.replace(/\/+$/, "").toLowerCase() || "/";
 
+  // is this an auth page?
   const isAuthPage = AUTH_PATHS.some(
-    (path) => cleanPath === path || cleanPath.startsWith(path + "/"),
+    (p) => cleanPath === p || cleanPath.startsWith(p + "/"),
   );
 
-  const isDashboardPage = DASHBOARD_PATHS.some(
-    (path) => cleanPath === path || cleanPath.startsWith(path + "/"),
+  // is this a protected page?
+  const isProtected = PROTECTED.some(
+    (p) => cleanPath === p || cleanPath.startsWith(p + "/"),
   );
 
-  // ✅ If authenticated user tries to access an auth page, redirect to dashboard
+  // Signed‐in users shouldn’t see auth pages
   if (token && isAuthPage) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // ✅ If unauthenticated user tries to access a protected page, redirect to signin
-  if (!token && isDashboardPage) {
+  // Unauthenticated users must sign in
+  if (!token && isProtected) {
     return NextResponse.redirect(new URL("/signin", req.url));
   }
 
+  // Business‐mode users can’t access individual‐only pages
+  const isIndividualOnly = INDIVIDUAL_ONLY.some(
+    (p) => cleanPath === p || cleanPath.startsWith(p + "/"),
+  );
+  if (accountType === "business" && isIndividualOnly) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  // otherwise, allow
   return NextResponse.next();
 }
 
-// ✅ Clean matcher: excludes only static files and API routes
 export const config = {
-  matcher: ["/((?!api|_next|.*\\.(?:svg|png|jpg|jpeg|webp|ico|json|txt)).*)"],
+  matcher: [
+    // everything except nextjs internals and static assets
+    "/((?!api|_next|.*\\.(?:svg|png|jpg|jpeg|webp|ico|json|txt)).*)",
+  ],
 };

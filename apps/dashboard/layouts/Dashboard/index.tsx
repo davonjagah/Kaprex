@@ -3,7 +3,12 @@
 import { Header } from "@repo/ui/molecules";
 import { usePathname } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import { NAV_LINKS, HOME_TAB_PATHS } from "../../constants/navigation";
+import {
+  INDIVIDUAL_NAV_LINKS,
+  BUSINESS_NAV_LINKS,
+  BUSINESS_HOME_TAB_PATHS,
+  INDIVIDUAL_HOME_TAB_PATHS,
+} from "../../constants/navigation";
 import { useNotifications } from "../../hooks/useNotifications";
 import { useProfileMenu } from "../../hooks/useProfileMenu";
 import { ContentArea } from "./ContentArea";
@@ -12,11 +17,14 @@ import { MobileNav } from "./MobileNav";
 import { NotificationsDrawer } from "./NotificationsDrawer";
 import { HeaderActions } from "./HeaderActions";
 import { Button } from "@repo/ui/atoms";
+import { useAuth } from "../../contexts/AuthContext";
+import { PROFILE_OPTIONS } from "../../constants/profile";
 
-const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const DashboardLayout: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
   const pathname = usePathname();
+  const { user, switchedAccountType } = useAuth();
 
   const {
     items: notifications,
@@ -33,21 +41,51 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
     setIsSidebarOpen((open) => !open);
   }, [setIsSidebarOpen]);
 
-  const sidebarLinks = useMemo(
-    () =>
-      NAV_LINKS.map((link) => {
-        const active =
-          link.href === "/"
-            ? HOME_TAB_PATHS.includes(pathname)
-            : pathname.startsWith(link.href);
-        return { ...link, active };
-      }),
-    [pathname],
-  );
+  const headerDropdownOptions = useMemo(() => {
+    if (user?.customerType !== "individual") {
+      return PROFILE_OPTIONS.filter((opt) => opt.value !== "switch-account");
+    }
+    return PROFILE_OPTIONS;
+  }, [user?.customerType]);
 
-  const activeLink = sidebarLinks.find((l) => l.active);
+  const sidebarLinks = useMemo(() => {
+    const links =
+      switchedAccountType === "individual"
+        ? INDIVIDUAL_NAV_LINKS
+        : BUSINESS_NAV_LINKS;
 
-  const headerTitle = activeLink?.label ?? "Dashboard";
+    return links.map((link) => {
+      const { href } = link;
+      let active = false;
+
+      if (href === "/") {
+        const homePaths =
+          switchedAccountType === "individual"
+            ? INDIVIDUAL_HOME_TAB_PATHS
+            : BUSINESS_HOME_TAB_PATHS;
+
+        active = homePaths.some(
+          (p) => pathname === p || pathname.startsWith(p + "/"),
+        );
+      } else {
+        active = pathname === href || pathname.startsWith(href + "/");
+      }
+
+      return { ...link, active };
+    });
+  }, [pathname, switchedAccountType]);
+
+  const activeLink = useMemo(() => {
+    const actives = sidebarLinks.filter((l) => l.active);
+    if (actives.length === 0) return undefined;
+    return actives.reduce((best, cur) =>
+      cur.href.length > best.href.length ? cur : best,
+    );
+  }, [sidebarLinks]);
+
+  const headerTitle =
+    activeLink?.label ??
+    (switchedAccountType === "individual" ? "Dashboard" : "Business");
 
   return (
     <main className="min-h-screen flex flex-col relative pb-16">
@@ -56,22 +94,28 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({
         profile
         className="bg-white fixed top-0 z-50 w-full"
         button={
-          <Button
-            variant="primary"
-            size="sm"
-            className="hidden lg:inline-flex font-medium"
-            onClick={() => {
-              console.log("Buy Crypto");
-            }}
-          >
-            Buy Crypto
-          </Button>
+          switchedAccountType === "individual" ? (
+            <Button
+              variant="primary"
+              size="sm"
+              className="hidden lg:inline-flex font-medium"
+              onClick={() => {
+                console.log("Buy Crypto");
+              }}
+            >
+              Buy Crypto
+            </Button>
+          ) : (
+            <></>
+          )
         }
         container={
           <HeaderActions
             selected={selectedProfile}
             onChange={handleProfileChange}
             onNotificationClick={toggleSidebar}
+            isBusinessSwitched={switchedAccountType === "business"}
+            menuOptions={headerDropdownOptions}
           />
         }
       />

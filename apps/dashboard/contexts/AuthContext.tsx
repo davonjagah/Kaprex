@@ -1,40 +1,63 @@
+// AuthContext.tsx
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import useSWR from "swr";
 import { swrFetcher } from "../lib/fetcher";
-import { UserProfileResponse } from "../types/api/user";
+import type { UserProfile, UserProfileResponse } from "../types/api/user";
+import { VirtualAccountsResponse } from "../types/api/wallets";
+
+export type User = UserProfile | null;
+export type Accounts = VirtualAccountsResponse | null;
 
 interface AuthContextType {
-  user: UserProfileResponse;
+  user: User;
+  accounts: Accounts;
   loading: boolean;
+  setSwitchedAccountType: (t: "individual" | "business") => void;
+  switchedAccountType: "individual" | "business";
 }
 
 const AuthContext = createContext<AuthContextType>({
-  user: null as unknown as UserProfileResponse,
+  user: null,
+  accounts: null,
   loading: true,
+  setSwitchedAccountType: () => {},
+  switchedAccountType: "individual",
 });
 
 interface AuthProviderProps {
   children: React.ReactNode;
-  initialUser: UserProfileResponse;
+  initialProfile: UserProfileResponse;
+  initialSwitchedAccountType: "individual" | "business";
 }
 
-export function AuthProvider({ children, initialUser }: AuthProviderProps) {
-  const { data: user, error } = useSWR<UserProfileResponse>(
+export function AuthProvider({
+  children,
+  initialProfile,
+  initialSwitchedAccountType = "individual",
+}: AuthProviderProps) {
+  const { data: profile, error } = useSWR<UserProfileResponse>(
     "/api/auth/profile",
     swrFetcher,
-    {
-      fallbackData: initialUser,
-    },
+    { fallbackData: initialProfile },
   );
 
-  const loading = !user && !error;
+  const loading = !profile && !error;
+  const user = profile?.user ?? null;
+  const accounts = profile?.accounts ?? null;
+  const [switchedAccountType, setSwitchedAccountType] = useState(
+    initialSwitchedAccountType,
+  );
+
   return (
     <AuthContext.Provider
       value={{
-        user: user ?? (null as unknown as UserProfileResponse),
+        user,
+        accounts,
         loading,
+        switchedAccountType,
+        setSwitchedAccountType,
       }}
     >
       {children}
