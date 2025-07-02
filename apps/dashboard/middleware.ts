@@ -1,13 +1,17 @@
+// middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Public auth pages
 const AUTH_PATHS = ["/signin", "/signup", "/account-type"];
 
-// Individual‐only pages
+// Pages only individuals may see
 const INDIVIDUAL_ONLY = ["/portfolio", "/earn", "/cards", "/merchant"];
 
-// Pages you protect for authenticated users (both contexts)
+// Pages only business users may see
+const BUSINESS_ONLY = ["/accounts"];
+
+// Pages accessible to any signed-in user
 const PROTECTED = ["/", "/portfolio", "/profile", "/transactions"];
 
 export function middleware(req: NextRequest) {
@@ -15,30 +19,26 @@ export function middleware(req: NextRequest) {
   const accountType = req.cookies.get("accountType")?.value || "individual";
   const { pathname } = req.nextUrl;
 
-  // normalize (strip trailing slash, lowercase)
-  const cleanPath = pathname.replace(/\/+$/, "").toLowerCase() || "/";
+  // normalize path (strip trailing slash, lowercase)
+  const cleanPath = (pathname.replace(/\/+$/, "") || "/").toLowerCase();
 
-  // is this an auth page?
+  // 1) Redirect signed-in users off auth pages
   const isAuthPage = AUTH_PATHS.some(
     (p) => cleanPath === p || cleanPath.startsWith(p + "/"),
   );
-
-  // is this a protected page?
-  const isProtected = PROTECTED.some(
-    (p) => cleanPath === p || cleanPath.startsWith(p + "/"),
-  );
-
-  // Signed‐in users shouldn’t see auth pages
   if (token && isAuthPage) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // Unauthenticated users must sign in
+  // 2) Redirect unauthenticated users onto sign-in
+  const isProtected = PROTECTED.some(
+    (p) => cleanPath === p || cleanPath.startsWith(p + "/"),
+  );
   if (!token && isProtected) {
     return NextResponse.redirect(new URL("/signin", req.url));
   }
 
-  // Business‐mode users can’t access individual‐only pages
+  // 3) Prevent business users from hitting individual-only pages
   const isIndividualOnly = INDIVIDUAL_ONLY.some(
     (p) => cleanPath === p || cleanPath.startsWith(p + "/"),
   );
@@ -46,13 +46,21 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // otherwise, allow
+  // 4) Prevent individual users from hitting business-only pages
+  const isBusinessOnly = BUSINESS_ONLY.some(
+    (p) => cleanPath === p || cleanPath.startsWith(p + "/"),
+  );
+  if (accountType === "individual" && isBusinessOnly) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  // otherwise, let them through
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    // everything except nextjs internals and static assets
+    // everything except nextjs internals & static assets
     "/((?!api|_next|.*\\.(?:svg|png|jpg|jpeg|webp|ico|json|txt)).*)",
   ],
 };

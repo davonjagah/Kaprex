@@ -1,26 +1,39 @@
+"use client";
+
 import { useCallback, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { notifyError } from "@repo/ui/toasts";
 import api from "../lib/api";
+import { useRouter } from "next/navigation";
+
 export function useAccountSwitcher() {
   const { setSwitchedAccountType } = useAuth();
   const [isSwitching, setIsSwitching] = useState(false);
+  const router = useRouter();
 
   const switchAccount = useCallback(async () => {
     setIsSwitching(true);
-    const res = await api.post("/auth/switch-account");
-    console.log(res, "res!!!");
+    try {
+      const res = await api.post<{ accountType: "individual" | "business" }>(
+        "/auth/switch-account",
+      );
 
-    if (res.status === 200) {
-      const { accountType } = (await res.data) as {
-        accountType: "individual" | "business";
-      };
+      // success?
+      const { accountType } = res.data;
       setSwitchedAccountType(accountType);
-    } else {
-      notifyError(`Switch failed`);
+
+      // triggers new SSR fetch or middleware re‐run
+      router.refresh();
+    } catch (err: unknown) {
+      notifyError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong while switching.",
+      );
+    } finally {
+      setIsSwitching(false);
     }
-    setIsSwitching(false);
-  }, [setSwitchedAccountType]);
+  }, [setSwitchedAccountType, router]);
 
   return { switchAccount, isSwitching };
 }

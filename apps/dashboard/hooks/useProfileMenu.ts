@@ -9,7 +9,7 @@ export type ProfileOption = "profile" | "switch-account" | "logout";
 
 export function useProfileMenu() {
   const [selected, setSelected] = useState<ProfileOption | "">("");
-  const { switchAccount } = useAccountSwitcher();
+  const { isSwitching, switchAccount } = useAccountSwitcher();
   const router = useRouter();
 
   const logout = useCallback(async (): Promise<void> => {
@@ -35,5 +35,5 @@ export function useProfileMenu() {
     [logout, router, switchAccount],
   );
 
-  return { selected, onChange };
+  return { selected, onChange, isSwitching };
 }

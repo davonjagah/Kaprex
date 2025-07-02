@@ -10,6 +10,7 @@ import { AccountReadyModal } from "../AccountReadyModal/AccountReadyModal";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import api from "../../../lib/api";
+import LoadingModal from "../../shared/Modals/LoadingModal";
 
 const VerifyEmail = ({
   email,
@@ -89,6 +90,7 @@ const VerifyEmail = ({
       } else {
         router.refresh();
         router.replace("/");
+        setIsLoggingIn(false);
       }
     } catch (err: unknown) {
       const msg =
@@ -96,7 +98,6 @@ const VerifyEmail = ({
           ? err.response?.data.message
           : "Verify code failed";
       notifyError(msg);
-    } finally {
       setIsLoggingIn(false);
     }
   };
@@ -137,7 +138,15 @@ const VerifyEmail = ({
           </Button>
         </div>
       </div>
-      {type === "signup" && <AccountReadyModal open={showAccountReady} />}
+      {type === "signup" ? (
+        <AccountReadyModal open={showAccountReady} />
+      ) : (
+        <LoadingModal
+          title="Logging in"
+          description="Hang on while we log you in"
+          open={isLoggingIn}
+        />
+      )}
     </div>
   );
 };

@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
 
   if (!res.ok) {
     // On refresh failure, clear out the cookies
+    console.log(res, "res!!!");
     const out = NextResponse.json(null, { status: 401 });
     out.cookies.delete({ name: "access", path: "/" });
     out.cookies.delete({ name: "refresh", path: "/" });
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
     value: tokens.access_token,
     httpOnly: true,
     path: "/",
-    maxAge: 15 * 60, // 15 minutes
+    maxAge: 7 * 24 * 3600, // 7 days
     sameSite: "lax",
   });
   out.cookies.set({

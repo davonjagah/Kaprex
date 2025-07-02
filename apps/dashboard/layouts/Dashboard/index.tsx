@@ -19,6 +19,7 @@ import { HeaderActions } from "./HeaderActions";
 import { Button } from "@repo/ui/atoms";
 import { useAuth } from "../../contexts/AuthContext";
 import { PROFILE_OPTIONS } from "../../constants/profile";
+import { LoadingModal } from "../../components/shared/Modals/LoadingModal";
 
 const DashboardLayout: React.FC<{
   children: React.ReactNode;
@@ -34,8 +35,11 @@ const DashboardLayout: React.FC<{
     setIsSidebarOpen,
   } = useNotifications();
 
-  const { selected: selectedProfile, onChange: handleProfileChange } =
-    useProfileMenu();
+  const {
+    selected: selectedProfile,
+    onChange: handleProfileChange,
+    isSwitching,
+  } = useProfileMenu();
 
   const toggleSidebar = useCallback(() => {
     setIsSidebarOpen((open) => !open);
@@ -118,6 +122,12 @@ const DashboardLayout: React.FC<{
             menuOptions={headerDropdownOptions}
           />
         }
+      />
+
+      <LoadingModal
+        title="Switching Account"
+        description="Hang on while we switch your account"
+        open={isSwitching}
       />
 
       <div className="block lg:flex flex-1 min-h-0 relative">

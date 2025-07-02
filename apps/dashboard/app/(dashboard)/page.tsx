@@ -1,16 +1,17 @@
+"use client";
+
 import React from "react";
 import Features from "../../components/Dashboard/Features/Features";
 import BalanceAndAccounts from "../../components/shared/BalanceAndAccounts";
-import { cookies } from "next/headers";
 import BusinessDashboard from "../../components/Business";
+import { useAuth } from "../../contexts/AuthContext";
 
-export default async function Home() {
-  const accountType =
-    (await cookies()).get("accountType")?.value ?? "individual";
+export default function Home() {
+  const { switchedAccountType } = useAuth();
 
   return (
     <>
-      {accountType === "individual" ? (
+      {switchedAccountType === "individual" ? (
         <>
           <BalanceAndAccounts />
           <Features />
