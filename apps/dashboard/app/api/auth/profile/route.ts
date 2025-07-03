@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { VirtualAccountsResponse } from "../../../../types/api/wallets";
 
 export const runtime = "edge";
+
+export const revalidate = 60;
 
 export async function GET(req: NextRequest) {
   const access = req.cookies.get("access")?.value;
@@ -21,11 +24,11 @@ export async function GET(req: NextRequest) {
 
   // 2️⃣ Fetch virtual accounts
   const accountsRes = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_AUTH_URL}/virtual-accounts`,
+    `${process.env.NEXT_PUBLIC_BACKEND_AUTH_URL}/wallets/main`,
     { headers: { Authorization: `Bearer ${access}` } },
   );
 
-  let accounts: unknown = null;
+  let accounts: { data: VirtualAccountsResponse } | null = null;
   if (accountsRes.ok) {
     accounts = await accountsRes.json();
   } else if (accountsRes.status !== 404) {
@@ -34,5 +37,5 @@ export async function GET(req: NextRequest) {
   }
 
   // 3️⃣ Return both in one payload
-  return NextResponse.json({ user, accounts });
+  return NextResponse.json({ user, accounts: accounts?.data ?? null });
 }

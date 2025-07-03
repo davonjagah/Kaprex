@@ -92,7 +92,7 @@ const DashboardLayout: React.FC<{
     (switchedAccountType === "individual" ? "Dashboard" : "Business");
 
   return (
-    <main className="min-h-screen flex flex-col relative pb-16">
+    <main className="min-h-screen flex flex-col relative pb-16 md:pb-0">
       <Header
         title={headerTitle}
         profile

@@ -6,7 +6,6 @@ import { Dropdown } from "@repo/ui/molecules";
 const currencies = [
   { label: "USD ($)", value: "usd" },
   { label: "EUR (€)", value: "eur" },
-  { label: "GHS (₵)", value: "ghs" },
 ];
 
 interface CurrencyStepProps {

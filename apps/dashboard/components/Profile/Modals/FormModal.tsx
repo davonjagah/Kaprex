@@ -66,7 +66,7 @@ export const FormModal: React.FC<FormModalProps> = ({
   }, [open, defaultValues, reset, userAccountName]);
 
   return (
-    <Modal open={open} onClose={onClose} showCloseButton={false}>
+    <Modal open={open} onClose={onClose} showCloseButton>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="p-10 md:p-14 md:px-16 flex flex-col gap-8"

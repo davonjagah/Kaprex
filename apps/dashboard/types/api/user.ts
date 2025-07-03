@@ -14,6 +14,7 @@ export interface UserProfile {
   bridgeCustomerId: string;
   createdAt: string;
   updatedAt: string;
+  kycStatus: "pending" | "approved" | "rejected";
 }
 
 export interface UserProfileResponse {

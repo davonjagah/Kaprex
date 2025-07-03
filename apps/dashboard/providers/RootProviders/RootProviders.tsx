@@ -7,7 +7,8 @@ const RootProviders = async ({ children }: { children: React.ReactNode }) => {
 
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/profile`, {
     headers: { cookie: cookieHeader },
-    cache: "no-store",
+    cache: "force-cache",
+    next: { revalidate: 60 },
   });
 
   const initialUser: UserProfileResponse = res.ok ? await res.json() : null;

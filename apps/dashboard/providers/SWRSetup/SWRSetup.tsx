@@ -19,6 +19,8 @@ const SWRSetup = ({
       value={{
         fetcher: swrFetcher,
         fallback: { "/auth/profile": initialUser },
+        dedupingInterval: 60000,
+        revalidateOnFocus: false,
       }}
     >
       <AuthProvider

@@ -40,7 +40,11 @@ export function AuthProvider({
   const { data: profile, error } = useSWR<UserProfileResponse>(
     "/auth/profile",
     swrFetcher,
-    { fallbackData: initialProfile },
+    {
+      fallbackData: initialProfile,
+      revalidateIfStale: true,
+      dedupingInterval: 60000,
+    },
   );
 
   const loading = !profile && !error;

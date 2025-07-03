@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import BalanceAndAccounts from "../../../components/shared/BalanceAndAccounts";
 import TransactionsCard from "../../../components/shared/TransactionsCard/TransactionsCard";
 import { UsdIcon, WalletIcon } from "@repo/ui/icons";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const transactions = [
   {
@@ -39,9 +42,11 @@ const transactions = [
 ];
 
 export default function Portfolio() {
+  const { accounts } = useAuth();
+
   return (
     <>
-      <BalanceAndAccounts />
+      <BalanceAndAccounts accounts={accounts!} />
       <TransactionsCard transactions={transactions} />
     </>
   );

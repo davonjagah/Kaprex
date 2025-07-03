@@ -7,13 +7,13 @@ import BusinessDashboard from "../../components/Business";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function Home() {
-  const { switchedAccountType } = useAuth();
+  const { switchedAccountType, accounts } = useAuth();
 
   return (
     <>
       {switchedAccountType === "individual" ? (
         <>
-          <BalanceAndAccounts />
+          <BalanceAndAccounts accounts={accounts!} />
           <Features />
         </>
       ) : (

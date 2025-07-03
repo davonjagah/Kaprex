@@ -24,16 +24,11 @@ export const INDIVIDUAL_NAV_LINKS: NavLink[] = [
 ];
 export const BUSINESS_NAV_LINKS: NavLink[] = [
   { label: "Business", icon: HouseIcon, href: "/" },
-  { label: "Pay", icon: Minus, href: "/transactions/pay" },
+  { label: "Transact", icon: Minus, href: "/transactions/pay" },
   {
-    label: "Buy Crypto",
+    label: "Treasury",
     icon: ShoppingCart,
-    href: "/transactions/buy-crypto",
-  },
-  {
-    label: "Sell Crypto",
-    icon: Tag,
-    href: "/transactions/sell-crypto",
+    href: "/treasury",
   },
 ];
 
@@ -45,7 +40,7 @@ export const INDIVIDUAL_HOME_TAB_PATHS = [
   "/transactions/sell-crypto",
 ];
 
-export const BUSINESS_HOME_TAB_PATHS = ["/"];
+export const BUSINESS_HOME_TAB_PATHS = ["/accounts"];
 
 const COMMON_TRANSACTION_TABS = [
   { label: "Pay", value: "pay", href: "/transactions/pay" },

@@ -6,10 +6,13 @@ import { InfoRowProps, InfoRow } from "../../../components/Profile/InfoRow";
 import { Section } from "../../../components/Profile/Section";
 import { UserInfoCard } from "../../../components/Profile/UserInfoCard";
 import VerificationLevel from "../../../components/Profile/VerificationLevel";
+import { useProfileMenu } from "../../../hooks/useProfileMenu";
+import LoadingModal from "../../../components/shared/Modals/LoadingModal";
 
 const IdentificationTab: React.FC = () => {
   const { user } = useAuth();
   const { switchedAccountType } = useAuth();
+  const { onChange, isSwitching } = useProfileMenu();
 
   const isBusinessSwitched = switchedAccountType === "business";
 
@@ -48,9 +51,15 @@ const IdentificationTab: React.FC = () => {
         <VerificationLevel
           accountType={user?.customerType || "individual"}
           isBusinessSwitched={isBusinessSwitched}
-          onSwitchToBusiness={() => console.log("switch to business")}
+          onSwitchToBusiness={() => onChange("switch-account")}
           individualVerificationStatus="verified"
           businessVerificationStatus="Not verified"
+        />
+
+        <LoadingModal
+          title="Switching Account"
+          description="Hang on while we switch your account"
+          open={isSwitching}
         />
       </div>
     </div>

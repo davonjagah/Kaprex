@@ -37,3 +37,6 @@ export { BankIcon } from "./bankIcon";
 export { CryptoIcon } from "./cryptoIcon";
 export { LostIcon } from "./lostIcon";
 export { ChevronDownIcon } from "./chevronDownIcon";
+export { MetamaskIcon } from "./metamaskIcon";
+export { KaprexLogoIcon } from "./kaprexLogoIcon";
+export { CopyIcon } from "./copyIcon";

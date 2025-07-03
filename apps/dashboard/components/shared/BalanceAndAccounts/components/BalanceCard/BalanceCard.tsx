@@ -4,9 +4,39 @@ import { Button, IconButton, Typography } from "@repo/ui/atoms";
 import { Eye, EyeOff, Minus, Plus, ShoppingCart, Tag } from "lucide-react";
 import React, { useState } from "react";
 import Link from "next/link";
+import { BalanceItem } from "../../../../../types/api/wallets";
+import { Dropdown } from "@repo/ui/molecules";
 
-export default function BalanceCard() {
+export default function BalanceCard({ balances }: { balances: BalanceItem[] }) {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
+  const [selectedCurrency, setSelectedCurrency] = useState(
+    balances.length > 0 ? balances[0]?.token.symbol || "USDC" : "USDC",
+  );
+
+  const selectedBalance =
+    balances.length > 0
+      ? parseFloat(
+          balances.find((b) => b.token.symbol === selectedCurrency)?.amount ||
+            "0.00",
+        )
+      : 0.0;
+
+  const getDisplayLabel = (symbol: string) => {
+    if (symbol === "USDC") return "USD";
+    if (symbol === "EURC") return "EUR";
+    return symbol;
+  };
+
+  const currencyOptions =
+    balances.length > 0
+      ? balances.slice(0, 2).map((b) => ({
+          label: getDisplayLabel(b.token.symbol),
+          value: b.token.symbol,
+        }))
+      : [
+          { label: "USD", value: "USDC" },
+          { label: "EUR", value: "EURC" },
+        ];
 
   return (
     <div className="flex-1 bg-white rounded-xl shadow-sm py-6 px-4 lg:py-8.5 lg:px-8 flex flex-col justify-between w-full lg:w-[59.41%]">
@@ -35,22 +65,24 @@ export default function BalanceCard() {
           variant="h2"
           className="font-normal tracking-tight font-nohemi text-[36px] lg:text-[64px]"
         >
-          {isBalanceVisible ? "1,000,234.56" : "****"}
+          {isBalanceVisible
+            ? selectedBalance.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })
+            : "****"}
         </Typography>
-        <Typography
-          variant="body"
-          className="text-gray-400 font-nohemi text-base lg:text-[32px]"
-        >
-          USD
-        </Typography>
+        <div className="min-w-[80px]">
+          <Dropdown
+            options={currencyOptions}
+            value={selectedCurrency}
+            onChange={setSelectedCurrency}
+            className="text-black font-nohemi text-base lg:text-[32px] bg-transparent border-none shadow-none px-2 py-1 h-auto min-w-[80px]"
+            showChevron={true}
+            dropdownClassName="w-32"
+          />
+        </div>
       </div>
-
-      <Typography
-        variant="body"
-        className="text-green-500 font-sans text-xs lg:text-base mb-8"
-      >
-        {isBalanceVisible ? "+27,972.00 (2.14%)" : "****"}
-      </Typography>
 
       <div className="flex justify-center lg:justify-start gap-10 mt-2">
         <Link href="/transactions/fund">
@@ -63,22 +95,26 @@ export default function BalanceCard() {
             <Minus className="w-4 md:w-7 h-4 md:h-7" />
           </IconButton>
         </Link>
-        <IconButton
-          variant="secondary"
-          label="Buy Crypto"
-          labelMobile="Buy"
-          size="lg"
-        >
-          <ShoppingCart className="w-4 md:w-7 h-4 md:h-7" />
-        </IconButton>
-        <IconButton
-          variant="secondary"
-          label="Sell Crypto"
-          labelMobile="Sell"
-          size="lg"
-        >
-          <Tag className="w-4 md:w-7 h-4 md:h-7" />
-        </IconButton>
+        <Link href="/transactions/buy-crypto">
+          <IconButton
+            variant="secondary"
+            label="Buy Crypto"
+            labelMobile="Buy"
+            size="lg"
+          >
+            <ShoppingCart className="w-4 md:w-7 h-4 md:h-7" />
+          </IconButton>
+        </Link>
+        <Link href="/transactions/sell-crypto">
+          <IconButton
+            variant="secondary"
+            label="Sell Crypto"
+            labelMobile="Sell"
+            size="lg"
+          >
+            <Tag className="w-4 md:w-7 h-4 md:h-7" />
+          </IconButton>
+        </Link>
       </div>
     </div>
   );

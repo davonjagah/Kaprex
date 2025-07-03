@@ -1,10 +1,13 @@
 import React from "react";
+import { cn } from "../../utils/cn";
+import { X } from "lucide-react";
 
 export interface ModalProps {
   open: boolean;
   onClose?: () => void;
   children: React.ReactNode;
   showCloseButton?: boolean;
+  className?: string;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -12,6 +15,7 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
   children,
   showCloseButton = true,
+  className,
 }) => {
   if (!open) return null;
   return (
@@ -20,16 +24,19 @@ export const Modal: React.FC<ModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-white shadow-lg relative w-[90vw] max-w-[532px]"
+        className={cn(
+          "bg-white shadow-lg relative w-[90vw] max-w-[532px]",
+          className,
+        )}
         onClick={(e) => e.stopPropagation()}
       >
         {showCloseButton && (
           <button
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold"
+            className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-2xl font-bold"
             onClick={onClose}
             aria-label="Close modal"
           >
-            ×
+            <X strokeWidth={1} />
           </button>
         )}
         {children}

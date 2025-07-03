@@ -21,6 +21,7 @@ interface DropdownProps {
   optionsClassName?: string;
   trigger?: React.ReactNode;
   showChevron?: boolean;
+  disabled?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -35,6 +36,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   optionsClassName = "",
   trigger,
   showChevron = true,
+  disabled = false,
 }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -63,11 +65,13 @@ const Dropdown: React.FC<DropdownProps> = ({
         className={cn(
           "text-gray-400 flex items-center gap-1 select-none px-2 py-1 rounded hover:bg-gray-50",
           labelClassName,
+          disabled && "opacity-50 cursor-not-allowed",
         )}
         onClick={() => setOpen((o) => !o)}
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
+        disabled={disabled}
       >
         {trigger || (selected ? selected.label : placeholder)}
         {showChevron && (

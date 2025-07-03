@@ -3,16 +3,16 @@ import { AccountOption } from "./AccountTypeStep";
 
 export const FUND_ACCOUNT_OPTIONS: AccountOption[] = [
   {
-    label: "Virtual Account",
-    value: "virtual",
+    label: "Bank Transfer",
+    value: "bank",
     icon: BankIcon,
-    description: "Send from your Kaprex USD or Euro balance",
+    description: "Add money via a simple bank transfer",
   },
   {
     label: "Crypto",
     value: "crypto",
     icon: CryptoIcon,
-    description: "Send from your crypto wallet balance",
+    description: "Deposit via wallet address",
   },
 ];
 
