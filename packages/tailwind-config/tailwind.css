@@ -38,3 +38,12 @@
     animation-play-state: paused;
   }
 }
+
+.animate-spin-slow {
+  animation: spin 1.2s linear infinite;
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

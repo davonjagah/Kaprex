@@ -10,19 +10,39 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@bigmi/react": "^0.4.1",
+    "@headlessui/react": "^2.2.4",
+    "@hookform/resolvers": "^2",
+    "@lifi/widget": "^3.24.2",
+    "@mysten/dapp-kit": "^0.16.14",
     "@repo/ui": "*",
+    "@solana/wallet-adapter-react": "^0.15.39",
+    "@tanstack/react-query": "^5.81.5",
+    "@tinymce/tinymce-react": "^6.2.1",
+    "axios": "^1.10.0",
+    "cloudinary": "^2.7.0",
+    "formidable": "^3.5.4",
+    "js-cookie": "^3.0.5",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
+    "mammoth": "^1.9.1",
+    "next": "15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.0"
+    "react-qr-code": "^2.0.16",
+    "wagmi": "^2.15.6",
+    "zod": "^3"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@repo/tailwind-config": "*",
+    "@types/formidable": "^3.4.5",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5"
   }
 }

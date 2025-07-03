@@ -8,6 +8,8 @@ export interface FAQItemProps {
   isOpen: boolean;
   onToggle: () => void;
   index: number;
+  labelClassName?: string;
+  contentClassName?: string;
 }
 
 export interface FAQColumnProps {
@@ -15,4 +17,6 @@ export interface FAQColumnProps {
   startIndex: number;
   expandedIndex: number | null;
   onToggle: (index: number) => void;
+  labelClassName?: string;
+  contentClassName?: string;
 }

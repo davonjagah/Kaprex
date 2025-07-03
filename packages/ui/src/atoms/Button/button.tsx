@@ -38,6 +38,9 @@ export const Button = ({
           "h-12 text-base": size === "md",
           "h-15 text-lg": size === "lg",
         },
+        {
+          "opacity-50 cursor-not-allowed hover:opacity-50": disabled,
+        },
         className,
       )}
       disabled={disabled || isLoading}

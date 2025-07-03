@@ -8,7 +8,8 @@
     "./molecules": "./src/molecules/index.ts",
     "./widgets": "./src/widgets/index.ts",
     "./icons": "./src/icons/index.ts",
-    "./toasts": "./src/toasts/index.ts"
+    "./toasts": "./src/toasts/index.ts",
+    "./utils": "./src/utils/cn.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",

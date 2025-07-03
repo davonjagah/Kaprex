@@ -1,7 +1,6 @@
 import React from "react";
 import { BrandIcon } from "../../icons";
 import { Button, Typography } from "../../atoms";
-import { IconButton } from "../../atoms/IconButton/iconButton";
 import Link from "next/link";
 
 export interface IHeaderProps {
@@ -11,15 +10,16 @@ export interface IHeaderProps {
   buttonText?: string;
   button?: React.ReactNode;
   className?: string;
+  container?: React.ReactNode;
 }
 
 export const Header: React.FC<IHeaderProps> = ({
   title = "",
   onButtonClick,
-  profile = false,
   buttonText = "Connect Wallet",
   button,
   className,
+  container,
 }) => {
   return (
     <nav
@@ -31,7 +31,10 @@ export const Header: React.FC<IHeaderProps> = ({
         </Link>
 
         {title && (
-          <Typography variant="body" className="font-nohemi text-gray-500">
+          <Typography
+            variant="body"
+            className="font-nohemi text-gray-500 hidden md:block"
+          >
             {title}
           </Typography>
         )}
@@ -49,15 +52,7 @@ export const Header: React.FC<IHeaderProps> = ({
           </Button>
         )}
 
-        {profile && (
-          <IconButton
-            variant="secondary"
-            size="md"
-            className="font-nohemi text-xl"
-          >
-            EI
-          </IconButton>
-        )}
+        {container}
       </div>
     </nav>
   );
