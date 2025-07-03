@@ -9,27 +9,49 @@ import Link from "next/link";
 import { ChevronRight, ClipboardList } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { KaprexLogoIcon, MetamaskIcon } from "@repo/ui/icons";
+import { useMetamask } from "../../hooks/useMetamask";
+import { VirtualAccountsResponse } from "../../types/api/wallets";
 
-interface VirtualAccount {
-  name: string;
-  balance: number;
-  weight: number;
-  currency?: "USD" | "EUR";
-  wallet?: "kaprex" | "metamask";
-}
+// interface VirtualAccount {
+//   name: string;
+//   balance: number;
+//   weight: number;
+//   currency?: "USD" | "EUR";
+//   wallet?: "kaprex" | "metamask";
+// }
 
-const initialAccounts: VirtualAccount[] = [
-  // Uncomment to test with data
-  { name: "Operations", balance: 8000, weight: 80 },
-  { name: "Payroll", balance: 1200, weight: 12 },
-  { name: "Prime OTC Main", balance: 800, weight: 8 },
-];
+// const initialAccounts: VirtualAccount[] = [
+//   // Uncomment to test with data
+//   // { name: "Operations", balance: 8000, weight: 80 },
+//   // { name: "Payroll", balance: 1200, weight: 12 },
+//   { name: "Prime OTC Main", balance: 800, weight: 8 },
+// ];
 
-const BusinessDashboard: React.FC = () => {
-  const [accounts, setAccounts] = useState<VirtualAccount[]>(initialAccounts);
+const BusinessDashboard: React.FC<{ accounts: VirtualAccountsResponse }> = ({
+  accounts,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
-  const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
+
+  const { account, connect } = useMetamask();
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  const onClick = async () => {
+    setIsConnecting(true);
+    try {
+      await connect();
+    } catch (err: Error | unknown) {
+      alert((err as Error).message || "Failed to connect");
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
+  const label = isConnecting
+    ? "Connecting…"
+    : account
+      ? `${account.slice(0, 6)}…${account.slice(-4)}`
+      : "Connect MetaMask";
 
   const { control, handleSubmit, reset } = useForm<{
     name: string;
@@ -44,18 +66,18 @@ const BusinessDashboard: React.FC = () => {
     currency: "USD" | "EUR";
     wallet: "kaprex" | "metamask";
   }) => {
-    setAccounts((prev) => [
-      ...prev,
-      {
-        name: data.name,
-        balance: 0,
-        weight: 0,
-        currency: data.currency,
-        wallet: data.wallet,
-      },
-    ]);
-    setModalOpen(false);
-    reset();
+    const newAccount = {
+      name: data.name,
+      balance: 0,
+      currency: data.currency,
+      wallet: data.wallet === "metamask" ? account : data.wallet,
+    };
+
+    console.log(newAccount, "newAccount");
+
+    // setAccounts((prev) => [...prev, newAccount]);
+    // setModalOpen(false);
+    // reset();
   };
 
   const openModal = () => {
@@ -64,7 +86,7 @@ const BusinessDashboard: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-3xl">
+    <div className="w-full max-w-4xl">
       <div className="bg-white rounded-3xl shadow-sm px-12 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-8 mb-8">
         <div className="flex flex-col md:flex-row md:gap-28 gap-4">
           <div>
@@ -75,22 +97,43 @@ const BusinessDashboard: React.FC = () => {
               variant="h2"
               className="font-nohemi font-normal text-[40px] md:text-6xl"
             >
-              {accounts.length}
+              {/* {accounts.balances.length} */} 1
             </Typography>
           </div>
           <div>
             <Typography variant="body" className="font-nohemi mb-2">
-              Total Balance
+              Total USD Balance
             </Typography>
             <Typography
               variant="h2"
               className="font-nohemi font-normal text-[40px] md:text-6xl"
             >
               $
-              {totalBalance.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+              {Number(accounts?.balances?.[1]?.amount ?? 0).toLocaleString(
+                undefined,
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                },
+              )}
+            </Typography>
+          </div>
+          <div>
+            <Typography variant="body" className="font-nohemi mb-2">
+              Total EUR Balance
+            </Typography>
+            <Typography
+              variant="h2"
+              className="font-nohemi font-normal text-[40px] md:text-6xl"
+            >
+              $
+              {Number(accounts?.balances?.[2]?.amount ?? 0).toLocaleString(
+                undefined,
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                },
+              )}
             </Typography>
           </div>
         </div>
@@ -102,7 +145,7 @@ const BusinessDashboard: React.FC = () => {
           <Typography variant="body" className="text-gray-500 font-nohemi">
             Virtual Accounts
           </Typography>
-          {accounts.length > 0 && (
+          {accounts && (
             <Button
               variant="text"
               className="text-primary font-sans font-medium"
@@ -113,7 +156,7 @@ const BusinessDashboard: React.FC = () => {
           )}
         </div>
         <div>
-          {accounts.length === 0 ? (
+          {!accounts ? (
             <div className="flex flex-col items-center justify-center py-16">
               <div className="mb-4">
                 <ClipboardList className="w-8 h-8 text-gray-400" />
@@ -145,37 +188,45 @@ const BusinessDashboard: React.FC = () => {
                 <thead>
                   <tr className="text-gray-400 font-nohemi text-base border-b">
                     <th className="py-2 px-2 font-normal">Name</th>
-                    <th className="py-2 px-2 font-normal">Balance</th>
-                    <th className="py-2 px-2 font-normal">Weight</th>
+                    <th className="py-2 px-2 font-normal">USD Balance</th>
+                    <th className="py-2 px-2 font-normal">EUR Balance</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {accounts.map((acc, idx) => (
-                    <tr
-                      key={acc.name + idx}
-                      className="border-b last:border-0 hover:bg-gray-50 cursor-pointer"
-                      onClick={() => {
-                        router.push(`/accounts/${acc.name.toLowerCase()}`);
-                      }}
-                    >
-                      <td className="py-3 px-2 font-nohemi">
-                        <Link href={`/accounts/${acc.name.toLowerCase()}`}>
-                          {acc.name}{" "}
-                          <ChevronRight
-                            className="inline-block w-4 h-4"
-                            strokeWidth={1}
-                          />
-                        </Link>
-                      </td>
-                      <td className="py-3 px-2 font-nohemi">
-                        $
-                        {acc.balance.toLocaleString(undefined, {
-                          minimumFractionDigits: 0,
-                        })}
-                      </td>
-                      <td className="py-3 px-2 font-nohemi">{acc.weight}%</td>
-                    </tr>
-                  ))}
+                  {/* {accounts.map((acc, idx) => ( */}
+                  <tr
+                    // key={acc.name + idx}
+                    className="border-b last:border-0 hover:bg-gray-50 cursor-pointer"
+                    onClick={() => {
+                      router.push(`/accounts/${accounts.name.toLowerCase()}`);
+                    }}
+                  >
+                    <td className="py-3 px-2 font-nohemi">
+                      <Link href={`/accounts/${accounts.name.toLowerCase()}`}>
+                        {accounts.name}{" "}
+                        <ChevronRight
+                          className="inline-block w-4 h-4"
+                          strokeWidth={1}
+                        />
+                      </Link>
+                    </td>
+                    <td className="py-3 px-2 font-nohemi">
+                      $
+                      {Number(
+                        accounts?.balances?.[1]?.amount ?? 0,
+                      ).toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                      })}
+                    </td>
+                    <td className="py-3 px-2 font-nohemi">
+                      {Number(
+                        accounts?.balances?.[2]?.amount ?? 0,
+                      ).toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                      })}
+                    </td>
+                  </tr>
+                  {/* ))} */}
                 </tbody>
               </table>
             </div>
@@ -260,10 +311,13 @@ const BusinessDashboard: React.FC = () => {
                   <button
                     type="button"
                     className={`flex-1 flex items-center justify-center gap-2 rounded-full border px-0 py-3 text-base font-sans ${field.value === "metamask" ? "border-primary text-primary bg-white font-semibold" : "border-black text-black bg-white"}`}
-                    onClick={() => field.onChange("metamask")}
+                    onClick={() => {
+                      field.onChange("metamask");
+                      onClick();
+                    }}
                   >
                     <MetamaskIcon />
-                    Connect Metamask
+                    {label}
                   </button>
                 </div>
               )}

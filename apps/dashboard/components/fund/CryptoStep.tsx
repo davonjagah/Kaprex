@@ -2,6 +2,7 @@
 
 import { Typography } from "@repo/ui/atoms";
 import { Dropdown } from "@repo/ui/molecules";
+import CryptoDepositBox from "./CryptoDepositBox";
 
 const blockchains = [{ label: "Solana", value: "solana" }];
 
@@ -19,7 +20,7 @@ export default function CryptoStep({
       <Typography variant="body" className="font-nohemi mb-4">
         Select Blockchain
       </Typography>
-      <div className="mb-8">
+      <div className="mb-2">
         <Dropdown
           options={blockchains}
           value={selectedBlockchain}
@@ -30,9 +31,17 @@ export default function CryptoStep({
           dropdownClassName="w-full"
         />
       </div>
-      <div className="text-gray-400 text-base font-nohemi">
-        Enter your wallet address
-      </div>
+      <Typography variant="body" className="bg-[#FFF1EB] p-2.5 rounded-xl mb-6">
+        <span className="text-xs font-nohemi">Allowed token:</span>
+        <span className="font-bold ml-2 font-sans text-sm">
+          EURC USDC Solana
+        </span>
+      </Typography>
+
+      <Typography variant="body" className="font-nohemi mb-2">
+        Deposit Address
+      </Typography>
+      <CryptoDepositBox address="0x1234567890123456789012345678901234567890" />
     </>
   );
 }

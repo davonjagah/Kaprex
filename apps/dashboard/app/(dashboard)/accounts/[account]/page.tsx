@@ -15,5 +15,5 @@ export default async function AccountPage() {
 
   const accounts = res.ok ? await res.json() : null;
 
-  return <Accounts accounts={accounts} />;
+  return <Accounts accounts={accounts?.data} />;
 }

@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Typography, Button } from "@repo/ui/atoms";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { CopyIcon, SolanaIcon, WagesIcon } from "@repo/ui/icons";
 import { Dropdown } from "@repo/ui/molecules";
 import { Download, Search } from "lucide-react";
-import { FundingAccount } from "../../../types/api/wallets";
+import { VirtualAccountTransactions } from "../../../types/api/wallets";
+import { useAuth } from "../../../contexts/AuthContext";
 // import { useParams } from "next/navigation";
 
 const mockAccount = {
@@ -25,41 +26,6 @@ const mockAccount = {
   },
 };
 
-const mockTransactions = [
-  {
-    id: 1,
-    amount: 500,
-    currency: "USD",
-    desc: "Deposited",
-    method: "Funded through ACH",
-    date: "2025-03-12T15:45:00Z",
-    status: "Completed",
-  },
-  {
-    id: 2,
-    amount: 125.34,
-    currency: "EUR",
-    desc: "Deposited",
-    method: "Funded through Wire",
-    date: "2025-03-12T15:42:00Z",
-    status: "Failed",
-  },
-  {
-    id: 3,
-    amount: 200,
-    currency: "USD",
-    desc: "Deposited",
-    method: "Funded through ACH",
-    date: "2025-04-10T10:30:00Z",
-    status: "Completed",
-  },
-];
-
-const months = [
-  { label: "March 2025", value: "2025-03" },
-  { label: "April 2025", value: "2025-04" },
-];
-
 const sortOptions = [
   { label: "Newest", value: "newest" },
   { label: "Oldest", value: "oldest" },
@@ -73,17 +39,45 @@ const sortOptions = [
 //   minDeposit: "More than 0.001 USDT",
 // };
 
-const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
+const Accounts = ({ accounts }: { accounts: VirtualAccountTransactions }) => {
+  const { accounts: accountsData } = useAuth();
   //   const params = useParams();
-  console.log(accounts, "accounts");
+  console.log(accounts, "accounts", accounts.transactionHistory);
   const [tab, setTab] = useState<"bank" | "crypto">("bank");
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("newest");
-  const [month, setMonth] = useState(months[0]?.value || "");
+  const [month, setMonth] = useState("");
   const [copiedLabel, setCopiedLabel] = useState<string | null>(null);
 
+  const uniqueMonths = useMemo(
+    () =>
+      Array.from(
+        new Set(accounts.transactionHistory.map((tx) => tx.date.slice(0, 7))),
+      ),
+    [accounts.transactionHistory],
+  );
+
+  // 2) turn those into label/value pairs for your dropdown
+  const monthOptions = useMemo(
+    () =>
+      uniqueMonths.map((value) => ({
+        value,
+        label: new Date(value + "-01").toLocaleString("default", {
+          month: "long",
+          year: "numeric",
+        }),
+      })),
+    [uniqueMonths],
+  );
+
+  // 3) add an “All” option at the top
+  const dropdownOptions = useMemo(
+    () => [{ value: "", label: "All Months" }, ...monthOptions],
+    [monthOptions],
+  );
+
   // Filtering
-  const filtered = mockTransactions.filter((tx) => {
+  const filtered = accounts.transactionHistory.filter((tx) => {
     // Month filter
     const txMonth = tx.date.slice(0, 7);
     if (month && txMonth !== month) return false;
@@ -92,9 +86,9 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
     return (
       tx.amount.toString().includes(searchLower) ||
       tx.currency.toLowerCase().includes(searchLower) ||
-      tx.method.toLowerCase().includes(searchLower) ||
+      tx.source.payment_rail.toLowerCase().includes(searchLower) ||
       tx.status.toLowerCase().includes(searchLower) ||
-      tx.desc.toLowerCase().includes(searchLower)
+      tx.notification.toLowerCase().includes(searchLower)
     );
   });
 
@@ -105,7 +99,7 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
     } else if (sortBy === "oldest") {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     } else if (sortBy === "amount") {
-      return b.amount - a.amount;
+      return Number(b.amount) - Number(a.amount);
     } else if (sortBy === "status") {
       return a.status.localeCompare(b.status);
     }
@@ -147,8 +141,8 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
       body: sorted.map((tx) => [
         tx.amount,
         tx.currency,
-        tx.desc,
-        tx.method,
+        tx.notification,
+        tx.source.payment_rail,
         new Date(tx.date).toLocaleString(),
         tx.status,
       ]),
@@ -174,18 +168,20 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
   };
 
   const accountDetailsArray = [
-    { label: "Account Name", value: mockAccount.details.accountName },
-    { label: "Bank Name", value: mockAccount.details.bankName },
+    { label: "Account Name", value: accounts.accountName },
+    { label: "Bank Name", value: accounts.bankName },
     { label: "Account Number", value: mockAccount.details.accountNumber },
     { label: "Routing Number", value: mockAccount.details.routingNumber },
-    { label: "Account Type", value: mockAccount.details.accountType },
-    { label: "Address", value: mockAccount.details.accountAddress },
+    { label: "Account Type", value: accounts.swiftCode },
+    { label: "Address", value: accounts.bank_address },
   ];
+
+  console.log(accountsData, "accountsData", accounts);
 
   return (
     <div className="w-full">
       <Typography variant="h1" className="md:text-4xl mb-8 font-normal">
-        {mockAccount.name}
+        {accountsData?.name}
       </Typography>
       <div className="flex flex-col md:flex-row gap-8 mb-8">
         {/* Left: Summary Cards */}
@@ -199,7 +195,7 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
               variant="h2"
               className="font-nohemi text-3xl font-normal flex items-center gap-2"
             >
-              {mockAccount.balance.toLocaleString()}{" "}
+              {accountsData?.balances[1]?.amount.toLocaleString()}
               <span className="text-lg text-gray-400 font-normal">USD</span>
             </Typography>
           </div>
@@ -212,7 +208,7 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
               variant="h2"
               className="font-nohemi text-3xl font-normal flex items-center gap-2"
             >
-              {mockAccount.balance.toLocaleString()}{" "}
+              {accountsData?.balances[2]?.amount.toLocaleString()}
               <span className="text-lg text-gray-400 font-normal">EUR</span>
             </Typography>
           </div>
@@ -225,8 +221,8 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
               variant="h2"
               className="font-nohemi text-3xl font-normal flex items-center gap-2"
             >
-              {mockAccount.balance.toLocaleString()}{" "}
-              <span className="text-lg text-gray-400 font-normal">USD</span>
+              {accountsData?.balances[0]?.amount.toLocaleString()}
+              <span className="text-lg text-gray-400 font-normal">SOL</span>
             </Typography>
           </div>
         </div>
@@ -278,7 +274,11 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
                         setTimeout(() => setCopiedLabel(null), 1000);
                       }}
                     >
-                      {copiedLabel === item.label ? "Copied!" : <CopyIcon />}
+                      {copiedLabel === item.label ? (
+                        "Copied!"
+                      ) : (
+                        <CopyIcon className="text-gray-100" />
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -398,10 +398,7 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
                 labelClassName="text-[#7C7B80] font-sans text-base font-semibold"
               />
               <Dropdown
-                options={months.map((m) => ({
-                  label: m.label,
-                  value: m.value,
-                }))}
+                options={dropdownOptions}
                 value={month}
                 onChange={setMonth}
                 className="rounded-full px-6 bg-white border border-[#DDDCE4]  flex items-center h-12"
@@ -420,10 +417,10 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
                 <SolanaIcon className="h-12 w-12" />
                 <div>
                   <Typography variant="body" className="font-nohemi text-base">
-                    {tx.amount} {tx.currency} {tx.desc}
+                    {tx.amount} {tx.currency} {tx.notification}
                   </Typography>
                   <Typography variant="body" className="text-gray-400 text-sm">
-                    {tx.method}
+                    {tx.source.payment_rail}
                   </Typography>
                   <Typography variant="body" className="text-gray-400 text-xs">
                     {new Date(tx.date).toLocaleString()}
@@ -433,7 +430,7 @@ const Accounts = ({ accounts }: { accounts: FundingAccount }) => {
               <div>
                 <Typography
                   variant="body"
-                  className={`font-nohemi text-base ${tx.status === "Completed" ? "text-green-500" : "text-red-400"}`}
+                  className={`font-nohemi text-base ${tx.status === "completed" || tx.status === "complete" ? "text-green-500" : "text-red-400"}`}
                 >
                   {tx.status}
                 </Typography>

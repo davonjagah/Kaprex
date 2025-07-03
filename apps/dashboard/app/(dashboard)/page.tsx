@@ -17,7 +17,7 @@ export default function Home() {
           <Features />
         </>
       ) : (
-        <BusinessDashboard />
+        <BusinessDashboard accounts={accounts!} />
       )}
     </>
   );

@@ -40,3 +40,4 @@ export { ChevronDownIcon } from "./chevronDownIcon";
 export { MetamaskIcon } from "./metamaskIcon";
 export { KaprexLogoIcon } from "./kaprexLogoIcon";
 export { CopyIcon } from "./copyIcon";
+export { LifiLaunchIcon } from "./lifiLaunchIcon";

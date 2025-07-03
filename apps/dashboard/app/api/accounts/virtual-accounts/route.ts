@@ -12,13 +12,14 @@ export async function GET(req: NextRequest) {
   }
 
   const virtualAccountsRes = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_AUTH_URL}/virtual-accounts`,
+    `${process.env.NEXT_PUBLIC_BACKEND_AUTH_URL}/users/virtual-accounts/eur`,
     { headers: { Authorization: `Bearer ${access}` } },
   );
+
   if (!virtualAccountsRes.ok) {
     return NextResponse.json(null, { status: virtualAccountsRes.status });
   }
   const virtualAccounts = await virtualAccountsRes.json();
 
-  return NextResponse.json({ data: virtualAccounts.data });
+  return NextResponse.json({ data: virtualAccounts });
 }

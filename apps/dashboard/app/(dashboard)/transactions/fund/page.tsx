@@ -11,7 +11,7 @@ import CryptoStep from "../../../../components/fund/CryptoStep";
 
 const FundPage = () => {
   // const [accountType, setAccountType] = useState("virtual");
-  const [fundMethod, setFundMethod] = useState("bank");
+  const [fundMethod, setFundMethod] = useState("crypto");
   const [currency, setCurrency] = useState("usd");
   const [blockchain, setBlockchain] = useState("solana");
   const [activeStep, setActiveStep] = useState(0);

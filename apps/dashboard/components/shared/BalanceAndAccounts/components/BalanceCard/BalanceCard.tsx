@@ -10,7 +10,7 @@ import { Dropdown } from "@repo/ui/molecules";
 export default function BalanceCard({ balances }: { balances: BalanceItem[] }) {
   const [isBalanceVisible, setIsBalanceVisible] = useState(true);
   const [selectedCurrency, setSelectedCurrency] = useState(
-    balances.length > 0 ? balances[0]?.token.symbol || "USDC" : "USDC",
+    balances.length > 0 ? balances[1]?.token.symbol || "USDC" : "USDC",
   );
 
   const selectedBalance =
@@ -29,7 +29,7 @@ export default function BalanceCard({ balances }: { balances: BalanceItem[] }) {
 
   const currencyOptions =
     balances.length > 0
-      ? balances.slice(0, 2).map((b) => ({
+      ? balances.slice(1, 3).map((b) => ({
           label: getDisplayLabel(b.token.symbol),
           value: b.token.symbol,
         }))

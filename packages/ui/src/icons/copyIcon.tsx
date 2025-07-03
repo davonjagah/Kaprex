@@ -13,7 +13,7 @@ export const CopyIcon = (props: CopyIconProps) => (
   >
     <path
       d="M0.896484 12C0.896484 5.37258 6.26907 0 12.8965 0H23.8056C30.433 0 35.8056 5.37258 35.8056 12C35.8056 18.6274 30.433 24 23.8056 24H12.8965C6.26906 24 0.896484 18.6274 0.896484 12Z"
-      fill="#F3F3F4"
+      fill="currentColor"
     />
     <g clipPath="url(#clip0_706_47423)">
       <path

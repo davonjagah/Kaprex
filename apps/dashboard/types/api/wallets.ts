@@ -72,24 +72,45 @@ export interface VirtualAccountsResponse {
   balances: BalanceItem[];
 }
 
-export interface FundingAccount {
+export interface TransactionHistoryItem {
   id: string;
+  type: string;
+  amount: string;
+  currency: string;
   status: string;
-  developer_fee_percent: string;
-  customer_id: string;
-  source_deposit_instructions: {
-    currency: string;
-    iban: string;
-    bic: string;
-    account_holder_name: string;
-    bank_name: string;
-    bank_address: string;
+  date: string;
+  notification: string;
+  source: {
+    sender_name: string;
+    reference: string;
     payment_rail: string;
-    payment_rails: string[];
   };
-  destination: {
-    currency: string;
-    payment_rail: string;
-    address: string;
+}
+export interface VirtualAccountTransactions {
+  id: string;
+  virtualAccountId: string;
+  status: string;
+  currency: string;
+  iban: string;
+  accountNumber: string | null;
+  routingNumber: string | null;
+  swiftCode: string;
+  bankName: string;
+  bankCode: string | null;
+  accountName: string;
+  payment_rails: string[];
+  payment_rail: string;
+  bank_address: string;
+  bank_beneficiary_address: string | null;
+  description: string;
+  walletId: string | null;
+  metadata: {
+    createdAt: string;
+    bridgeAccountId: string;
   };
+  expiresAt: string | null;
+  isDefault: boolean;
+  createdAt: string;
+  updatedAt: string;
+  transactionHistory: TransactionHistoryItem[];
 }

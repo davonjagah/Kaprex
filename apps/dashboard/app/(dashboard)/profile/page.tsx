@@ -10,9 +10,11 @@ import { useProfileMenu } from "../../../hooks/useProfileMenu";
 import LoadingModal from "../../../components/shared/Modals/LoadingModal";
 
 const IdentificationTab: React.FC = () => {
-  const { user } = useAuth();
+  const { user, accounts } = useAuth();
   const { switchedAccountType } = useAuth();
   const { onChange, isSwitching } = useProfileMenu();
+
+  console.log(user, accounts, "user");
 
   const isBusinessSwitched = switchedAccountType === "business";
 
