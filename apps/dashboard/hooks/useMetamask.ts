@@ -1,59 +1,67 @@
-// hooks/useWallet.ts
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { MetaMaskSDK, MetaMaskSDKOptions } from "@metamask/sdk";
 
-declare global {
-  interface Window {
-    ethereum?: {
-      request: (...args: any[]) => Promise<any>;
-      on: (event: string, handler: (...args: any[]) => void) => void;
-      removeListener: (
-        event: string,
-        handler: (...args: any[]) => void,
-      ) => void;
-    };
-  }
-}
+const sdkOptions: MetaMaskSDKOptions = {
+  dappMetadata: {
+    name: "Kaprex Dashboard",
+    url: typeof window !== "undefined" ? window.location.origin : "",
+  },
+  // If you have an INFURA key:
+  infuraAPIKey: process.env.NEXT_PUBLIC_INFURA_API_KEY,
+};
+
+const sdk = new MetaMaskSDK(sdkOptions);
 
 export function useMetamask() {
   const [account, setAccount] = useState<string | null>(null);
+  const [provider, setProvider] = useState<any>(null);
 
-  // 1️⃣ On mount, try to read any already‐connected account
+  // 1️⃣ Initialize SDK & provider on mount
   useEffect(() => {
-    if (!window.ethereum) return;
+    // MetaMaskSDK only works in the browser
+    if (typeof window === "undefined") return;
 
-    // get currently connected accounts (if any)
-    window.ethereum
-      .request({ method: "eth_accounts" })
-      .then((accounts: string[]) => setAccount(accounts[0] || null))
+    const ethProvider = sdk.getProvider();
+    setProvider(ethProvider);
+
+    // Try to get already-connected accounts
+    ethProvider
+      ?.request({ method: "eth_accounts" })
+      .then((accounts: any) => {
+        setAccount(accounts[0] || null);
+      })
       .catch(console.error);
 
-    // listen if user switches accounts in MetaMask
+    // Listen for account changes
     const handleAccountsChanged = (accounts: string[]) => {
       setAccount(accounts[0] || null);
     };
-    window.ethereum.on("accountsChanged", handleAccountsChanged);
+    ethProvider?.on("accountsChanged", handleAccountsChanged as any);
 
     return () => {
-      window?.ethereum?.removeListener(
-        "accountsChanged",
-        handleAccountsChanged,
-      );
+      ethProvider?.removeListener("accountsChanged", handleAccountsChanged);
     };
   }, []);
 
-  // 2️⃣ A function to actively connect
+  // 2️⃣ connect() will prompt MetaMask (via SDK)
   const connect = useCallback(async () => {
-    if (!window.ethereum) {
-      throw new Error("MetaMask not installed");
+    if (!provider) {
+      throw new Error("MetaMask provider not initialized");
     }
-    const accounts: string[] = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    setAccount(accounts[0] || null);
-    return accounts[0] || null;
-  }, []);
+    try {
+      // sdk.connect() will open the MetaMask popup
+      const accounts: string[] = await (provider as any).request({
+        method: "eth_requestAccounts",
+      });
+      setAccount(accounts[0] || null);
+      return accounts[0] || null;
+    } catch (err) {
+      console.error("MetaMask connect failed:", err);
+      throw err;
+    }
+  }, [provider]);
 
   return { account, connect };
 }
