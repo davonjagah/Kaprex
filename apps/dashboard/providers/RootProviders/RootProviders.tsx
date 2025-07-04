@@ -11,6 +11,19 @@ const RootProviders = async ({ children }: { children: React.ReactNode }) => {
     next: { revalidate: 60 },
   });
 
+  const virtualAccountsRes = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/accounts/virtual-accounts`,
+    {
+      headers: { cookie: cookieHeader },
+      cache: "force-cache",
+      next: { revalidate: 60 },
+    },
+  );
+
+  const virtualAccounts = virtualAccountsRes.ok
+    ? await virtualAccountsRes.json()
+    : null;
+
   const initialUser: UserProfileResponse = res.ok ? await res.json() : null;
 
   const switchedAccountType = (await cookies()).get("accountType")?.value as
@@ -22,6 +35,7 @@ const RootProviders = async ({ children }: { children: React.ReactNode }) => {
     <SWRSetup
       initialUser={initialUser}
       switchedAccountType={switchedAccountType}
+      virtualAccounts={virtualAccounts}
     >
       {children}
     </SWRSetup>

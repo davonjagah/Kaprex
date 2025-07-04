@@ -87,30 +87,32 @@ export interface TransactionHistoryItem {
   };
 }
 export interface VirtualAccountTransactions {
-  id: string;
-  virtualAccountId: string;
-  status: string;
-  currency: string;
-  iban: string;
-  accountNumber: string | null;
-  routingNumber: string | null;
-  swiftCode: string;
-  bankName: string;
-  bankCode: string | null;
-  accountName: string;
-  payment_rails: string[];
-  payment_rail: string;
-  bank_address: string;
-  bank_beneficiary_address: string | null;
-  description: string;
-  walletId: string | null;
-  metadata: {
+  data: {
+    id: string;
+    virtualAccountId: string;
+    status: string;
+    currency: string;
+    iban: string;
+    accountNumber: string | null;
+    routingNumber: string | null;
+    swiftCode: string;
+    bankName: string;
+    bankCode: string | null;
+    accountName: string;
+    payment_rails: string[];
+    payment_rail: string;
+    bank_address: string;
+    bank_beneficiary_address: string | null;
+    description: string;
+    walletId: string | null;
+    metadata: {
+      createdAt: string;
+      bridgeAccountId: string;
+    };
+    expiresAt: string | null;
+    isDefault: boolean;
     createdAt: string;
-    bridgeAccountId: string;
+    updatedAt: string;
+    transactionHistory: TransactionHistoryItem[];
   };
-  expiresAt: string | null;
-  isDefault: boolean;
-  createdAt: string;
-  updatedAt: string;
-  transactionHistory: TransactionHistoryItem[];
 }

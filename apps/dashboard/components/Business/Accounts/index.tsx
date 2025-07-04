@@ -7,7 +7,6 @@ import autoTable from "jspdf-autotable";
 import { CopyIcon, SolanaIcon, WagesIcon } from "@repo/ui/icons";
 import { Dropdown } from "@repo/ui/molecules";
 import { Download, Search } from "lucide-react";
-import { VirtualAccountTransactions } from "../../../types/api/wallets";
 import { useAuth } from "../../../contexts/AuthContext";
 // import { useParams } from "next/navigation";
 
@@ -39,10 +38,14 @@ const sortOptions = [
 //   minDeposit: "More than 0.001 USDT",
 // };
 
-const Accounts = ({ accounts }: { accounts: VirtualAccountTransactions }) => {
-  const { accounts: accountsData } = useAuth();
+const Accounts = () => {
+  const { accounts: accountsData, virtualAccounts } = useAuth();
   //   const params = useParams();
-  console.log(accounts, "accounts", accounts.transactionHistory);
+  console.log(
+    virtualAccounts,
+    "accounts",
+    virtualAccounts?.data.transactionHistory,
+  );
   const [tab, setTab] = useState<"bank" | "crypto">("bank");
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("newest");
@@ -52,9 +55,13 @@ const Accounts = ({ accounts }: { accounts: VirtualAccountTransactions }) => {
   const uniqueMonths = useMemo(
     () =>
       Array.from(
-        new Set(accounts.transactionHistory.map((tx) => tx.date.slice(0, 7))),
+        new Set(
+          virtualAccounts?.data.transactionHistory.map((tx) =>
+            tx.date.slice(0, 7),
+          ),
+        ),
       ),
-    [accounts.transactionHistory],
+    [virtualAccounts?.data.transactionHistory],
   );
 
   // 2) turn those into label/value pairs for your dropdown
@@ -77,7 +84,7 @@ const Accounts = ({ accounts }: { accounts: VirtualAccountTransactions }) => {
   );
 
   // Filtering
-  const filtered = accounts.transactionHistory.filter((tx) => {
+  const filtered = virtualAccounts?.data.transactionHistory.filter((tx) => {
     // Month filter
     const txMonth = tx.date.slice(0, 7);
     if (month && txMonth !== month) return false;
@@ -93,7 +100,7 @@ const Accounts = ({ accounts }: { accounts: VirtualAccountTransactions }) => {
   });
 
   // Sorting
-  const sorted = [...filtered].sort((a, b) => {
+  const sorted = [...(filtered ?? [])].sort((a, b) => {
     if (sortBy === "newest") {
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     } else if (sortBy === "oldest") {
@@ -168,15 +175,13 @@ const Accounts = ({ accounts }: { accounts: VirtualAccountTransactions }) => {
   };
 
   const accountDetailsArray = [
-    { label: "Account Name", value: accounts.accountName },
-    { label: "Bank Name", value: accounts.bankName },
+    { label: "Account Name", value: virtualAccounts?.data.accountName },
+    { label: "Bank Name", value: virtualAccounts?.data.bankName },
     { label: "Account Number", value: mockAccount.details.accountNumber },
     { label: "Routing Number", value: mockAccount.details.routingNumber },
-    { label: "Account Type", value: accounts.swiftCode },
-    { label: "Address", value: accounts.bank_address },
+    { label: "Account Type", value: virtualAccounts?.data.swiftCode },
+    { label: "Address", value: virtualAccounts?.data.bank_address },
   ];
-
-  console.log(accountsData, "accountsData", accounts);
 
   return (
     <div className="w-full">
@@ -269,7 +274,7 @@ const Accounts = ({ accounts }: { accounts: VirtualAccountTransactions }) => {
                       size="sm"
                       className="text-gray-400"
                       onClick={async () => {
-                        await navigator.clipboard.writeText(item.value);
+                        await navigator.clipboard.writeText(item.value ?? "");
                         setCopiedLabel(item.label);
                         setTimeout(() => setCopiedLabel(null), 1000);
                       }}
@@ -288,9 +293,15 @@ const Accounts = ({ accounts }: { accounts: VirtualAccountTransactions }) => {
             <div className="bg-[#F7F7FA] rounded-2xl flex flex-col items-center w-full">
               <Typography
                 variant="body"
-                className="font-nohemi text-gray-400 text-sm h-40 flex items-center justify-center"
+                className="font-nohemi text-black text-xs flex items-center justify-center mt-4"
               >
-                Coming Soon
+                Wallet Address
+              </Typography>
+              <Typography
+                variant="body"
+                className="font-nohemi text-black text-sm h-40 flex items-center justify-center"
+              >
+                {accountsData?.walletAddress}
               </Typography>
               {/* <div className="flex flex-col md:flex-row gap-8 items-center w-full max-w-xl mx-auto">
                 <div className="bg-white rounded-xl p-4 flex items-center justify-center">
