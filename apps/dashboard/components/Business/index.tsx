@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { KaprexLogoIcon, MetamaskIcon } from "@repo/ui/icons";
 import { useMetamask } from "../../hooks/useMetamask";
 import { VirtualAccountsResponse } from "../../types/api/wallets";
+import { notifyError } from "@repo/ui/toasts";
 
 // interface VirtualAccount {
 //   name: string;
@@ -41,7 +42,7 @@ const BusinessDashboard: React.FC<{ accounts: VirtualAccountsResponse }> = ({
     try {
       await connect();
     } catch (err: Error | unknown) {
-      alert((err as Error).message || "Failed to connect");
+      notifyError((err as Error).message || "Failed to connect");
     } finally {
       setIsConnecting(false);
     }
