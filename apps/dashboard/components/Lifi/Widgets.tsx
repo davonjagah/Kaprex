@@ -22,7 +22,7 @@ export const Widget = () => {
       name: "Vault Deposit",
       address: accounts?.walletAddress ?? "",
       chainType: ChainType.SVM,
-      logoURI: "/images/kaprex.png",
+      logoURI: "/images/kaprex1.png",
     },
     toToken: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
     toChain: 1151111081099710,
