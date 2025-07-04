@@ -4,11 +4,7 @@ import { CopyIcon, LifiLaunchIcon } from "@repo/ui/icons";
 import QRCode from "react-qr-code";
 import { useAuth } from "../../contexts/AuthContext";
 
-interface CryptoDepositBoxProps {
-  address: string;
-}
-
-const CryptoDepositBox: React.FC<CryptoDepositBoxProps> = ({ address }) => {
+const CryptoDepositBox: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const { accounts } = useAuth();
 
@@ -26,7 +22,7 @@ const CryptoDepositBox: React.FC<CryptoDepositBoxProps> = ({ address }) => {
         </Typography>
         <div className="flex items-center gap-4">
           <div className="bg-white rounded-lg p-2 flex items-center justify-center">
-            <QRCode value={address} size={80} />
+            <QRCode value={accounts?.walletAddress ?? ""} size={80} />
           </div>
           <div className="flex-1 min-w-0">
             <Typography

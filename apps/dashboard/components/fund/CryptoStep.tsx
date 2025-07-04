@@ -45,7 +45,7 @@ export default function CryptoStep({
         <Typography variant="body" className="font-nohemi mb-2">
           Deposit Address
         </Typography>
-        <CryptoDepositBox address="0x1234567890123456789012345678901234567890" />
+        <CryptoDepositBox />
       </div>
     </>
   );

@@ -32,10 +32,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (!res.ok) {
-    return NextResponse.json(
-      { message: data.message || res.statusText },
-      { status: res.status },
-    );
+    return NextResponse.json({ message: data.message || res.statusText });
   }
 
   const { user, tokens } = data as {
