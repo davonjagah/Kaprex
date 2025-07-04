@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Typography } from "@repo/ui/atoms";
 import { CopyIcon, LifiLaunchIcon } from "@repo/ui/icons";
 import QRCode from "react-qr-code";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface CryptoDepositBoxProps {
   address: string;
@@ -9,9 +10,10 @@ interface CryptoDepositBoxProps {
 
 const CryptoDepositBox: React.FC<CryptoDepositBoxProps> = ({ address }) => {
   const [copied, setCopied] = useState(false);
+  const { accounts } = useAuth();
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(address);
+    await navigator.clipboard.writeText(accounts?.walletAddress ?? "");
     setCopied(true);
     setTimeout(() => setCopied(false), 1000);
   };
@@ -35,7 +37,7 @@ const CryptoDepositBox: React.FC<CryptoDepositBoxProps> = ({ address }) => {
             </Typography>
             <div className="flex items-center gap-6 justify-between">
               <Typography variant="body" className=" break-all text-base">
-                {address}
+                {accounts?.walletAddress}
               </Typography>
               <Button
                 variant="text"

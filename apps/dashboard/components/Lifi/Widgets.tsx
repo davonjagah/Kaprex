@@ -1,6 +1,7 @@
 "use client";
 
 import { ChainType, LiFiWidget, WidgetConfig } from "@lifi/widget";
+import { useAuth } from "../../contexts/AuthContext";
 
 // const config = {
 //   appearance: "light",
@@ -12,18 +13,19 @@ import { ChainType, LiFiWidget, WidgetConfig } from "@lifi/widget";
 //   },
 // } as Partial<WidgetConfig>;
 
-const widgetConfig: WidgetConfig = {
-  integrator: "wagmi-example",
-  toAddress: {
-    name: "Vault Deposit",
-    address: "0x0000000000000000000000000000000000000000",
-    chainType: ChainType.SVM,
-    logoURI: "https://example.com/image.svg",
-  },
-  toToken: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-  toChain: 1151111081099710,
-};
-
 export const Widget = () => {
+  const { accounts } = useAuth();
+
+  const widgetConfig: WidgetConfig = {
+    integrator: "wagmi-example",
+    toAddress: {
+      name: "Vault Deposit",
+      address: accounts?.walletAddress ?? "",
+      chainType: ChainType.SVM,
+      logoURI: "/images/kaprex.png",
+    },
+    toToken: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    toChain: 1151111081099710,
+  };
   return <LiFiWidget integrator="wagmi-example" config={widgetConfig} />;
 };

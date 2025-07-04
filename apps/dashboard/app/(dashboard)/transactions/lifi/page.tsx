@@ -1,9 +1,7 @@
 "use client";
 
-// import { Widget } from "../../../../components/Lifi/Widgets";
+import { Widget } from "../../../../components/Lifi/Widgets";
 
 export default function LifiPage() {
-  return {
-    /* <Widget /> */
-  };
+  return <Widget />;
 }

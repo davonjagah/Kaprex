@@ -40,7 +40,7 @@ export const INDIVIDUAL_HOME_TAB_PATHS = [
   "/transactions/sell-crypto",
 ];
 
-export const BUSINESS_HOME_TAB_PATHS = ["/accounts"];
+export const BUSINESS_HOME_TAB_PATHS = ["/"];
 
 const COMMON_TRANSACTION_TABS = [
   { label: "Pay", value: "pay", href: "/transactions/pay" },

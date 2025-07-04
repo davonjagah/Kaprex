@@ -24,6 +24,7 @@ export function useAccountSwitcher() {
 
       // triggers new SSR fetch or middleware re‐run
       router.refresh();
+      router.push("/");
     } catch (err: unknown) {
       notifyError(
         err instanceof Error

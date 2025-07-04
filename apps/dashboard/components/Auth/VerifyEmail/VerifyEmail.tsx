@@ -89,7 +89,7 @@ const VerifyEmail = ({
         setShowAccountReady(true);
       } else {
         router.refresh();
-        router.replace("/");
+        router.push("/");
         setIsLoggingIn(false);
       }
     } catch (err: unknown) {
