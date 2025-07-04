@@ -1,6 +1,6 @@
 # Kaprex Next.js + TypeScript Monorepo (App Router) For All FrontEnd Applications
 
-Monorepo with three Next.js apps (`merchants`, `stake`, and `landing`) using the App Router, plus shared packages for UI, utilities, and config. The design system follows Atomic Design principles for scalable and maintainable UI development.
+Monorepo with three Next.js apps (`dashboard`, `stake`, and `landing`) using the App Router, plus shared packages for UI, utilities, and config. The design system follows Atomic Design principles for scalable and maintainable UI development.
 
 ---
 
@@ -8,7 +8,7 @@ Monorepo with three Next.js apps (`merchants`, `stake`, and `landing`) using the
 
 ### Apps
 
-- **`merchants`** – Next.js App Router app for merchants
+- **`Dashboard`** – Next.js App Router app for Kaprex dashboard
 - **`stake`** – Next.js App Router app for stake feature
 - **`landing`** – Next.js App Router app for unsigned users
 - **`storybook`** – Component documentation and testing environment
@@ -61,7 +61,7 @@ chore: update dependencies
 ```bash
 .
 ├── apps/
-│   ├── merchants/
+│   ├── dashboard/
 │   │   ├── app/              # App Router routes
 │   │   ├── public/
 │   │   └── src/
@@ -162,8 +162,8 @@ export function TextExample() {
 
 # Start a single app (e.g., stake app only)
 yarn workspace stake dev
-# Or for merchants app
-yarn workspace merchants dev
+# Or for dashboard app
+yarn workspace dashboard dev
 # Or for landing app
 yarn workspace landing dev
 
